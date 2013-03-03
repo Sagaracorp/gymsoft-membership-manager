@@ -13,19 +13,19 @@ namespace DataAccessLayerLibrary
         public int InsertedBy { get; set; }
         public DateTime UpdatedAt { get; private set; }
         public int UpdatedBy { get; set; }
-        public bool IsDeleted { get; set; } //The actual record isnt deleted only marked as deleted 
+        public string status { get; set; } //The status of the record. (Deleted/Disabled/Active etc)
         //TODO
         //Error Handling procedures
         #endregion
 
-        #region Static (Class methods)
-        //public static IEnumerable<Entity> FindAll();
-       // public static Entity Find(int id);
-       // public static int DeleteAll(int user); // Returns the number of rows marked as deleted
-          public abstract int Delete(int user); // Returns the number of rows marked as deleted
-          public abstract int Insert(int user); //Returns the number of rows inserted 1 on success 0 on failure
-          public abstract int Update(int user); //Returns the number of rows inserted 1 on success 0 on failure
-        //public static int BulkInsert(IEnumerable<Entity> entities, int user); // Returns the number of rows Inserted
+        #region Class methods
+        public abstract IEnumerable<Entity> FindAll();
+        public abstract Entity Find(int id);
+        public abstract int DeleteAll(int user); // Returns the number of rows marked as deleted
+        public abstract int Delete(int user); // Returns the number of rows marked as deleted
+        public abstract int Insert(int user); //Returns the number of rows inserted 1 on success 0 on failure
+        public abstract int Update(int user); //Returns the number of rows inserted 1 on success 0 on failure
+        public abstract int BulkInsert(IEnumerable<Entity> entities, int user); // Returns the number of rows Inserted
         public abstract bool IsNewRecord(); // Check if entity is new record or existing
         #endregion 
 

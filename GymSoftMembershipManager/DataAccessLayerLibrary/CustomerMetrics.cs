@@ -27,5 +27,25 @@ namespace DataAccessLayerLibrary
         {
             throw new NotImplementedException();
         }
+
+        public override IEnumerable<Entity> FindAll()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override Entity Find(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override int DeleteAll(int user)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override int BulkInsert(IEnumerable<Entity> entities, int user)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

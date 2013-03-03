@@ -9,10 +9,31 @@ namespace BusinessLogicLayerLibrary.UserBLL
 {
     public class UserBLL : PropertyChangedImplementation
     {
+        public UserBLL()
+        {
+            this.firstName = "";
+            this.lastName = "";
+            this.userName = "";
+            this.password = "";
+            this.address1 = "";
+            this.address2 = "";
+            this.address3 = "";
+            this.parish = "";
+            this.gender = "";
+            this.phoneNumber1 = "";
+            this.phoneNumber2 = "";
+            this.phoneNumber3 = "";
+            this.emailAddress = "";
+            this.photoPath = "";
+            this.jobTitle = "";
+            this.jobDescription = "";
+            
+        }
         public UserBLL(User user )
         {
             MapDALPropertiesToBLLProperties(user);
         }
+        
         public UserBLL(string firstName, string lastName, string userName, string password,
             string address1, string address2, string address3, string parish, string gender, 
             string phoneNumber1, string phoneNumber2, string phoneNumber3, string emailAddress, 
@@ -22,6 +43,11 @@ namespace BusinessLogicLayerLibrary.UserBLL
             this.lastName = lastName;
             this.userName = userName;
             this.password = password;
+            this.address1 = address1;
+            this.address2 = address2;
+            this.address3 = address3;
+            this.parish = parish;
+            this.gender = gender;
             this.phoneNumber1 = phoneNumber1;
             this.phoneNumber2 = phoneNumber2;
             this.phoneNumber3 = phoneNumber3;
@@ -48,6 +74,7 @@ namespace BusinessLogicLayerLibrary.UserBLL
             this.jobDescription = user.JobDescription;
         }
 
+        #region attributes
         string firstName;
         string lastName;
         string userName;
@@ -64,8 +91,19 @@ namespace BusinessLogicLayerLibrary.UserBLL
         string photoPath;
         string jobTitle;
         string jobDescription;
-        
-        public string FirstName { get; set; }
+        #endregion
+
+        public string FirstName {
+            get
+            {
+                return firstName;
+            }
+            set
+            {
+                this.firstName = value;
+                FirePropertyChanged("FirstName");
+            }
+        }
         public string LastName { get; set; }
         public string UserName { get; set; }
         public string Password { get; set; }

@@ -47,7 +47,6 @@
     <Compile Include="Customer.cs" />
     <Compile Include="CustomerMetrics.cs" />
     <Compile Include="Entity.cs" />
-    <Compile Include="IEntity.cs" />
     <Compile Include="Log.cs" />
     <Compile Include="NextOfKin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
