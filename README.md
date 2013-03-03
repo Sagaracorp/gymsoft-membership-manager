@@ -1,7 +1,7 @@
 gymsoft-membership-manager
 ============================
 
-Manages the membership lifecyle of cutomers of a gym. It tracks an provides reports on:
+Manages the membership lifecyle of cutomers of a gym. It tracks an provide reports on:
 
 1) Membership attendance 
 2) Membership progression or excercise program
