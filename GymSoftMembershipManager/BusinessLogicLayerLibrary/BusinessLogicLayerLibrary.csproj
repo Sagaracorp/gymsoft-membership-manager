@@ -53,13 +53,19 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UserBLL\UserBLL.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ApplicationUtilitiesLibrary\ApplicationUtilitiesLibrary.csproj">
+      <Project>{CB3D6162-73A6-4835-B4E6-F1B1CE0FB190}</Project>
+      <Name>ApplicationUtilitiesLibrary</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DataAccessLayerLibrary\DataAccessLayerLibrary.csproj">
       <Project>{F173A3F8-CA99-4D36-8B4C-C715914EA979}</Project>
       <Name>DataAccessLayerLibrary</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -19,35 +19,35 @@ namespace DataAccessLayerLibrary
         #endregion
 
         #region Static (Class methods)
-        public abstract static IEnumerable<Entity> FindAll();
-        public abstract static Entity Find(int id);
-        public abstract static int DeleteAll(int user); // Returns the number of rows marked as deleted
-        public abstract static int Delete(int id, int user); // Returns the number of rows marked as deleted
-        public abstract static int Insert(Entity entity, int user); //Returns the number of rows inserted 1 on success 0 on failure
-        public abstract static int Update(Entity entity, int user); //Returns the number of rows inserted 1 on success 0 on failure
-        public abstract static int BulkInsert(IEnumerable<Entity> entities, int user); // Returns the number of rows Inserted
-        public abstract static bool IsNewRecord(Entity entity); // Check if entity is new record or existing
+        //public static IEnumerable<Entity> FindAll();
+       // public static Entity Find(int id);
+       // public static int DeleteAll(int user); // Returns the number of rows marked as deleted
+          public abstract int Delete(int user); // Returns the number of rows marked as deleted
+          public abstract int Insert(int user); //Returns the number of rows inserted 1 on success 0 on failure
+          public abstract int Update(int user); //Returns the number of rows inserted 1 on success 0 on failure
+        //public static int BulkInsert(IEnumerable<Entity> entities, int user); // Returns the number of rows Inserted
+        public abstract bool IsNewRecord(); // Check if entity is new record or existing
         #endregion 
 
         #region Object Methods
         public bool Save(int user)
         {
-            bool result;
+            int result;
             // Save the object to the database. Returns true if save was sucessful false otherwise
-            if (IsNewRecord(this))
+            if (this.IsNewRecord())
             {
-                result = Insert(this, user);
+                result = this.Insert(user);
             }
             else
             {
-                result = Update(this, user);
+                result = this.Update(user);
             }
-            return result == 1;
+            return (result == 1);
         }
-        public bool Delete(int user)
+        public bool Destroy(int user)
         {
-            bool result = Delete(this.Id, user);
-            return result == 1;
+            int result = this.Delete(user);
+            return (result == 1);
         }
         #endregion
 

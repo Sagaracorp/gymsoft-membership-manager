@@ -7,42 +7,23 @@ namespace DataAccessLayerLibrary
 {
     public class Customer : Entity
     {
-        public static override IEnumerable<Entity> FindAll()
+
+        public override bool IsNewRecord()
         {
             throw new NotImplementedException();
         }
 
-        public static override Entity Find(int id)
+        public override int Delete(int user)
         {
             throw new NotImplementedException();
         }
 
-        public static override int DeleteAll(int user)
+        public override int Insert(int user)
         {
             throw new NotImplementedException();
         }
 
-        public static override int Delete(int id, int user)
-        {
-            throw new NotImplementedException();
-        }
-
-        public static override int Insert(Entity entity, int user)
-        {
-            throw new NotImplementedException();
-        }
-
-        public static override int Update(Entity entity, int user)
-        {
-            throw new NotImplementedException();
-        }
-
-        public static override int BulkInsert(IEnumerable<Entity> entities, int user)
-        {
-            throw new NotImplementedException();
-        }
-
-        public static override bool IsNewRecord(Entity entity)
+        public override int Update(int user)
         {
             throw new NotImplementedException();
         }

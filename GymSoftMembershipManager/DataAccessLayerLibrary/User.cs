@@ -7,42 +7,50 @@ namespace DataAccessLayerLibrary
 {
     public class User : Entity
     {
-        public static override IEnumerable<Entity> FindAll()
+        #region User Properties
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string UserName { get; set; }
+        public string Password { get; set; }
+        public string Address1 { get; set; }
+        public string Address2 { get; set; }
+        public string Address3 { get; set; }
+        public string Parish { get; set; }
+        public string Gender { get; set; }
+        public string PhoneNumber1 { get; set; }
+        public string PhoneNumber2 { get; set; }
+        public string PhoneNumber3 { get; set; }
+        public string EmailAddress { get; set; }
+        public string PhotoPath { get; set; }
+        public string JobTitle { get; set; }
+        public string JobDescription { get; set; }
+        #endregion
+
+        #region User Relationship Properties
+        public IEnumerable<Role> Roles { get; set; }
+        public IEnumerable<Action> Actions { get; set; }
+        #endregion
+
+        #region Unimplemented Functions
+        
+        #endregion
+
+        public override bool IsNewRecord()
         {
             throw new NotImplementedException();
         }
 
-        public static override Entity Find(int id)
+        public override int Delete(int user)
         {
             throw new NotImplementedException();
         }
 
-        public static override int DeleteAll(int user)
+        public override int Insert(int user)
         {
             throw new NotImplementedException();
         }
 
-        public static override int Delete(int id, int user)
-        {
-            throw new NotImplementedException();
-        }
-
-        public static override int Insert(Entity entity, int user)
-        {
-            throw new NotImplementedException();
-        }
-
-        public static override int Update(Entity entity, int user)
-        {
-            throw new NotImplementedException();
-        }
-
-        public static override int BulkInsert(IEnumerable<Entity> entities, int user)
-        {
-            throw new NotImplementedException();
-        }
-
-        public static override bool IsNewRecord(Entity entity)
+        public override int Update(int user)
         {
             throw new NotImplementedException();
         }
