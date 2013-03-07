@@ -1,0 +1,16 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation" 
+		xmlns:Effects="clr-namespace:Telerik.Windows.Controls.ColorEditor.Effects;assembly=Telerik.Windows.Controls.Input" 
+        xmlns:regions="http://www.codeplex.com/prism"
+		x:Class="GymSoft.Shell.Shell"		
+        Title="GymSoft Main Window" Height="500" Width="600">
+    <Grid>
+    	<Grid.RowDefinitions>
+    		<RowDefinition Height="*"/>
+    		<RowDefinition Height="2*"/>
+    	</Grid.RowDefinitions>
+    	<telerik:RadRibbonBar Grid.Row="0" MinimizeButtonVisibility="Collapsed" TitleBarVisibility="Collapsed" ApplicationButtonVisibility="Collapsed" regions:RegionManager.RegionName="RibbonRegion" IsMinimizable="False" />   		
+   </Grid>
+</Window>
