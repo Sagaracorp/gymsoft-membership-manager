@@ -8,8 +8,9 @@
     mc:Ignorable="d" 
     d:DesignHeight="300" d:DesignWidth="300">
     <telerik:RadRibbonGroup Header="User Related Functions" >
-         <telerik:RadRibbonButton Text="Add New User"/>
-         </telerik:RadRibbonGroup>
+        <telerik:RadRibbonButton Text="Add New User"/>
+        <telerik:RadRibbonButton Text="View All Users" Command="{Binding Path=ViewAllUsersCommand}"/>
+    </telerik:RadRibbonGroup>
     <telerik:RadRibbonGroup>
         <telerik:RadButtonGroup>
             <telerik:RadOrderedWrapPanel/>

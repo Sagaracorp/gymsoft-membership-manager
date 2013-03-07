@@ -11,20 +11,17 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using Telerik.Windows.Controls;
-using GymSoft.UserModule.ViewModels;
 
 namespace GymSoft.UserModule.Views
 {
     /// <summary>
-    /// Interaction logic for UserRibbonView.xaml
+    /// Interaction logic for UserMainRegionView.xaml
     /// </summary>
-    public partial class UserRibbonView : RadRibbonTab
+    public partial class UserMainRegionView : UserControl
     {
-        public UserRibbonView(UserRibbonViewModel viewModel)
+        public UserMainRegionView()
         {
             InitializeComponent();
-            this.DataContext = viewModel;
         }
     }
 }

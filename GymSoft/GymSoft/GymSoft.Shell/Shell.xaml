@@ -4,13 +4,27 @@
         xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation" 
 		xmlns:Effects="clr-namespace:Telerik.Windows.Controls.ColorEditor.Effects;assembly=Telerik.Windows.Controls.Input" 
         xmlns:regions="http://www.codeplex.com/prism"
-		x:Class="GymSoft.Shell.Shell"		
-        Title="GymSoft Main Window" Height="500" Width="600">
+		x:Class="GymSoft.Shell.Shell"	
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" 
+        d:DesignHeight="400" d:DesignWidth="600" Title="GymSoft">
     <Grid>
     	<Grid.RowDefinitions>
+    		<RowDefinition Height="Auto"/>
     		<RowDefinition Height="*"/>
-    		<RowDefinition Height="2*"/>
     	</Grid.RowDefinitions>
-    	<telerik:RadRibbonBar Grid.Row="0" MinimizeButtonVisibility="Collapsed" TitleBarVisibility="Collapsed" ApplicationButtonVisibility="Collapsed" regions:RegionManager.RegionName="RibbonRegion" IsMinimizable="False" />   		
+    	<!-- Ribbon Region-->
+        <Border BorderBrush="Turquoise" BorderThickness="1" Grid.Row="0" Margin="5" CornerRadius="5">
+            <telerik:RadRibbonBar MinimizeButtonVisibility="Collapsed" 
+                              TitleBarVisibility="Collapsed" ApplicationButtonVisibility="Collapsed" 
+                              regions:RegionManager.RegionName="RibbonRegion" IsMinimizable="False" TitleBarBackground="#FF84CFF5" />
+        </Border>        
+        <!--Main Region-->
+        <Border BorderBrush="Firebrick"  BorderThickness="1" Grid.Row="1" Margin="5" CornerRadius="5">
+            <ContentControl regions:RegionManager.RegionName="MainRegion"/>
+        </Border>
+        
+        
    </Grid>
 </Window>
