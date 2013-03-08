@@ -6,10 +6,11 @@ using GymSoft.UserModule.Services;
 using System.Windows.Data;
 using System.ComponentModel;
 using System.Threading.Tasks;
+using Microsoft.Practices.Prism.ViewModel;
 
 namespace GymSoft.UserModule.ViewModels
 {
-    public class UserListRegionViewModel
+    public class UserListRegionViewModel : PropertyChangedImplementation
     {
         public ICollectionView Users { get; set; }
         IUserService userService;
@@ -32,8 +33,10 @@ namespace GymSoft.UserModule.ViewModels
             this.userRepository.FindAllUsersAsync(
                (result) =>
                {
-                   this.Users = new ListCollectionView(result.Result);                     
+                   this.Users = new ListCollectionView(result.Result);
+                   FirePropertyChanged("Users");
+                   
                 });
-        }       
+        }        
     }
 }

@@ -69,6 +69,7 @@
     <Compile Include="Services\OperationResult.Generic.cs" />
     <Compile Include="Services\UserMockService.cs" />
     <Compile Include="Services\UserMockServiceRepository.cs" />
+    <Compile Include="ViewModels\PropertyChangedImplementation.cs" />
     <Compile Include="ViewModels\UserListRegionViewModel.cs" />
     <Compile Include="ViewModels\UserMainRegionViewModel.cs" />
     <Compile Include="ViewModels\UserRibbonViewModel.cs" />
@@ -82,7 +83,6 @@
       <DependentUpon>UserRibbonView.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <Page Include="Views\UserListRegionView.xaml">
       <SubType>Designer</SubType>
