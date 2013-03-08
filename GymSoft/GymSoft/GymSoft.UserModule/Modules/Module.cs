@@ -25,6 +25,12 @@ namespace GymSoft.UserModule.Modules
             //Register types
             this.container.RegisterType<IUserService, UserMockService>();
             this.userModuleController = this.container.Resolve<UserModuleController>();
+
+            this.container.RegisterType<IUserServiceRepository, UserMockServiceRepository>();
+            this.container.RegisterType<IOperationResult, OperationResult>();
+            this.container.RegisterType(typeof(IOperationResult<>), typeof(OperationResult<>));
+
+
             //Register views with regions 
             regionManager.RegisterViewWithRegion("RibbonRegion", typeof(UserModule.Views.UserRibbonView));
             //regionManager.RegisterViewWithRegion("MainRegion", typeof(UserModule.Views.UserMainRegionView));

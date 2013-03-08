@@ -47,33 +47,7 @@ namespace GymSoft.UserModule.Controllers
             {
                 region.Activate(userMainRegionView);
             }
-            //if (value == null)
-            //{
-                //the event has not been fired
-                //If the view is there remove it
-
-              //  if (userMainRegionView != null) 
-               // {
-                     //Remove view if there
-                     //return
-                 //   region.Remove(userMainRegionView);
-               // }
-               
-            //}
-            //else
-           // {
-                //place view if there...otherwise just activate it
-             //   if (userMainRegionView == null)
-              //  {
-                    //Create new instance and add it to region
-               //     userMainRegionView = this.container.Resolve<UserMainRegionView>();
-                //    region.Add(userMainRegionView);
-               // }
-               // else
-               // {
-                 //   region.Activate(userMainRegionView);
-                //}
-            //}    
+            
         }
     }
 }
