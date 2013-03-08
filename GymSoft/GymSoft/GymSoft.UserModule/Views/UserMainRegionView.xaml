@@ -20,8 +20,12 @@
         <!--GridSplitter-->
         <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ResizeDirection="Columns" Width="3" Background="Black"/>
         <!-- UserDetailsRegion -->
-        <Border Margin="5" Grid.Column="2"  BorderThickness="2" CornerRadius="4" BorderBrush="Silver">
-            <ContentControl regions:RegionManager.RegionName="UserDetailsRegion" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" />
+        <Border Margin="5" Grid.Column="2"  BorderThickness="0" CornerRadius="4" BorderBrush="Silver">
+            <TabControl Grid.Column="2" regions:RegionManager.RegionName="UserDetailsRegion" 
+                        regions:RegionManager.RegionManager="{Binding CurrentUser}"
+                        Width ="Auto" Height="Auto" HorizontalAlignment="Stretch">
+                
+            </TabControl>
         </Border>
 
         

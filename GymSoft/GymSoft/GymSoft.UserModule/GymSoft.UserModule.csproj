@@ -70,9 +70,13 @@
     <Compile Include="Services\UserMockService.cs" />
     <Compile Include="Services\UserMockServiceRepository.cs" />
     <Compile Include="ViewModels\PropertyChangedImplementation.cs" />
+    <Compile Include="ViewModels\UserDetailsViewModel.cs" />
     <Compile Include="ViewModels\UserListRegionViewModel.cs" />
     <Compile Include="ViewModels\UserMainRegionViewModel.cs" />
     <Compile Include="ViewModels\UserRibbonViewModel.cs" />
+    <Compile Include="Views\UserDetailsView.xaml.cs">
+      <DependentUpon>UserDetailsView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\UserListRegionView.xaml.cs">
       <DependentUpon>UserListRegionView.xaml</DependentUpon>
     </Compile>
@@ -84,6 +88,10 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Views\UserDetailsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\UserListRegionView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

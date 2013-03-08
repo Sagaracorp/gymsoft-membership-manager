@@ -12,18 +12,23 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using GymSoft.UserModule.ViewModels;
+using Microsoft.Practices.Prism.Regions;
+using GymSoft.UserModule.Model;
 
 namespace GymSoft.UserModule.Views
 {
     /// <summary>
-    /// Interaction logic for UserMainRegionView.xaml
+    /// Interaction logic for UserDetailsView.xaml
     /// </summary>
-    public partial class UserMainRegionView : UserControl
+    public partial class UserDetailsView : TabItem
     {
-        public UserMainRegionView(UserMainRegionViewModel viewModel)
+        public UserDetailsView( UserDetailsViewModel viewModel)
         {
             InitializeComponent();
             this.DataContext = viewModel;
+            RegionContext.GetObservableContext(this).PropertyChanged += 
+                (s, e) => viewModel.CurrentUser = 
+                    RegionContext.GetObservableContext(this).Value as User;
         }
     }
 }

@@ -6,13 +6,22 @@ using GymSoft.UserModule.Model;
 
 namespace GymSoft.UserModule.ViewModels
 {
-    public class UserMainRegionViewModel : PropertyChangedImplementation
+    public class UserDetailsViewModel : PropertyChangedImplementation
     {
-        public UserMainRegionViewModel()
+        public UserDetailsViewModel()
         {
 
         }
         private User currentUser;
+        public string  FirstName 
+        {
+           get { return this.currentUser.FirstName; }
+           set
+           {
+               this.currentUser.FirstName = value;
+               FirePropertyChanged("FirstName");
+           }
+       }
         public User CurrentUser 
         {
             get { return this.currentUser; }
@@ -20,6 +29,8 @@ namespace GymSoft.UserModule.ViewModels
             {
                 this.currentUser = value;
                 FirePropertyChanged("CurrentUser");
+                this.FirstName = this.currentUser.FirstName;
+                FirePropertyChanged("FirstName");
             }
         }
     }

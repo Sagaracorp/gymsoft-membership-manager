@@ -35,6 +35,7 @@ namespace GymSoft.UserModule.Modules
             regionManager.RegisterViewWithRegion("RibbonRegion", typeof(UserModule.Views.UserRibbonView));
             //regionManager.RegisterViewWithRegion("MainRegion", typeof(UserModule.Views.UserMainRegionView));
             regionManager.RegisterViewWithRegion("UserListRegion", typeof(UserModule.Views.UserListRegionView));
+            //regionManager.RegisterViewWithRegion("UserDetailsRegion", typeof(UserModule.Views.UserDetailsView));
         }
     }
 }

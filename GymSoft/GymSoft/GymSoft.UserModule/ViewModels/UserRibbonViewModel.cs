@@ -18,10 +18,24 @@ namespace GymSoft.UserModule.ViewModels
         {
             this.eventAggregator = eventAggregator;
             this.ViewAllUsersCommand = new DelegateCommand(this.ExecuteViewAllUsers, 
-                this.ViewAllUsersCanExecute);           
+                this.ViewAllUsersCanExecute);
+            this.DeleteAllUsersCommand = new DelegateCommand(this.ExecuteDeleteAllUsers,
+                this.DeleteAllUsersCanExecute);
         }
 
         public ICommand ViewAllUsersCommand { get; private set; }
+        public ICommand DeleteAllUsersCommand { get; private set; }
+
+        private void ExecuteDeleteAllUsers(object o)
+        {
+            //Fire View All Users Event
+            this.eventAggregator.GetEvent<DeleteAllUsersEvent>().Publish(o);
+        }
+        private bool DeleteAllUsersCanExecute(object c)
+        {
+            return false; //This will depend on user authorization level
+        }
+
         private void ExecuteViewAllUsers(object o)
         {
             //Fire View All Users Event
