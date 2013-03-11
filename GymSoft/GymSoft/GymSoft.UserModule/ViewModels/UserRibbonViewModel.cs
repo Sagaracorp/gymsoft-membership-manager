@@ -11,7 +11,7 @@ using GymSoft.UserModule.Events;
 
 namespace GymSoft.UserModule.ViewModels
 {
-    public class UserRibbonViewModel : INotifyPropertyChanged
+    public class UserRibbonViewModel 
     {
         IEventAggregator eventAggregator;
         public UserRibbonViewModel(IEventAggregator eventAggregator)
@@ -44,17 +44,6 @@ namespace GymSoft.UserModule.ViewModels
         private bool ViewAllUsersCanExecute(object c)
         {
             return true; //This will depend on user authorization level
-        }
-
-        #region INotifyPropertyChanged Members
-        public event PropertyChangedEventHandler PropertyChanged;
-        private void NotifyPropertyChanged(string propertyName)
-        {
-            if (this.PropertyChanged != null)
-            {
-                this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
-        #endregion
+        }        
     }
 }

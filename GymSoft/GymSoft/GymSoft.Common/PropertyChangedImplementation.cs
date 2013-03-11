@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.ComponentModel;
 
-namespace GymSoft.UserModule.ViewModels
+namespace GymSoft.Common
 {
     public class PropertyChangedImplementation : INotifyPropertyChanged
     {

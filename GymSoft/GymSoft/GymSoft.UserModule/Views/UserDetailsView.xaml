@@ -16,7 +16,7 @@
             <RowDefinition />
             <RowDefinition />
         </Grid.RowDefinitions>
-        <TextBlock Text="First Name" Grid.Column="0" Grid.Row="0" />
-        <TextBox Text="{Binding FirstName}" Grid.Column="0" Grid.Row="1"/>        
+        <TextBlock Text="User Name" Grid.Column="0" Grid.Row="0" />
+        <TextBox Text="{Binding CurrentUser.UserName}" Grid.Column="0" Grid.Row="1"/>        
     </Grid>
 </TabItem>

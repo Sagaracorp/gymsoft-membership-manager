@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using GymSoft.UserModule.Model;
+using GymSoft.Common;
 
 namespace GymSoft.UserModule.ViewModels
 {

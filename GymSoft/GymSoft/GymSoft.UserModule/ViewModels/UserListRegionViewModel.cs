@@ -10,6 +10,7 @@ using Microsoft.Practices.Prism.ViewModel;
 using Microsoft.Practices.Prism.Events;
 using GymSoft.UserModule.Model;
 using GymSoft.UserModule.Events;
+using GymSoft.Common;
 
 namespace GymSoft.UserModule.ViewModels
 {

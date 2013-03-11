@@ -7,7 +7,21 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GymSoft.UserModule", "GymSo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GymSoft.RoleModule", "GymSoft.RoleModule\GymSoft.RoleModule.csproj", "{3AFFDA41-A4A1-45C9-A1EB-1CD123689386}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GymSoft.Common", "GymSoft.Common\GymSoft.Common.csproj", "{756937EB-6334-4FBB-860C-374A384C7725}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GymSoft.UserModule.Test", "GymSoft.UserModule.Test\GymSoft.UserModule.Test.csproj", "{90E0D528-31E7-4104-B57E-F0EC447E3B91}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{3F5C8523-5228-449F-A33B-0BA58E0C2C3B}"
+	ProjectSection(SolutionItems) = preProject
+		GymSoft.vsmdi = GymSoft.vsmdi
+		Local.testsettings = Local.testsettings
+		TraceAndTestImpact.testsettings = TraceAndTestImpact.testsettings
+	EndProjectSection
+EndProject
 Global
+	GlobalSection(TestCaseManagementSettings) = postSolution
+		CategoryFile = GymSoft.vsmdi
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Debug|Mixed Platforms = Debug|Mixed Platforms
@@ -47,6 +61,26 @@ Global
 		{3AFFDA41-A4A1-45C9-A1EB-1CD123689386}.Release|Mixed Platforms.Build.0 = Release|x86
 		{3AFFDA41-A4A1-45C9-A1EB-1CD123689386}.Release|x86.ActiveCfg = Release|x86
 		{3AFFDA41-A4A1-45C9-A1EB-1CD123689386}.Release|x86.Build.0 = Release|x86
+		{756937EB-6334-4FBB-860C-374A384C7725}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{756937EB-6334-4FBB-860C-374A384C7725}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{756937EB-6334-4FBB-860C-374A384C7725}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{756937EB-6334-4FBB-860C-374A384C7725}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{756937EB-6334-4FBB-860C-374A384C7725}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{756937EB-6334-4FBB-860C-374A384C7725}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{756937EB-6334-4FBB-860C-374A384C7725}.Release|Any CPU.Build.0 = Release|Any CPU
+		{756937EB-6334-4FBB-860C-374A384C7725}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{756937EB-6334-4FBB-860C-374A384C7725}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{756937EB-6334-4FBB-860C-374A384C7725}.Release|x86.ActiveCfg = Release|Any CPU
+		{90E0D528-31E7-4104-B57E-F0EC447E3B91}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{90E0D528-31E7-4104-B57E-F0EC447E3B91}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{90E0D528-31E7-4104-B57E-F0EC447E3B91}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{90E0D528-31E7-4104-B57E-F0EC447E3B91}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{90E0D528-31E7-4104-B57E-F0EC447E3B91}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{90E0D528-31E7-4104-B57E-F0EC447E3B91}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{90E0D528-31E7-4104-B57E-F0EC447E3B91}.Release|Any CPU.Build.0 = Release|Any CPU
+		{90E0D528-31E7-4104-B57E-F0EC447E3B91}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{90E0D528-31E7-4104-B57E-F0EC447E3B91}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{90E0D528-31E7-4104-B57E-F0EC447E3B91}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

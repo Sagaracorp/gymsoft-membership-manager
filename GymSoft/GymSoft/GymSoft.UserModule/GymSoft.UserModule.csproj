@@ -57,6 +57,10 @@
   <ItemGroup>
     <Compile Include="Controllers\UserModuleController.cs" />
     <Compile Include="Events\UserEvents.cs" />
+    <Compile Include="Model\Command.cs" />
+    <Compile Include="Model\Role.cs" />
+    <Compile Include="Services\UserValidationService.cs" />
+    <Compile Include="Services\IUserValidationService.cs" />
     <Compile Include="Model\User.cs" />
     <Compile Include="Modules\Module.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -69,7 +73,6 @@
     <Compile Include="Services\OperationResult.Generic.cs" />
     <Compile Include="Services\UserMockService.cs" />
     <Compile Include="Services\UserMockServiceRepository.cs" />
-    <Compile Include="ViewModels\PropertyChangedImplementation.cs" />
     <Compile Include="ViewModels\UserDetailsViewModel.cs" />
     <Compile Include="ViewModels\UserListRegionViewModel.cs" />
     <Compile Include="ViewModels\UserMainRegionViewModel.cs" />
@@ -104,6 +107,12 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\GymSoft.Common\GymSoft.Common.csproj">
+      <Project>{756937EB-6334-4FBB-860C-374A384C7725}</Project>
+      <Name>GymSoft.Common</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
