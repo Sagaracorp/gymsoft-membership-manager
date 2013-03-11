@@ -37,7 +37,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>testIco.ico</ApplicationIcon>
+    <ApplicationIcon>
+    </ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Practices.Prism, Version=4.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
@@ -112,9 +113,6 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="MC900432625.PNG" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\GymSoft.RoleModule\GymSoft.RoleModule.csproj">
       <Project>{3AFFDA41-A4A1-45C9-A1EB-1CD123689386}</Project>
       <Name>GymSoft.RoleModule</Name>
@@ -123,9 +121,6 @@
       <Project>{BDA171BC-5FBB-4945-9ABC-A04C86F70432}</Project>
       <Name>GymSoft.UserModule</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="testIco.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
