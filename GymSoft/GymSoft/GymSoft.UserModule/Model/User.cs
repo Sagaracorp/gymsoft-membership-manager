@@ -153,10 +153,12 @@ namespace GymSoft.UserModule.Model
                         if (String.IsNullOrEmpty(UserName))
                         {
                             errorMessage = "User Name is required";
+                            break;
                         }
                         if (UserNameAlreadyTaken(UserName))
                         {
                             errorMessage = "User Name already taken";
+                            break;
                         }
                         break;
                     case "Password":
@@ -169,14 +171,17 @@ namespace GymSoft.UserModule.Model
                         if (String.IsNullOrEmpty(EmailAddress))
                         {
                             errorMessage = "Email Address is required";
-                        }
-                        if (EmailAddressAlreadyTaken(EmailAddress))
-                        {
-                            errorMessage = "Email Address is already taken";
+                            break;
                         }
                         if (EmailAddressInIncorrectForamt(EmailAddress))
                         {
                             errorMessage = "Email Address is in an incorrect format";
+                            break;
+                        }
+                        if (EmailAddressAlreadyTaken(EmailAddress))
+                        {
+                            errorMessage = "Email Address is already taken";
+                            break;
                         }
                         break;
                     default:

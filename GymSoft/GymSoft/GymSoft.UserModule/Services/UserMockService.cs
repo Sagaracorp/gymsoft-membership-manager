@@ -35,7 +35,38 @@ namespace GymSoft.UserModule.Services
                                                   FirstName = "John",
                                                   LastName = "Smith",
                                                   Password = "passwordfill",
-                                                  UserName= "John.Smith@Contoso.com"
+                                                  EmailAddress = "John.Smith@Contoso.com",
+                                                  UserName= "John.Smith@Contoso.com",
+                                                  Roles = new Roles {
+                                                            new Role() {
+                                                                Id = 2,
+                                                                Name = "Admin"
+                                                             }
+                                                        },
+                                                 Commands = new Commands{
+                                                                new Command(){
+                                                                    Name = "View All Users",
+                                                                    Roles = new Roles{
+                                                                        new Role() {
+                                                                            Id = 1,
+                                                                            Name = "Power User"
+                                                                        },
+                                                                        new Role() {
+                                                                            Id = 2,
+                                                                            Name = "Admin"
+                                                                        }
+                                                                    }
+                                                                },
+                                                                new Command(){
+                                                                    Name = "Delete All Users",
+                                                                    Roles = new Roles{                                                                        
+                                                                        new Role() {
+                                                                            Id = 2,
+                                                                            Name = "Admin"
+                                                                        }
+                                                                    }
+                                                                }
+                                                            }
                                               },
                                           new User()
                                               {
@@ -43,7 +74,26 @@ namespace GymSoft.UserModule.Services
                                                   FirstName = "Bonnie",
                                                   LastName = "Skelly",
                                                   Password = "(206) 555 7301",
-                                                  UserName = "Bonnie.Skelly@Contoso.com"
+                                                  EmailAddress = "Bonnie.Skelly@Contoso.com",
+                                                  UserName = "Bonnie.Skelly@Contoso.com",
+                                                  Roles = new Roles {
+                                                            new Role() {
+                                                                Id = 1,
+                                                                Name = "Power User"
+                                                             }
+                                                        },
+                                                 Commands = new Commands{
+                                                             new Command(){
+                                                                 Name = "View All Users",
+                                                                 Roles = new Roles{
+                                                                     new Role() {
+                                                                         Id = 1,
+                                                                         Name = "Power User"
+                                                                     }
+                                                                 }
+                                                             }
+                                                         }
+
                                               },
                                           new User()
                                               {
@@ -51,7 +101,25 @@ namespace GymSoft.UserModule.Services
                                                   FirstName = "Dana",
                                                   LastName = "Birkby",
                                                   Password = "(425) 555 7492",
-                                                  UserName = "Dana.Birkby@Contoso.com"
+                                                  EmailAddress = "Dana.Birkby@Contoso.com",
+                                                  UserName = "Dana.Birkby@Contoso.com",
+                                                  Roles = new Roles {
+                                                            new Role() {
+                                                                Id = 1,
+                                                                Name = "PowerUser"
+                                                             }
+                                                        },
+                                                  Commands = new Commands{
+                                                        new Command(){
+                                                            Name = "View All Users",
+                                                            Roles = new Roles{
+                                                                new Role() {
+                                                                    Id = 1,
+                                                                    Name = "Power User"
+                                                                }
+                                                            }
+                                                        }
+                                                    }
                                               },
                                           new User()
                                               {
@@ -59,7 +127,10 @@ namespace GymSoft.UserModule.Services
                                                   FirstName = "David",
                                                   LastName = "Probst",
                                                   Password = "(425) 555 2836",
-                                                  UserName = "David.Probst@Contoso.com"
+                                                  EmailAddress = "David.Probst@Contoso.com",
+                                                  UserName = "David.Probst@Contoso.com",
+                                                  Roles = new Roles(),
+                                                  Commands = new Commands()
                                               },
                                               new User()
                                               {
@@ -67,21 +138,52 @@ namespace GymSoft.UserModule.Services
                                                   FirstName = "Rainaldo",
                                                   LastName = "Crosboune",
                                                   Password = "(425) 555 2836",
-                                                  UserName = "rcrosbourne@gmail.com"
+                                                  EmailAddress = "rcrosbourne@gmail.com",
+                                                  UserName = "rcrosbourne@gmail.com",
+                                                  Roles = new Roles {
+                                                            new Role() {
+                                                                Id = 2,
+                                                                Name = "Admin"
+                                                             }
+                                                        },
+                                                 Commands = new Commands{
+                                                                new Command(){
+                                                                    Name = "View All Users",
+                                                                    Roles = new Roles{
+                                                                        new Role() {
+                                                                            Id = 1,
+                                                                            Name = "Power User"
+                                                                        },
+                                                                        new Role() {
+                                                                            Id = 2,
+                                                                            Name = "Admin"
+                                                                        }
+                                                                    }
+                                                                },
+                                                                new Command(){
+                                                                    Name = "Delete All Users",
+                                                                    Roles = new Roles{                                                                        
+                                                                        new Role() {
+                                                                            Id = 2,
+                                                                            Name = "Admin"
+                                                                        }
+                                                                    }
+                                                                }
+                                                  }
                                               },
                                       };
             }
-            for (int i = 0; i < 1000000; i++)
-            {
-                this.users.Add(new User()
-                                    {
-                                        Id = i,
-                                        FirstName = "FirstName " + i,
-                                        LastName = "LastName " + i,
-                                        Password = "sdfsdfs",
-                                        UserName = "username" + i
-                                    });
-            }
+            //for (int i = 0; i < 1000000; i++)
+            //{
+            //    this.users.Add(new User()
+            //                        {
+            //                            Id = i,
+            //                            FirstName = "FirstName " + i,
+            //                            LastName = "LastName " + i,
+            //                            Password = "sdfsdfs",
+            //                            UserName = "username" + i
+            //                        });
+            //}
 
             return this.users;
         }
@@ -173,6 +275,20 @@ namespace GymSoft.UserModule.Services
             var result = (AsyncResult<Users>)asyncResult;
             AsyncResult<Users>.End(asyncResult);
             return result.Result;
+        }
+
+
+        public bool IsMemberOfRole(User user, string roleName)
+        {
+            var role = user.Roles.Where(r => r.Name.ToLower() == roleName.ToLower()).SingleOrDefault();
+            return role != null;
+        }
+
+        public bool HasAccessToCommand(User user, string commandName)
+        {
+
+            var command = user.Commands.Where(c => c.Name == commandName).SingleOrDefault();
+            return command != null;
         }
     }
 }

@@ -17,7 +17,7 @@ namespace GymSoft.UserModule.ViewModels
     public class UserListRegionViewModel : PropertyChangedImplementation
     {
         public ICollectionView Users { get; set; }
-        IUserService userService;
+       // IUserService userService;
         IEventAggregator eventAggregator;
         IUserServiceRepository userRepository;
         /*

@@ -42,9 +42,30 @@ namespace GymSoft.UserModule.Model
             set { commands = value; RaisePropertyChanged("Commands"); }
         }
         #endregion
-        
-        
-	
+
+        #region Validation Rules
+        public override string this[string columnName]
+        {
+            get
+            {
+                string errorMessage = String.Empty;
+                switch (columnName)
+                {
+                    case "Name":
+                        if (String.IsNullOrEmpty(Name))
+                        {
+                            errorMessage = "Role Name is required";
+                        }
+                        break;
+                    default:
+                        break;
+                }
+                return errorMessage;
+            }
+        }
+        #endregion
+
+
     }
     #region Collection of Role
     public class Roles : ObservableCollection<Role> { }

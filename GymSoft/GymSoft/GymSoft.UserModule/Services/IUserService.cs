@@ -17,5 +17,7 @@ namespace GymSoft.UserModule.Services
         //Attempting Asynchrons calls
         IAsyncResult BeginFindAll(AsyncCallback callback, object asyncState);
         Users EndFindAll(IAsyncResult asyncResult);
+        bool IsMemberOfRole(User user, string roleName);
+        bool HasAccessToCommand(User user, string commandName);
     }
 }

@@ -12,24 +12,22 @@ namespace GymSoft.UserModule.Services
         public bool UserNameAlreadyTaken(string userName)
         {
             IUserService userService = new UserMockService(); // Mocking example
-            var user = userService.FindAll().SingleOrDefault(u => u.UserName.ToLower() == userName);
+            var user = userService.FindAll().Where(u => u.UserName.ToLower() == userName.ToLower());
             return user != null;
 
         }
         public bool EmailAddressInIncorrectForamt(string emailAddress)
         {
-            //Use mail address LOL it pays to Google~~
-            // Return emailAddress if strIn is in valid e-mail format. 
-           return Regex.IsMatch(emailAddress,
-                      @"^(?("")(""[^""]+?""@)|(([0-9a-z]((\.(?!\.))|[-!#\$%&'\*\+/=\?\^`\{\}\|~\w])*)(?<=[0-9a-z])@))" +
-                      @"(?(\[)(\[(\d{1,3}\.){3}\d{1,3}\])|(([0-9a-z][-\w]*[0-9a-z]*\.)+[a-z0-9]{2,17}))$",
-                      RegexOptions.IgnoreCase);                   
-
+            Regex re = new Regex(@"^[\w!#$%&'*+\-/=?\^_`{|}~]+(\.[\w!#$%&'*+\-/=?\^_`{|}~]+)*"
+                                 + "@"
+                                 + @"((([\-\w]+\.)+[a-zA-Z]{2,4})|(([0-9]{1,3}\.){3}[0-9]{1,3}))$",
+                                 RegexOptions.IgnoreCase);
+            return !re.IsMatch(emailAddress);   
         }
         public bool EmailAddressAlreadyTaken(string emailAddress)
         {
             IUserService userService = new UserMockService(); // Mocking example
-            var user = userService.FindAll().SingleOrDefault(u => u.EmailAddress.ToLower() == emailAddress);
+            var user = userService.FindAll().Where(u => u.EmailAddress.ToLower() == emailAddress);
             return user != null;
         }
     }
