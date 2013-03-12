@@ -19,5 +19,6 @@ namespace GymSoft.UserModule.Services
         Users EndFindAll(IAsyncResult asyncResult);
         bool IsMemberOfRole(User user, string roleName);
         bool HasAccessToCommand(User user, string commandName);
+        User Authenticate(string username, string password);
     }
 }

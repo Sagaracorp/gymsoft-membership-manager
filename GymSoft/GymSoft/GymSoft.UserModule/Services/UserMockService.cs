@@ -290,5 +290,20 @@ namespace GymSoft.UserModule.Services
             var command = user.Commands.Where(c => c.Name == commandName).SingleOrDefault();
             return command != null;
         }
+
+
+        public User Authenticate(string username, string password)
+        {
+            //Call the Authenticate sub routine
+            //Going to just mock this
+            if (username == "rcrosbourne@gmail.com" && password == "password")
+            {
+                return FindAll().Where(u => u.UserName == username).SingleOrDefault();
+            }
+            else
+            {
+                return null;
+            }
+        }
     }
 }

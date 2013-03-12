@@ -104,6 +104,22 @@ namespace GymSoft.UserModule.Test.Model
             Assert.IsFalse(userService.HasAccessToCommand(firstUser, "Delete All Users"));
         }
         #endregion
+        #region Test Authenticate
+        [Test]
+        public void TestUserAuthenticate_Negative()
+        {
+            UserMockService userService = new UserMockService();
+            User wrongUser = userService.Authenticate("wronguser", "wrong_password");
+            Assert.IsNull(wrongUser);
+        }
+        [Test]
+        public void TestUserAuthenticate_Positive()
+        {
+            UserMockService userService = new UserMockService();
+            User correctUser = userService.Authenticate("rcrosbourne@gmail.com", "password");
+            Assert.IsNotNull(correctUser);
+        }
+        #endregion
         #endregion
     }
 }

@@ -73,6 +73,7 @@
     <Compile Include="Services\OperationResult.Generic.cs" />
     <Compile Include="Services\UserMockService.cs" />
     <Compile Include="Services\UserMockServiceRepository.cs" />
+    <Compile Include="ViewModels\UserAuthenticationViewModel.cs" />
     <Compile Include="ViewModels\UserDetailsViewModel.cs" />
     <Compile Include="ViewModels\UserListRegionViewModel.cs" />
     <Compile Include="ViewModels\UserMainRegionViewModel.cs" />
