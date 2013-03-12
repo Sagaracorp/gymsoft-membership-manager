@@ -78,6 +78,9 @@
     <Compile Include="ViewModels\UserListRegionViewModel.cs" />
     <Compile Include="ViewModels\UserMainRegionViewModel.cs" />
     <Compile Include="ViewModels\UserRibbonViewModel.cs" />
+    <Compile Include="Views\UserAuthenticationView.xaml.cs">
+      <DependentUpon>UserAuthenticationView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\UserDetailsView.xaml.cs">
       <DependentUpon>UserDetailsView.xaml</DependentUpon>
     </Compile>
@@ -92,6 +95,10 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Views\UserAuthenticationView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\UserDetailsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

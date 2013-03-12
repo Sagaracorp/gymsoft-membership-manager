@@ -10,21 +10,20 @@
         mc:Ignorable="d" 
         d:DesignHeight="400" d:DesignWidth="600" Title="GymSoft">
     <Grid>
-    	<Grid.RowDefinitions>
-    		<RowDefinition Height="Auto"/>
-    		<RowDefinition Height="*"/>
-    	</Grid.RowDefinitions>
-    	<!-- Ribbon Region-->
-        <Border BorderBrush="Turquoise" BorderThickness="1" Grid.Row="0" Margin="5" CornerRadius="5">
-            <telerik:RadRibbonBar MinimizeButtonVisibility="Collapsed" 
-                              TitleBarVisibility="Collapsed" ApplicationButtonVisibility="Collapsed" 
-                              regions:RegionManager.RegionName="RibbonRegion" IsMinimizable="False" TitleBarBackground="#FF84CFF5" />
-        </Border>        
-        <!--Main Region-->
-        <Border BorderBrush="Firebrick"  BorderThickness="1" Grid.Row="1" Margin="5" CornerRadius="5">
-            <ContentControl regions:RegionManager.RegionName="MainRegion"/>
+        <Border BorderThickness="3" CornerRadius="4">
+            <Border.BorderBrush>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="Blue"  Offset="0"/>
+                    <GradientStop Color="Orange" Offset="1"/>
+                </LinearGradientBrush>
+            </Border.BorderBrush>
+            <Border.Background>
+                <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
+                    <GradientStop Color="BlueViolet" Offset="1"/>
+                    <GradientStop Color="YellowGreen"/>
+                </LinearGradientBrush>
+            </Border.Background>
         </Border>
-        
-        
-   </Grid>
+        <ContentControl regions:RegionManager.RegionName="TopLevelRegion" Margin="141,132,139,137"/>
+    </Grid>
 </Window>
