@@ -13,30 +13,33 @@
             <RowDefinition />
             <RowDefinition />
             <RowDefinition />
+            <RowDefinition />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
         <Border BorderBrush="Black" Background="Azure" Grid.Column="0" Grid.ColumnSpan="2"
-                Grid.Row="0" Grid.RowSpan="4" BorderThickness="2" CornerRadius="4"/>     
+                Grid.Row="0" Grid.RowSpan="5" BorderThickness="2" CornerRadius="4"/>     
         <TextBlock Text="Please Login" Grid.Row="0" 
                    Grid.ColumnSpan="2" HorizontalAlignment="Center" 
                    VerticalAlignment="Center" FontSize="33" 
                    FontWeight="SemiBold"/>
         <TextBlock Text="User Name" Grid.Column="0" Grid.Row="1" VerticalAlignment="Center"
                    Grid.ColumnSpan="1" HorizontalAlignment="Center" FontSize="20"/>
-        <TextBox Text="{Binding UserName, Mode=TwoWay}" 
+        <TextBox Text="{Binding UserName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" 
                  Grid.Column="1" Grid.Row="1" Margin="5,24,15,24" VerticalAlignment="Center" Height="27" />
 
         <TextBlock Text="Password" Grid.Column="0" Grid.Row="2" 
                    HorizontalAlignment="Center" VerticalAlignment="Center"
                    Grid.ColumnSpan="1" FontSize="20"/>
         <PasswordBox Name="passwordBox" Grid.Column="1" Grid.Row="2" Margin="5,24,15,24" VerticalAlignment="Center" Height="27"
-                     ff:PasswordHelper.Attach="True" ff:PasswordHelper.Password="{Binding Password, Mode=TwoWay}"/>
+                     ff:PasswordHelper.Attach="True" 
+                     ff:PasswordHelper.Password="{Binding Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
+        <TextBlock Text="{Binding Path=Error, Mode=OneWay}" Foreground="Red" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" VerticalAlignment="Center" HorizontalAlignment="Center"/>
         
-        <Button Content="Login" Command="{Binding LoginCommand}" Grid.Column="0" Grid.Row="3" VerticalAlignment="Center" Margin="15" />
-        <Button Content="Cancel" Command="{Binding CancelCommand}" Grid.Column="1" Grid.Row="3" VerticalAlignment="Center" Margin="15" />
+        <Button Content="Login" Command="{Binding LoginCommand}" Grid.Column="0" Grid.Row="4" VerticalAlignment="Center" Margin="15" />
+        <Button Content="Cancel" Command="{Binding CancelCommand}" Grid.Column="1" Grid.Row="5" VerticalAlignment="Center" Margin="15" />
 
 
     </Grid>

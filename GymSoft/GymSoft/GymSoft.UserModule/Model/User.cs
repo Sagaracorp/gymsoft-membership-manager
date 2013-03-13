@@ -31,7 +31,8 @@ namespace GymSoft.UserModule.Model
         private string photoPath;
         private string jobTitle;
         private Roles roles;
-        private Commands commands;        
+        private Commands commands;
+        
         #endregion
 
         #region Properties
@@ -141,23 +142,27 @@ namespace GymSoft.UserModule.Model
                         if (String.IsNullOrEmpty(FirstName))
                         {
                             errorMessage = "First Name is required";
+                            Error = "First Name is required";
                         }
                         break;
                     case "LastName":
                         if (String.IsNullOrEmpty(LastName))
                         {
                             errorMessage = "Last Name is required";
+                            Error = "Last Name is required";
                         }
                         break;
                     case "UserName":
                         if (String.IsNullOrEmpty(UserName))
                         {
                             errorMessage = "User Name is required";
+                            Error = "User Name is required";
                             break;
                         }
                         if (UserNameAlreadyTaken(UserName))
                         {
                             errorMessage = "User Name already taken";
+                            Error = "User Name already taken";
                             break;
                         }
                         break;
@@ -165,22 +170,26 @@ namespace GymSoft.UserModule.Model
                         if (String.IsNullOrEmpty(Password))
                         {
                             errorMessage = "Password is required";
+                            Error = "Password is required";
                         }
                         break;
                     case "EmailAddress" :
                         if (String.IsNullOrEmpty(EmailAddress))
                         {
                             errorMessage = "Email Address is required";
+                            Error = "Email Address is required";
                             break;
                         }
                         if (EmailAddressInIncorrectForamt(EmailAddress))
                         {
                             errorMessage = "Email Address is in an incorrect format";
+                            Error = "Email Address is in an incorrect format";
                             break;
                         }
                         if (EmailAddressAlreadyTaken(EmailAddress))
                         {
                             errorMessage = "Email Address is already taken";
+                            Error = "Email Address is already taken";
                             break;
                         }
                         break;

@@ -9,9 +9,11 @@ namespace GymSoft.Common
 {
     public abstract class Entity : INotifyPropertyChanged, IDataErrorInfo
     {
+        private string error = String.Empty;
         public virtual string Error
         {
-            get { return String.Empty; }
+            get { return error; }
+            set {error = value; }
         }
 
         public virtual string this[string columnName]
