@@ -25,6 +25,7 @@ namespace GymSoft.UserModule.ViewModels
         private string userName;
         private string password;
         private bool isAuthenticated;
+        private IUserService userService;
         private User currentUser;
         public ICommand LoginCommand { get; set; }
         public ICommand CancelCommand { get; set; }
@@ -37,7 +38,14 @@ namespace GymSoft.UserModule.ViewModels
                 RaisePropertyChanged("CurrentUser");
                 Error = "Login Success";
                 RaisePropertyChanged("Error");
-                //send login event with eaggregator possibly
+                //send login event with eaggregator possibly with the current user
+                //the controller picks up this event and knows 2 things
+                //1) A login view is currently showing
+                //2) A user successfully logged in
+                //Hence we need to do 2 things after getting that event
+                // 1) Remove the login view from the top level region
+                // 2) Inject the main ui view into the top lvl region
+                // 3) Set teh top level region context to hold the current user 
             }
             else
             {
@@ -103,14 +111,7 @@ namespace GymSoft.UserModule.ViewModels
             get
             {
                 Error = String.Empty;
-                if (columnName == "UserName")
-                {
-                    if (String.IsNullOrEmpty(UserName))
-                    {
-                        Error = "User Name cannot be empty";
-                        return "User Name cannot be empty";
-                    }
-                }
+                
                 if (columnName == "Password")
                 {
                     if (String.IsNullOrEmpty(Password))
@@ -119,11 +120,19 @@ namespace GymSoft.UserModule.ViewModels
                         return "Password cannot be empty";
                     }
                 }
+                if (columnName == "UserName")
+                {
+                    if (String.IsNullOrEmpty(UserName))
+                    {
+                        Error = "User Name cannot be empty";
+                        return "User Name cannot be empty";
+                    }
+                }
                 return "";
             }
         }
         #endregion
 
-        private IUserService userService;
+        
     }
 }
