@@ -31,8 +31,6 @@ namespace GymSoft.UserModule.Modules
             this.container.RegisterType(typeof(IOperationResult<>), typeof(OperationResult<>));
             this.container.RegisterType<IUserValidationService, UserValidationService>();
 
-            regionManager.RegisterViewWithRegion("TopLevelRegion", typeof(UserModule.Views.UserAuthenticationView));
-
             //Register views with regions 
             //regionManager.RegisterViewWithRegion("RibbonRegion", typeof(UserModule.Views.UserRibbonView));
             //regionManager.RegisterViewWithRegion("MainRegion", typeof(UserModule.Views.UserMainRegionView));

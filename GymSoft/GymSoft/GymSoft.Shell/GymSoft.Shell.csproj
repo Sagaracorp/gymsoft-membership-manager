@@ -74,6 +74,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Controller\MainApplicationController.cs" />
+    <Compile Include="Events\ShellEvents.cs" />
+    <Compile Include="Modules\ShellModule.cs" />
     <Compile Include="Views\HomeView.xaml.cs">
       <DependentUpon>HomeView.xaml</DependentUpon>
     </Compile>
@@ -91,8 +94,8 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Views\HomeView.xaml">
-      <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
   <ItemGroup>
@@ -120,6 +123,10 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\GymSoft.Common\GymSoft.Common.csproj">
+      <Project>{756937EB-6334-4FBB-860C-374A384C7725}</Project>
+      <Name>GymSoft.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\GymSoft.RoleModule\GymSoft.RoleModule.csproj">
       <Project>{3AFFDA41-A4A1-45C9-A1EB-1CD123689386}</Project>
       <Name>GymSoft.RoleModule</Name>

@@ -24,6 +24,6 @@
                 </LinearGradientBrush>
             </Border.Background>
         </Border>
-        <ContentControl regions:RegionManager.RegionName="TopLevelRegion" Margin="141,132,139,137"/>
+        <ContentControl regions:RegionManager.RegionName="TopLevelRegion"/>
     </Grid>
 </Window>

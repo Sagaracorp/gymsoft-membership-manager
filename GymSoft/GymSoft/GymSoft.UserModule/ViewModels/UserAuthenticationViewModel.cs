@@ -4,17 +4,20 @@ using System.Linq;
 using System.Text;
 using System.Windows.Input;
 using GymSoft.Common;
+using GymSoft.UserModule.Events;
 using GymSoft.UserModule.Model;
 using GymSoft.UserModule.Services;
 using Microsoft.Practices.Prism.Commands;
+using Microsoft.Practices.Prism.Events;
 
 namespace GymSoft.UserModule.ViewModels
 {
     public class UserAuthenticationViewModel : Entity
     {
-        public UserAuthenticationViewModel(IUserService userService)
+        public UserAuthenticationViewModel(IUserService userService, IEventAggregator eventAggregator)
         {
             this.userService = userService;
+            this.eventAggregator = eventAggregator;
             this.userName = "";
             this.password = "";
             //Error = "";
@@ -22,6 +25,8 @@ namespace GymSoft.UserModule.ViewModels
             this.LoginCommand = new DelegateCommand(OnLoginExecuted, CanLoginExecute);
             this.CancelCommand = new DelegateCommand(OnCancelExecuted);
         }
+
+        private IEventAggregator eventAggregator;
         private string userName;
         private string password;
         private bool isAuthenticated;
@@ -39,13 +44,7 @@ namespace GymSoft.UserModule.ViewModels
                 Error = "Login Success";
                 RaisePropertyChanged("Error");
                 //send login event with eaggregator possibly with the current user
-                //the controller picks up this event and knows 2 things
-                //1) A login view is currently showing
-                //2) A user successfully logged in
-                //Hence we need to do 2 things after getting that event
-                // 1) Remove the login view from the top level region
-                // 2) Inject the main ui view into the top lvl region
-                // 3) Set teh top level region context to hold the current user 
+                this.eventAggregator.GetEvent<UserLoginEvent>().Publish(currentUser);
             }
             else
             {

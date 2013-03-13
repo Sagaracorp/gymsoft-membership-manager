@@ -18,7 +18,7 @@ namespace GymSoft.UserModule.Controllers
         IUnityContainer container;
         IRegionManager regionManager;
         IEventAggregator eventAggregator;
-        IUserService userService; //Not sure I need that
+       // IUserService userService; //Not sure I need that
 
         public UserModuleController(IUnityContainer container, IRegionManager regionManager,
                                     IEventAggregator eventAggregator, IUserService userService)
@@ -26,14 +26,22 @@ namespace GymSoft.UserModule.Controllers
             this.container = container;
             this.regionManager = regionManager;
             this.eventAggregator = eventAggregator;
-            this.userService = userService;
+         //   this.userService = userService;
 
             //When the ViewAllUsersEvent fires Activate the UserListView
-            this.eventAggregator.GetEvent<ViewAllUsersEvent>().Subscribe(this.ViewAllUsersEventFired, true);
-            this.eventAggregator.GetEvent<DeleteAllUsersEvent>().Subscribe(this.DeleteAllUsersEventFired, true);
-            this.eventAggregator.GetEvent<UserSelectedEvent>().Subscribe(this.UserSelectedEventFired, true);
+            this.eventAggregator.GetEvent<UserLoginEvent>().Subscribe(this.UserLoginEventFired, true);
+            //this.eventAggregator.GetEvent<ViewAllUsersEvent>().Subscribe(this.ViewAllUsersEventFired, true);
+            // this.eventAggregator.GetEvent<DeleteAllUsersEvent>().Subscribe(this.DeleteAllUsersEventFired, true);
+            //this.eventAggregator.GetEvent<UserSelectedEvent>().Subscribe(this.UserSelectedEventFired, true);
 
         }
+
+        private void UserLoginEventFired(User currentUser)
+        {
+            regionManager.RegisterViewWithRegion("RibbonRegion", typeof(UserModule.Views.UserRibbonView));
+        }
+
+        #region Just Going to put all the stuff in here
         private void UserSelectedEventFired(User userSelected)
         {
             IRegion region = this.regionManager.Regions["UserDetailsRegion"];
@@ -81,7 +89,7 @@ namespace GymSoft.UserModule.Controllers
         private void ViewAllUsersEventFired(object value)
         {
             IRegion region = this.regionManager.Regions["MainRegion"];
-            
+
             if (region == null)
                 return;
 
@@ -95,7 +103,9 @@ namespace GymSoft.UserModule.Controllers
             {
                 region.Activate(userMainRegionView);
             }
-            
+
         }
+        #endregion
+        
     }
 }

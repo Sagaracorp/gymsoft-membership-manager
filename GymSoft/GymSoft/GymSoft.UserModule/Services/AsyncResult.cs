@@ -8,7 +8,7 @@ namespace GymSoft.UserModule.Services
 {
     public class AsyncResult<T> : IAsyncResult
     {
-         private AsyncCallback asyncCallback;
+        private AsyncCallback asyncCallback;
         private ManualResetEvent waitHandle;
         private object lockObject = new object();
 

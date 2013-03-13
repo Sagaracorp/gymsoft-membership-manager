@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GymSoft.Shell", "GymSoft.Shell\GymSoft.Shell.csproj", "{27831842-7F7F-4FD8-8EBB-3F2453D87095}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GymSoft.UserModule", "GymSoft.UserModule\GymSoft.UserModule.csproj", "{BDA171BC-5FBB-4945-9ABC-A04C86F70432}"

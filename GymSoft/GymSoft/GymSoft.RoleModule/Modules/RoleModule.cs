@@ -17,7 +17,7 @@ namespace GymSoft.RoleModule.Modules
         }
         public void Initialize()
         {
-            regionManager.RegisterViewWithRegion("RibbonRegion", typeof(GymSoft.RoleModule.Views.RoleRibbonView));
+            //regionManager.RegisterViewWithRegion("RibbonRegion", typeof(GymSoft.RoleModule.Views.RoleRibbonView));
         }
     }
 }

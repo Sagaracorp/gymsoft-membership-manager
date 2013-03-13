@@ -27,6 +27,7 @@ namespace GymSoft.Shell
             ModuleCatalog moduleCatalog = (ModuleCatalog)this.ModuleCatalog;
             moduleCatalog.AddModule(typeof(UserModule.Modules.Module));
             moduleCatalog.AddModule(typeof(RoleModule.Modules.RoleModule));
+            moduleCatalog.AddModule(typeof(GymSoft.Shell.Modules.ShellModule));
         }
     }
 }
