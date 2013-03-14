@@ -38,8 +38,8 @@
                      ff:PasswordHelper.Password="{Binding Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
         <TextBlock Text="{Binding Path=Error, Mode=OneWay}" Foreground="Red" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" VerticalAlignment="Center" HorizontalAlignment="Center"/>
         
-        <Button Content="Login" Command="{Binding LoginCommand}" Grid.Column="0" Grid.Row="4" VerticalAlignment="Center" Margin="15" />
-        <Button Content="Cancel" Command="{Binding CancelCommand}" Grid.Column="1" Grid.Row="5" VerticalAlignment="Center" Margin="15" />
+        <Button Content="Login" Command="{Binding LoginCommand}" Grid.Column="0" Grid.Row="4" VerticalAlignment="Center" Margin="15" IsDefault="True" />
+        <Button Content="Cancel" Command="{Binding CancelCommand}" Grid.Column="1" Grid.Row="5" VerticalAlignment="Center" Margin="15" IsCancel="True" />
 
 
     </Grid>
