@@ -10,17 +10,11 @@
         mc:Ignorable="d" 
         d:DesignHeight="400" d:DesignWidth="600" Title="GymSoft">
     <Grid>
-        <Border BorderThickness="3" CornerRadius="4">
-            <Border.BorderBrush>
-                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                    <GradientStop Color="Blue"  Offset="0"/>
-                    <GradientStop Color="Orange" Offset="1"/>
-                </LinearGradientBrush>
-            </Border.BorderBrush>
+        <Border BorderThickness="1" CornerRadius="3">
             <Border.Background>
                 <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
-                    <GradientStop Color="BlueViolet" Offset="1"/>
-                    <GradientStop Color="YellowGreen"/>
+                    <GradientStop Color="White" Offset="1"/>
+                    <GradientStop Color="Black"/>
                 </LinearGradientBrush>
             </Border.Background>
         </Border>

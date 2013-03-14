@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using GymSoft.Shell.Events;
+using GymSoft.Shell.ViewModels;
 using GymSoft.Shell.Views;
 using GymSoft.UserModule.Events;
 using GymSoft.UserModule.Model;
@@ -26,6 +27,29 @@ namespace GymSoft.Shell.Controller
             this.container = container;
 
             eventAggregator.GetEvent<UserLoginEvent>().Subscribe(this.UserLoginEventFired, true);
+            eventAggregator.GetEvent<UserLogoutEvent>().Subscribe(this.UserLogoutEventFired, true);
+        }
+
+        private void UserLogoutEventFired(object obj)
+        {
+            var region = this.regionManager.Regions["TopLevelRegion"];
+            if (region == null)
+                return;
+
+
+            var loginView = region.GetView("LoginView") as UserAuthenticationView;
+            if (loginView == null)
+            {
+                loginView = this.container.Resolve<UserAuthenticationView>();
+                //Clear the login view
+                region.Remove((HomeView)region.Views.First());
+                region.Add(loginView, "LoginView");
+            }
+            else
+            {
+                region.Activate(loginView);
+            }
+            this.regionManager.Regions["TopLevelRegion"].Context = null;
         }
 
         private void UserLoginEventFired(User currentUser)
@@ -50,6 +74,7 @@ namespace GymSoft.Shell.Controller
                 region.Activate(homeView);
             }
             //Add Current user to region context.
+            this.regionManager.Regions["TopLevelRegion"].Context = currentUser;
             //Send event to notify all modules that the ribbonRegion is now available
             //eventAggregator.GetEvent<RibbonViewAvailableEvent>().Publish(currentUser);
         }

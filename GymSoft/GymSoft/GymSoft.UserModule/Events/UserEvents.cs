@@ -19,5 +19,8 @@ namespace GymSoft.UserModule.Events
     public class UserLoginEvent : CompositePresentationEvent<User>
     {
     }
+    public class UserLogoutEvent : CompositePresentationEvent<object>
+    {
+    }
     
 }

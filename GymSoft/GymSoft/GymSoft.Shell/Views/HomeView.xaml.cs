@@ -11,6 +11,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using GymSoft.Shell.ViewModels;
 
 namespace GymSoft.Shell.Views
 {
@@ -19,9 +20,10 @@ namespace GymSoft.Shell.Views
     /// </summary>
     public partial class HomeView : UserControl
     {
-        public HomeView()
+        public HomeView(HomeViewViewModel viewModel)
         {
             InitializeComponent();
+            this.DataContext = viewModel;
         }
     }
 }
