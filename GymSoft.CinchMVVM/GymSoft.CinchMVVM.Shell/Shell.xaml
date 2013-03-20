@@ -3,7 +3,11 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:prism="http://www.codeplex.com/prism"
         Title="Gym Soft"
-        Icon="Assets/icon.png" WindowStyle="ThreeDBorderWindow" WindowStartupLocation="CenterScreen" WindowState="Maximized">
+        Icon="Assets/icon.png"
+        MinHeight="830" 
+        MinWidth="820"
+        WindowStartupLocation="CenterScreen" 
+        WindowState="Maximized">
 	
     <Grid>
         <ContentControl prism:RegionManager.RegionName="RootRegion"/>

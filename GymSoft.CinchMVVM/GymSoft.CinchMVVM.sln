@@ -7,6 +7,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Modules", "Modules", "{E365
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GymSoft.AuthenticationModule", "GymSoft.AuthenticationModule\GymSoft.AuthenticationModule.csproj", "{8F69972E-8E39-43F6-AE1A-D5BE98812796}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GymSoft.CinchMVVM.Common", "GymSoft.CinchMVVM.Common\GymSoft.CinchMVVM.Common.csproj", "{E12ECD68-F948-4FD0-82BE-5FC540369345}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -21,6 +23,10 @@ Global
 		{8F69972E-8E39-43F6-AE1A-D5BE98812796}.Debug|x86.Build.0 = Debug|x86
 		{8F69972E-8E39-43F6-AE1A-D5BE98812796}.Release|x86.ActiveCfg = Release|x86
 		{8F69972E-8E39-43F6-AE1A-D5BE98812796}.Release|x86.Build.0 = Release|x86
+		{E12ECD68-F948-4FD0-82BE-5FC540369345}.Debug|x86.ActiveCfg = Debug|x86
+		{E12ECD68-F948-4FD0-82BE-5FC540369345}.Debug|x86.Build.0 = Debug|x86
+		{E12ECD68-F948-4FD0-82BE-5FC540369345}.Release|x86.ActiveCfg = Release|x86
+		{E12ECD68-F948-4FD0-82BE-5FC540369345}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

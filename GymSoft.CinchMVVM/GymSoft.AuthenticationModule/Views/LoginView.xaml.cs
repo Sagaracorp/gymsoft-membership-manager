@@ -25,5 +25,6 @@ namespace GymSoft.AuthenticationModule.Views
         {
             InitializeComponent();
         }
+        
     }
 }

@@ -4,8 +4,17 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:meffed="http:\\www.codeplex.com\MEFedMVVM"
+             xmlns:cinch="clr-namespace:Cinch;assembly=Cinch.WPF"
+             xmlns:common="clr-namespace:GymSoft.CinchMVVM.Common;assembly=GymSoft.CinchMVVM.Common"
              meffed:ViewModelLocator.ViewModel="LoginViewViewModel"
              mc:Ignorable="d" d:DesignHeight="811" d:DesignWidth="1058">
+	<UserControl.Resources>
+		<ResourceDictionary>
+			<ResourceDictionary.MergedDictionaries>
+				<ResourceDictionary Source="/GymSoft.CinchMVVM.Common;component/AppResources.xaml"/>
+			</ResourceDictionary.MergedDictionaries>
+		</ResourceDictionary>
+	</UserControl.Resources>
     <Grid>
         <Border BorderBrush="Black" BorderThickness="3" Margin="108,112,92,180"
 				Background="{DynamicResource {x:Static SystemColors.GradientInactiveCaptionBrushKey}}" 
@@ -24,7 +33,7 @@
 				<Grid Grid.Row="1">
 					<Grid.ColumnDefinitions>
 						<ColumnDefinition Width="Auto"/>
-						<ColumnDefinition/>
+						<ColumnDefinition Width="Auto"/>
 						<ColumnDefinition/>
 					</Grid.ColumnDefinitions>
 					<Grid.RowDefinitions>
@@ -35,16 +44,21 @@
 						   Grid.Row="0" Grid.Column="0"/>
 					<TextBlock Grid.Column="1" HorizontalAlignment="Left" Margin="10,50.093,0,0" Grid.Row="0" TextWrapping="Wrap" Text="Username" VerticalAlignment="Top" FontSize="26.667" Width="136.633"/>
 					<TextBlock Grid.Column="1" HorizontalAlignment="Left" Margin="10,34.474,0,0" Grid.Row="1" TextWrapping="Wrap" Text="Password" VerticalAlignment="Top" FontSize="26.667" RenderTransformOrigin="-0.007,-0.188" Width="136.633"/>
-					<TextBox Grid.Column="2" HorizontalAlignment="Center" Height="42.563" Margin="10,43,6.046,42.563" Grid.Row="0" TextWrapping="Wrap" VerticalAlignment="Center" Width="180.588" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-					<PasswordBox Grid.Column="2" HorizontalAlignment="Left"  Grid.Row="1" VerticalAlignment="Top" Height="37.8" Width="186.634" Margin="3.954,32.144,0,0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>					
+					<TextBox Grid.Column="2" HorizontalAlignment="Center" Height="42.563" Margin="10,43,10,42.563" Grid.Row="0" TextWrapping="Wrap" VerticalAlignment="Center" 
+                             Width="224.964" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Text="{Binding UserName.DataValue, Mode=TwoWay, 
+                             UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" Style="{DynamicResource ValidatingTextBox}" AutoWordSelection="True" FontSize="14.667" />
+					<PasswordBox Grid.Column="2" HorizontalAlignment="Left"  Grid.Row="1" VerticalAlignment="Top" Height="41.8" Width="224.964" Margin="10,34.474,0,0" 
+                                 HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Style="{DynamicResource ValidatingPasswordBox}" PasswordChar="•"
+                                 common:PasswordHelper.Attach="True"
+                                 common:PasswordHelper.Password="{Binding Password.DataValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" FontSize="14.667"/>					
 				</Grid>
 				<Grid Grid.Row="2">
 					<Grid.ColumnDefinitions>
 						<ColumnDefinition />
 						<ColumnDefinition />
-					</Grid.ColumnDefinitions>	
-					<Button Content="Login" Grid.Column="0" Margin="68,20,84,20" FontSize="26.667" BorderBrush="{DynamicResource {x:Static SystemColors.ControlDarkDarkBrushKey}}" IsDefault="True" />
-					<Button Content="Cancel" Grid.Column="1" Margin="92,20,60,20" FontSize="26.667" IsCancel="True" />				
+					</Grid.ColumnDefinitions>
+                    <Button Content="Login" Grid.Column="0" Margin="68,20,84,20" FontSize="26.667" BorderBrush="{DynamicResource {x:Static SystemColors.ControlDarkDarkBrushKey}}" IsDefault="True" Command="{Binding LoginCommand}"/>						
+					<Button Content="Cancel" Grid.Column="1" Margin="92,20,60,20" FontSize="26.667" IsCancel="True" Command="{Binding CancelLoginCommand}" />				
 				</Grid>	
 			</Grid>
 		</Border>
