@@ -1,8 +1,11 @@
 ﻿<Window x:Class="GymSoft.CinchMVVM.Shell.Shell"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Shell Window">
+        xmlns:prism="http://www.codeplex.com/prism"
+        Title="Gym Soft"
+        Icon="Assets/icon.png" WindowStyle="ThreeDBorderWindow" WindowStartupLocation="CenterScreen" WindowState="Maximized">
+	
     <Grid>
-        
+        <ContentControl prism:RegionManager.RegionName="RootRegion"/>
     </Grid>
 </Window>

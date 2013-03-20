@@ -13,15 +13,15 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace GymSoft.CinchMVVM.Shell
+namespace GymSoft.AuthenticationModule.Views
 {
     /// <summary>
-    /// Interaction logic for Shell.xaml
+    /// Interaction logic for LoginView.xaml
     /// </summary>
     [Export]
-    public partial class Shell : Window
+    public partial class LoginView : UserControl
     {
-        public Shell()
+        public LoginView()
         {
             InitializeComponent();
         }
