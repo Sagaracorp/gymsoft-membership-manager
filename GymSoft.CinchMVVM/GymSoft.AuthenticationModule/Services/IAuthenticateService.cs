@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using GymSoft.DB.BusinessUnitsTable;
 
 namespace GymSoft.AuthenticationModule.Services
 {
     public interface IAuthenticateService
     {
         bool Authenticate(string username, string password);
+        BusinessUnits FindAllBusinessUnits();
     }
 }

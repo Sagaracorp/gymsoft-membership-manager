@@ -16,7 +16,7 @@
 		</ResourceDictionary>
 	</UserControl.Resources>
     <Grid>
-        <Border BorderBrush="Black" BorderThickness="3" Margin="108,112,92,180"
+        <Border BorderBrush="Black" BorderThickness="3" Margin="234,117.5,224,193.5"
 				Background="{DynamicResource {x:Static SystemColors.GradientInactiveCaptionBrushKey}}" 
 				CornerRadius="5" Padding="5" Height="500" Width="600">
 			<Grid>
@@ -34,23 +34,29 @@
 					<Grid.ColumnDefinitions>
 						<ColumnDefinition Width="Auto"/>
 						<ColumnDefinition Width="Auto"/>
-						<ColumnDefinition/>
+						<ColumnDefinition Width="Auto"/>
 					</Grid.ColumnDefinitions>
 					<Grid.RowDefinitions>
-						<RowDefinition Height="Auto"/>
+						<RowDefinition />
+						<RowDefinition />
 						<RowDefinition />
 					</Grid.RowDefinitions>
-					<Image Margin="10,43,27.333,32.33" Grid.RowSpan="2" Source="/GymSoft.AuthenticationModule;component/Assets/lock.png" Stretch="Fill" 
+					<Image Margin="19,52.67,18.333,22.66" Grid.RowSpan="3" Source="/GymSoft.AuthenticationModule;component/Assets/lock.png" Stretch="Fill" 
 						   Grid.Row="0" Grid.Column="0"/>
-					<TextBlock Grid.Column="1" HorizontalAlignment="Left" Margin="10,50.093,0,0" Grid.Row="0" TextWrapping="Wrap" Text="Username" VerticalAlignment="Top" FontSize="26.667" Width="136.633"/>
-					<TextBlock Grid.Column="1" HorizontalAlignment="Left" Margin="10,34.474,0,0" Grid.Row="1" TextWrapping="Wrap" Text="Password" VerticalAlignment="Top" FontSize="26.667" RenderTransformOrigin="-0.007,-0.188" Width="136.633"/>
-					<TextBox Grid.Column="2" HorizontalAlignment="Center" Height="42.563" Margin="10,43,10,42.563" Grid.Row="0" TextWrapping="Wrap" VerticalAlignment="Center" 
+					<TextBlock Grid.Column="1" HorizontalAlignment="Left" Margin="10,24.237,0,0" Grid.Row="0" TextWrapping="Wrap" Text="Username" VerticalAlignment="Top" FontSize="26.667" Width="136.633"/>
+					<TextBlock Grid.Column="1" HorizontalAlignment="Left" Margin="10,18.67,0,0" Grid.Row="1" TextWrapping="Wrap" Text="Password" VerticalAlignment="Top" FontSize="26.667" RenderTransformOrigin="-0.007,-0.188" Width="136.633"/>
+					<TextBox Grid.Column="2" HorizontalAlignment="Center" Height="42.563" Margin="10,24.237,10,10" Grid.Row="0" TextWrapping="Wrap" VerticalAlignment="Center" 
                              Width="224.964" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Text="{Binding UserName.DataValue, Mode=TwoWay, 
                              UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" Style="{DynamicResource ValidatingTextBox}" AutoWordSelection="True" FontSize="14.667" />
-					<PasswordBox Grid.Column="2" HorizontalAlignment="Left"  Grid.Row="1" VerticalAlignment="Top" Height="41.8" Width="224.964" Margin="10,34.474,0,0" 
+					<PasswordBox Grid.Column="2" HorizontalAlignment="Left"  Grid.Row="1" VerticalAlignment="Top" Height="41.8" Width="224.964" Margin="10,18.67,0,0" 
                                  HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Style="{DynamicResource ValidatingPasswordBox}" PasswordChar="•"
                                  common:PasswordHelper.Attach="True"
                                  common:PasswordHelper.Password="{Binding Password.DataValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" FontSize="14.667"/>					
+					<TextBlock Grid.Column="1" HorizontalAlignment="Left" Margin="10,10,0,0" Grid.Row="2" TextWrapping="NoWrap" Text="BU" VerticalAlignment="Top" FontSize="26.667" Width="136.633"/>
+					<ComboBox Grid.Column="2" HorizontalAlignment="Center" Height="42.563" Margin="10,10,10,24.237" Grid.Row="2" VerticalAlignment="Center" 
+                              Width="224.964" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" ItemsSource="{Binding Path=BusinessUnits}" DisplayMemberPath="BuName.DataValue" 
+                              SelectedValuePath="BuName.DataValue" SelectedValue="{Binding Path=SelectedBusinessUnit.DataValue, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+
 				</Grid>
 				<Grid Grid.Row="2">
 					<Grid.ColumnDefinitions>

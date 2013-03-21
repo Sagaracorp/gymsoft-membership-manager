@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.Composition;
-using System.Linq;
-using System.Text;
+﻿using System.ComponentModel.Composition;
+using GymSoft.DB.BusinessUnitsTable;
 using MEFedMVVM.ViewModelLocator;
 
 namespace GymSoft.AuthenticationModule.Services
@@ -18,6 +15,14 @@ namespace GymSoft.AuthenticationModule.Services
                 return true;
             else
                 return false;
+        }
+
+
+        public BusinessUnits FindAllBusinessUnits()
+        {
+            //Connect to database
+            //Return list of business units
+            return null;
         }
     }
 }

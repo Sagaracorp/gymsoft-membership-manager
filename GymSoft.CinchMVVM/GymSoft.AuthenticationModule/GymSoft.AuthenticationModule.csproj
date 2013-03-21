@@ -136,6 +136,10 @@
       <Name>GymSoft.CinchMVVM.Common</Name>
       <Private>False</Private>
     </ProjectReference>
+    <ProjectReference Include="..\GymSoft.DB\GymSoft.DB.csproj">
+      <Project>{413C16A3-0E6F-4356-8FE7-393E2AFC6D27}</Project>
+      <Name>GymSoft.DB</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\lock.png" />
