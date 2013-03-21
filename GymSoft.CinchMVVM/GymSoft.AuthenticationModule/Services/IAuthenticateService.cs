@@ -5,6 +5,5 @@ namespace GymSoft.AuthenticationModule.Services
     public interface IAuthenticateService
     {
         bool Authenticate(string username, string password);
-        BusinessUnits FindAllBusinessUnits();
     }
 }

@@ -40,7 +40,8 @@ namespace GymSoft.AuthenticationModule.ViewModels
         private BusinessUnits businessUnits;
         private DataWrapper<String> selectedBusinessUnit;
         private readonly IEnumerable<DataWrapperBase> cachedListOfDataWrappers;
-
+        //background workers
+        
         /// <summary>
         /// Validation Rules
         /// </summary>
@@ -163,8 +164,9 @@ namespace GymSoft.AuthenticationModule.ViewModels
             UserName = new DataWrapper<string>(this, userNameArgs);
             Password = new DataWrapper<string>(this, passwordArgs);
             SelectedBusinessUnit = new DataWrapper<String>(this, businessUnitsArgs);
-            this.businessUnits = new BusinessUnits();
-            businessUnits = businessUnitService.FindAll(); //Without Threading
+            //this.businessUnits = new BusinessUnits();
+            //businessUnits = businessUnitService.FindAll(); //Without Threading
+            this.viewAwareStatus.ViewLoaded += new Action(viewAwareStatus_ViewLoaded);
 
             cachedListOfDataWrappers =
                 DataWrapperHelper.GetWrapperProperties<LoginViewViewModel>(this);
@@ -180,6 +182,15 @@ namespace GymSoft.AuthenticationModule.ViewModels
 
         }
 
+        void viewAwareStatus_ViewLoaded()
+        {
+            businessUnitService.FindAllAsync(null, LoadBusinessUnits);
+        }
+        private void LoadBusinessUnits(BusinessUnits businessUnits)
+        {
+            this.BusinessUnits = businessUnits;
+            NotifyPropertyChanged(businessUnitsArgs);
+        }
         /// <summary>
         /// Static Constructor that defines the validation rules
         /// </summary>

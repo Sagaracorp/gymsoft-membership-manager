@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.Composition;
 using System.Data;
+using Cinch;
 using MEFedMVVM.ViewModelLocator;
 using MySql.Data.MySqlClient;
 
@@ -18,8 +19,25 @@ namespace GymSoft.DB.BusinessUnitsTable
         #region Stored Procedures
         public static string FindAllStoredProcedure = "gym_sp_GetBUs";
         #endregion
+
+        #region Backgroud Task
+        private BackgroundTaskManager<object, BusinessUnits> bgWorker =
+            new BackgroundTaskManager<object, BusinessUnits>();
+        #endregion
         
-        
+        public void FindAllAsync(object nothing, Action<BusinessUnits> callback)
+        {
+            bgWorker.TaskFunc = (argument) =>
+                {
+                    return FindAll();
+                };
+            bgWorker.CompletionAction = callback;
+            bgWorker.RunBackgroundTask();
+        }
+        public BackgroundTaskManager<object, BusinessUnits> BgWorker
+        {
+            get { return bgWorker; }
+        }
         public RuntimeBusinessUnitService()
         {
             //To Do ..find a way to move this into a configuration file

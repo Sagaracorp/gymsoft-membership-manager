@@ -16,13 +16,5 @@ namespace GymSoft.AuthenticationModule.Services
             else
                 return false;
         }
-
-
-        public BusinessUnits FindAllBusinessUnits()
-        {
-            //Connect to database
-            //Return list of business units
-            return null;
-        }
     }
 }
