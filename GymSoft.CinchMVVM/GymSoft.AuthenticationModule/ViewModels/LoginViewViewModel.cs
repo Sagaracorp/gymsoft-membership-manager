@@ -171,6 +171,9 @@ namespace GymSoft.AuthenticationModule.ViewModels
             cachedListOfDataWrappers =
                 DataWrapperHelper.GetWrapperProperties<LoginViewViewModel>(this);
 
+            //Register Mediator
+            Mediator.Instance.Register(this);
+
             //Initialise Rules
             userName.AddRule(UserNameCannnotBeEmptyRule);
             password.AddRule(PasswordCannotBeEmptyRule);
@@ -226,16 +229,22 @@ namespace GymSoft.AuthenticationModule.ViewModels
         private void ExecuteLoginCommand(Object args)
         {
             //Use Authentication service to check login
-            bool loginSuccess = authenticateService.Authenticate(UserName.DataValue.ToLower(), Password.DataValue);
+            bool loginSuccess = authenticateService.Authenticate(UserName.DataValue.ToLower(), Password.DataValue, SelectedBusinessUnit.DataValue);
             if (loginSuccess)
             {
-                messageBoxService.ShowInformation(String.Format("Login Success {0} {1} {2}", UserName.DataValue, Password.DataValue,SelectedBusinessUnit.DataValue));
+                Mediator.Instance.NotifyColleaguesAsync("LoginSuccessMessage", true);
+                
             }
             else
             {
                 messageBoxService.ShowError("Incorrect username/password combintation");
             }
-            //messageBoxService.ShowInformation(String.Format("You clicked login command {0} / {1}", UserName.DataValue,Password.DataValue));
+           
+        }
+        [MediatorMessageSink("LoginSuccessMessage")]
+        private void LoginSuccessReceived(bool result)
+        {
+            messageBoxService.ShowInformation(String.Format("Login Success {0} {1} {2}", UserName.DataValue, Password.DataValue, SelectedBusinessUnit.DataValue));
         }
 
         private bool CanExecuteLoginCommand(Object args)
