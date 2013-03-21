@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.Composition;
-using GymSoft.DB.BusinessUnitsTable;
 using MEFedMVVM.ViewModelLocator;
 
 namespace GymSoft.AuthenticationModule.Services

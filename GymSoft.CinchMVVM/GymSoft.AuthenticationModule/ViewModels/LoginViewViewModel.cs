@@ -8,6 +8,7 @@ using System.Text;
 using Cinch;
 using GymSoft.AuthenticationModule.Services;
 using GymSoft.DB.BusinessUnitsTable;
+using MEFedMVVM.Common;
 using MEFedMVVM.ViewModelLocator;
 
 namespace GymSoft.AuthenticationModule.ViewModels
@@ -23,11 +24,11 @@ namespace GymSoft.AuthenticationModule.ViewModels
         /// <summary>
         /// Services
         /// </summary>
-        private IViewAwareStatus viewAwareStatus;
+        private readonly IViewAwareStatus viewAwareStatus;
 
-        private IAuthenticateService authenticateService;
-        private IMessageBoxService messageBoxService;
-        private IBusinessUnitService businessUnitService;
+        private readonly IAuthenticateService authenticateService;
+        private readonly IMessageBoxService messageBoxService;
+        private readonly IBusinessUnitService businessUnitService;
 
         #endregion
 
@@ -56,7 +57,7 @@ namespace GymSoft.AuthenticationModule.ViewModels
         /// <summary>
         /// Selected Business Unit
         /// </summary>
-        private static PropertyChangedEventArgs selectedbusinessUnitArgs =
+        private static readonly PropertyChangedEventArgs selectedbusinessUnitArgs =
             ObservableHelper.CreateArgs<LoginViewViewModel>(x => x.SelectedBusinessUnit);
 
         public DataWrapper<String> SelectedBusinessUnit
@@ -72,7 +73,7 @@ namespace GymSoft.AuthenticationModule.ViewModels
         /// <summary>
         /// Business Units
         /// </summary>
-        private static PropertyChangedEventArgs businessUnitsArgs =
+        private static readonly PropertyChangedEventArgs businessUnitsArgs =
             ObservableHelper.CreateArgs<LoginViewViewModel>(x => x.BusinessUnits);
 
         public BusinessUnits BusinessUnits
@@ -88,7 +89,7 @@ namespace GymSoft.AuthenticationModule.ViewModels
         /// <summary>
         /// UserName
         /// </summary>
-        private static PropertyChangedEventArgs userNameArgs =
+        private static readonly PropertyChangedEventArgs userNameArgs =
             ObservableHelper.CreateArgs<LoginViewViewModel>(x => x.UserName);
 
         public DataWrapper<String> UserName
@@ -104,7 +105,7 @@ namespace GymSoft.AuthenticationModule.ViewModels
         /// <summary>
         /// Password
         /// </summary>
-        private static PropertyChangedEventArgs passwordArgs =
+        private static readonly PropertyChangedEventArgs passwordArgs =
             ObservableHelper.CreateArgs<LoginViewViewModel>(x => x.Password);
 
         public DataWrapper<String> Password
@@ -121,7 +122,6 @@ namespace GymSoft.AuthenticationModule.ViewModels
         /// Commands
         /// </summary>
         public SimpleCommand<Object, Object> LoginCommand { get; private set; }
-
         public SimpleCommand<Object, Object> CancelLoginCommand { get; private set; }
 
         /// <summary>
@@ -164,8 +164,6 @@ namespace GymSoft.AuthenticationModule.ViewModels
             UserName = new DataWrapper<string>(this, userNameArgs);
             Password = new DataWrapper<string>(this, passwordArgs);
             SelectedBusinessUnit = new DataWrapper<String>(this, businessUnitsArgs);
-            //this.businessUnits = new BusinessUnits();
-            //businessUnits = businessUnitService.FindAll(); //Without Threading
             this.viewAwareStatus.ViewLoaded += new Action(viewAwareStatus_ViewLoaded);
 
             cachedListOfDataWrappers =
@@ -184,16 +182,6 @@ namespace GymSoft.AuthenticationModule.ViewModels
             CancelLoginCommand = new SimpleCommand<object, object>(ExecuteCancelLoginCommand);
 
         }
-
-        void viewAwareStatus_ViewLoaded()
-        {
-            businessUnitService.FindAllAsync(null, LoadBusinessUnits);
-        }
-        private void LoadBusinessUnits(BusinessUnits businessUnits)
-        {
-            this.BusinessUnits = businessUnits;
-            NotifyPropertyChanged(businessUnitsArgs);
-        }
         /// <summary>
         /// Static Constructor that defines the validation rules
         /// </summary>
@@ -201,28 +189,49 @@ namespace GymSoft.AuthenticationModule.ViewModels
         {
             UserNameCannnotBeEmptyRule = new SimpleRule("DataValue", "Username cannot be null or empty",
                                                         (Object domainObject) =>
-                                                            {
-                                                                DataWrapper<String> obj =
-                                                                    (DataWrapper<String>) domainObject;
-                                                                return String.IsNullOrEmpty(obj.DataValue);
-                                                            });
+                                                        {
+                                                            DataWrapper<String> obj =
+                                                                (DataWrapper<String>)domainObject;
+                                                            return String.IsNullOrEmpty(obj.DataValue);
+                                                        });
             PasswordCannotBeEmptyRule = new SimpleRule("DataValue", "Password cannot be null or empty",
                                                        (Object domainObject) =>
-                                                           {
-                                                               DataWrapper<String> obj =
-                                                                   (DataWrapper<String>) domainObject;
-                                                               return String.IsNullOrEmpty(obj.DataValue);
-                                                           });
+                                                       {
+                                                           DataWrapper<String> obj =
+                                                               (DataWrapper<String>)domainObject;
+                                                           return String.IsNullOrEmpty(obj.DataValue);
+                                                       });
             SelectedBusinessUnitCannotBeEmpty = new SimpleRule("DataValue", "Please select a BU",
                                                                (Object domainObject) =>
-                                                                   {
-                                                                       DataWrapper<String> obj =
-                                                                           (DataWrapper<String>) domainObject;
-                                                                       return String.IsNullOrEmpty(obj.DataValue);
-                                                                   });
+                                                               {
+                                                                   DataWrapper<String> obj =
+                                                                       (DataWrapper<String>)domainObject;
+                                                                   return String.IsNullOrEmpty(obj.DataValue);
+                                                               });
         }
-
         #endregion
+
+        void viewAwareStatus_ViewLoaded()
+        {
+            //For design time data
+            if (Designer.IsInDesignMode)
+            {
+                this.BusinessUnits = businessUnitService.FindAll();
+            }
+            else
+            {
+               businessUnitService.FindAllTask(LoadBusinessUnits, ErrorRetrievingBusinessUnits);
+            }
+            
+        }
+        private void LoadBusinessUnits(BusinessUnits bUnits)
+        {
+            this.BusinessUnits = bUnits;
+        }
+        private void ErrorRetrievingBusinessUnits(Exception exception)
+        {
+            messageBoxService.ShowError(exception.Message);
+        }
 
         #region Commands Execution Implementation
 
@@ -232,7 +241,7 @@ namespace GymSoft.AuthenticationModule.ViewModels
             bool loginSuccess = authenticateService.Authenticate(UserName.DataValue.ToLower(), Password.DataValue, SelectedBusinessUnit.DataValue);
             if (loginSuccess)
             {
-                Mediator.Instance.NotifyColleaguesAsync("LoginSuccessMessage", true);
+                Mediator.Instance.NotifyColleaguesAsync("LoginSuccessMessage", true); //Send Message
                 
             }
             else
@@ -244,6 +253,7 @@ namespace GymSoft.AuthenticationModule.ViewModels
         [MediatorMessageSink("LoginSuccessMessage")]
         private void LoginSuccessReceived(bool result)
         {
+            //Recive message
             messageBoxService.ShowInformation(String.Format("Login Success {0} {1} {2}", UserName.DataValue, Password.DataValue, SelectedBusinessUnit.DataValue));
         }
 

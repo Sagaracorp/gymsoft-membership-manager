@@ -95,5 +95,11 @@ namespace GymSoft.DB.BusinessUnitsTable
         {
             return;
         }
+
+
+        public void FindAllTask(Action<BusinessUnits> resultCallback, Action<Exception> exceptionCallBack)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

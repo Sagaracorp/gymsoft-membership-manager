@@ -89,6 +89,7 @@
     <Compile Include="BusinessUnitsTable\IBusinessUnitService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="BusinessUnitsTable\RuntimeBusinessUnitService.cs" />
+    <Compile Include="ResultSet.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App.config" />

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.ComponentModel.Composition;
 using System.Data;
+using System.Threading;
+using System.Threading.Tasks;
 using Cinch;
 using MEFedMVVM.ViewModelLocator;
 using MySql.Data.MySqlClient;
@@ -11,26 +13,26 @@ namespace GymSoft.DB.BusinessUnitsTable
     [PartCreationPolicy(CreationPolicy.NonShared)]
     public class RuntimeBusinessUnitService : IBusinessUnitService
     {
+        #region Properties
         public DataSet BusinessUnitDataSet { get; set; }
-        public string ConnectionString { get; set; }
-        public MySqlConnection MySqlConnection { get; set; }
-        public MySqlCommand MySqlCommand { get; set; }
-        public MySqlDataAdapter MySqlDataAdapter { get; set; }
+        public string ConnectionString { get; private set; }
+        public MySqlConnection MySqlConnection { get; private set; }
+        public MySqlCommand MySqlCommand { get; private set; }
+        public MySqlDataAdapter MySqlDataAdapter { get; private set; }
+        #endregion
+
         #region Stored Procedures
         public static string FindAllStoredProcedure = "gym_sp_GetBUs";
         #endregion
 
-        #region Backgroud Task
+        #region Backgroud Task Method: Easier but I dont like  it much
         private BackgroundTaskManager<object, BusinessUnits> bgWorker =
             new BackgroundTaskManager<object, BusinessUnits>();
-        #endregion
         
-        public void FindAllAsync(object nothing, Action<BusinessUnits> callback)
+        
+        public void FindAllAsync(object args, Action<BusinessUnits> callback)
         {
-            bgWorker.TaskFunc = (argument) =>
-                {
-                    return FindAll();
-                };
+            bgWorker.TaskFunc = (argument) => FindAll();
             bgWorker.CompletionAction = callback;
             bgWorker.RunBackgroundTask();
         }
@@ -38,6 +40,9 @@ namespace GymSoft.DB.BusinessUnitsTable
         {
             get { return bgWorker; }
         }
+        #endregion
+
+        #region Constructor
         public RuntimeBusinessUnitService()
         {
             //To Do ..find a way to move this into a configuration file
@@ -49,12 +54,15 @@ namespace GymSoft.DB.BusinessUnitsTable
             MySqlDataAdapter = new MySqlDataAdapter();
             BusinessUnitDataSet = new DataSet();
         }
+        #endregion
+
+        #region Retrival Methods
         /// <summary>
         /// Returns All Business Units in the table
         /// </summary>
         /// <param name="userId"></param>
         /// <returns>BusinessUnits</returns>
-    
+
         public BusinessUnits FindAll(int userId)
         {
             MySqlCommand.CommandType = CommandType.StoredProcedure;
@@ -135,7 +143,7 @@ namespace GymSoft.DB.BusinessUnitsTable
                     }
                 });
                 #endregion
-                
+
             }
             return businessUnits;
         }
@@ -144,5 +152,41 @@ namespace GymSoft.DB.BusinessUnitsTable
         {
             return FindAll(1); //Default user id 
         }
+
+
+        #region The Async Task Method: My favorite. Lambdas baby
+
+        void IBusinessUnitService.FindAllTask(Action<BusinessUnits> resultCallback, Action<Exception> exceptionCallBack)
+        {
+            Task<ResultSet<BusinessUnits>> task =
+                Task.Factory.StartNew(() =>
+                {
+                    try
+                    {
+                        BusinessUnits businessUnits = FindAll();
+                        return new ResultSet<BusinessUnits>(businessUnits, null);
+                    }
+                    catch (Exception ex)
+                    {
+                        return new ResultSet<BusinessUnits>(null, ex);
+                    }
+                });
+            task.ContinueWith(r =>
+            {
+                if (r.Result.Exception != null)
+                {
+                    //An error occured
+                    exceptionCallBack(r.Result.Exception);
+                }
+                else
+                {
+                    //Return the results
+                    resultCallback(r.Result.Data);
+                }
+            }, CancellationToken.None, TaskContinuationOptions.None,
+                TaskScheduler.FromCurrentSynchronizationContext());
+        }
+        #endregion
+        #endregion
     }
 }
