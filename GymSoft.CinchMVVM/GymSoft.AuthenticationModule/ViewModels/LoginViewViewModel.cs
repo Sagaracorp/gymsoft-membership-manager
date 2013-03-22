@@ -251,14 +251,13 @@ namespace GymSoft.AuthenticationModule.ViewModels
             if (loginSuccess)
             {
                 // Mediator.Instance.NotifyColleaguesAsync("LoginSuccessMessage", true); //Send Message
-                messageBoxService.ShowInformation("Login Success");
-                var mainView = new MainView();
                 if (viewInjectionService.ClearRegionOfAllViews("RootRegion"))
                 {
-                    if (!viewInjectionService.AddViewToRegion("RootRegion", "MainView", mainView))
+                    if (!viewInjectionService.AddViewToRegion("RootRegion", "MainView", new MainView()))
                     {
                         messageBoxService.ShowError(viewInjectionService.Error);
                     }
+                    messageBoxService.ShowInformation("Login Success");
                 }
                 else
                 {

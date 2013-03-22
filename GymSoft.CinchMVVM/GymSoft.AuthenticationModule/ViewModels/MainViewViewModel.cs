@@ -42,10 +42,9 @@ namespace GymSoft.AuthenticationModule.ViewModels
         }
         private void ExecuteLogoutCommand(Object args)
         {
-            var loginView = new LoginView();
             if (viewInjectionService.ClearRegionOfAllViews("RootRegion"))
             {
-                if (!viewInjectionService.AddViewToRegion("RootRegion", "LoginView", loginView))
+                if (!viewInjectionService.AddViewToRegion("RootRegion", "LoginView", new LoginView()))
                 {
                     messageBoxService.ShowError(viewInjectionService.Error);
                 }
