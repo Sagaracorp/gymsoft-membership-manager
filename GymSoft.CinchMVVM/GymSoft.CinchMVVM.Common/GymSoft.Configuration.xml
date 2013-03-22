@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<GymSoft>
+  <database>
+    <connectionString>Server=gymsoft.db.10266153.hostedresource.com; Port=3306; Database=gymsoft; Uid=gymsoft; Pwd='G3tf!t12';</connectionString>
+  </database>
+</GymSoft>

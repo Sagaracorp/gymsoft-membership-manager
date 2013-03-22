@@ -7,10 +7,10 @@ namespace GymSoft.AuthenticationModule.Services
     [ExportService(ServiceType.Runtime, typeof(IAuthenticateService))]
     public class AuthenticationService : IAuthenticateService
     {
-        public bool Authenticate(string username, string password, string businessUnitName)
+        public bool Authenticate(string username, string password, int businessUnitId)
         {
             //Should do the database lookup right here..but for now..lets just return true..for test/test
-            if (username.Equals("test") && password.Equals("test") && businessUnitName.Equals("Beast-n-Barbells Fitness Centre"))
+            if (username.Equals("test") && password.Equals("test") && businessUnitId == 1)
                 return true;
             else
                 return false;

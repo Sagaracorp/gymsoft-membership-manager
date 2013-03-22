@@ -5,11 +5,15 @@ using System.ComponentModel.Composition;
 using System.Globalization;
 using System.Linq;
 using System.Text;
+using System.Windows;
 using Cinch;
 using GymSoft.AuthenticationModule.Services;
+using GymSoft.AuthenticationModule.Views;
+using GymSoft.CinchMVVM.Common.Services;
 using GymSoft.DB.BusinessUnitsTable;
 using MEFedMVVM.Common;
 using MEFedMVVM.ViewModelLocator;
+using Microsoft.Practices.Prism.Regions;
 
 namespace GymSoft.AuthenticationModule.ViewModels
 {
@@ -25,10 +29,11 @@ namespace GymSoft.AuthenticationModule.ViewModels
         /// Services
         /// </summary>
         private readonly IViewAwareStatus viewAwareStatus;
-
         private readonly IAuthenticateService authenticateService;
         private readonly IMessageBoxService messageBoxService;
         private readonly IBusinessUnitService businessUnitService;
+        private readonly IViewInjectionService viewInjectionService;
+        //private IRegionManager regionManager;
 
         #endregion
 
@@ -39,7 +44,7 @@ namespace GymSoft.AuthenticationModule.ViewModels
 
         private DataWrapper<String> password;
         private BusinessUnits businessUnits;
-        private DataWrapper<String> selectedBusinessUnit;
+        private DataWrapper<Int32> selectedBusinessUnit;
         private readonly IEnumerable<DataWrapperBase> cachedListOfDataWrappers;
         //background workers
         
@@ -60,7 +65,7 @@ namespace GymSoft.AuthenticationModule.ViewModels
         private static readonly PropertyChangedEventArgs selectedbusinessUnitArgs =
             ObservableHelper.CreateArgs<LoginViewViewModel>(x => x.SelectedBusinessUnit);
 
-        public DataWrapper<String> SelectedBusinessUnit
+        public DataWrapper<Int32> SelectedBusinessUnit
         {
             get { return selectedBusinessUnit; }
             set
@@ -153,18 +158,22 @@ namespace GymSoft.AuthenticationModule.ViewModels
 
         [ImportingConstructor]
         public LoginViewViewModel(IViewAwareStatus viewAwareStatus, IAuthenticateService authenticateService,
-                                  IMessageBoxService messageBoxService, IBusinessUnitService businessUnitService)
+                                  IMessageBoxService messageBoxService, IBusinessUnitService businessUnitService, IViewInjectionService viewInjectionService)
         {
+            //base.IsCloseable = true;
             //Initialise Services
             this.viewAwareStatus = viewAwareStatus;
             this.authenticateService = authenticateService;
             this.messageBoxService = messageBoxService;
             this.businessUnitService = businessUnitService;
+            this.viewInjectionService = viewInjectionService;
+            //this.regionManager = regionManager;
             //Initialise Properties
             UserName = new DataWrapper<string>(this, userNameArgs);
             Password = new DataWrapper<string>(this, passwordArgs);
-            SelectedBusinessUnit = new DataWrapper<String>(this, businessUnitsArgs);
+            SelectedBusinessUnit = new DataWrapper<Int32>(this, businessUnitsArgs);
             this.viewAwareStatus.ViewLoaded += new Action(viewAwareStatus_ViewLoaded);
+            
 
             cachedListOfDataWrappers =
                 DataWrapperHelper.GetWrapperProperties<LoginViewViewModel>(this);
@@ -204,9 +213,9 @@ namespace GymSoft.AuthenticationModule.ViewModels
             SelectedBusinessUnitCannotBeEmpty = new SimpleRule("DataValue", "Please select a BU",
                                                                (Object domainObject) =>
                                                                {
-                                                                   DataWrapper<String> obj =
-                                                                       (DataWrapper<String>)domainObject;
-                                                                   return String.IsNullOrEmpty(obj.DataValue);
+                                                                   DataWrapper<Int32> obj =
+                                                                       (DataWrapper<Int32>)domainObject;
+                                                                   return obj.DataValue.CompareTo(null) != 0;
                                                                });
         }
         #endregion
@@ -241,32 +250,63 @@ namespace GymSoft.AuthenticationModule.ViewModels
             bool loginSuccess = authenticateService.Authenticate(UserName.DataValue.ToLower(), Password.DataValue, SelectedBusinessUnit.DataValue);
             if (loginSuccess)
             {
-                Mediator.Instance.NotifyColleaguesAsync("LoginSuccessMessage", true); //Send Message
-                
+                // Mediator.Instance.NotifyColleaguesAsync("LoginSuccessMessage", true); //Send Message
+                messageBoxService.ShowInformation("Login Success");
+                var mainView = new MainView();
+                if (viewInjectionService.ClearRegionOfAllViews("RootRegion"))
+                {
+                    if (!viewInjectionService.AddViewToRegion("RootRegion", "MainView", mainView))
+                    {
+                        messageBoxService.ShowError(viewInjectionService.Error);
+                    }
+                }
+                else
+                {
+                    messageBoxService.ShowError(viewInjectionService.Error);
+                }
+                #region This method Injects view but it caches it
+                /*
+                var export = ViewModelRepository.Instance.Resolver.Container.GetExport<MainView>();
+
+                if (export != null)
+                {
+                    object mainView = export.Value;
+                    //object mainView = export;
+                    if (viewInjectionService.ClearRegionOfAllViews("RootRegion"))
+                    {
+                        if (!viewInjectionService.AddViewToRegion("RootRegion", "MainView", mainView))
+                        {
+                            messageBoxService.ShowError(viewInjectionService.Error);
+                        }
+                    }
+                    else
+                    {
+                        messageBoxService.ShowError(viewInjectionService.Error);
+                    }
+                }
+                else
+                {
+                    messageBoxService.ShowError("Create view MainView");
+                }*/
             }
             else
             {
                 messageBoxService.ShowError("Incorrect username/password combintation");
             }
+                #endregion
            
-        }
-        [MediatorMessageSink("LoginSuccessMessage")]
-        private void LoginSuccessReceived(bool result)
-        {
-            //Recive message
-            messageBoxService.ShowInformation(String.Format("Login Success {0} {1} {2}", UserName.DataValue, Password.DataValue, SelectedBusinessUnit.DataValue));
         }
 
         private bool CanExecuteLoginCommand(Object args)
         {
-            return !String.IsNullOrEmpty(UserName.DataValue) && !String.IsNullOrEmpty(Password.DataValue) && !String.IsNullOrEmpty(SelectedBusinessUnit.DataValue);
+            return !String.IsNullOrEmpty(UserName.DataValue) && !String.IsNullOrEmpty(Password.DataValue) && SelectedBusinessUnit.DataValue != 0;
         }
 
         private void ExecuteCancelLoginCommand(Object args)
         {
             UserName.DataValue = String.Empty;
             Password.DataValue = String.Empty;
-            SelectedBusinessUnit.DataValue = String.Empty;
+            SelectedBusinessUnit.DataValue = 0;
         }
         #endregion
     }

@@ -23,10 +23,7 @@ namespace GymSoft.AuthenticationModule
         public void Initialize()
         {
             //Inject Login view into Root Region
-            var loginView = new LoginView();
-            IRegion rootRegion = regionManager.Regions["RootRegion"];
-            rootRegion.Add(loginView, "LoginView");
-            rootRegion.Activate(loginView);
+            regionManager.RegisterViewWithRegion("RootRegion", typeof(LoginView));
         }
     }
 }

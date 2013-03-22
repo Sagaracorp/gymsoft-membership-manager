@@ -55,7 +55,7 @@
 					<TextBlock Grid.Column="1" HorizontalAlignment="Left" Margin="10,10,0,0" Grid.Row="2" TextWrapping="NoWrap" Text="BU" VerticalAlignment="Top" FontSize="26.667" Width="136.633"/>
 					<ComboBox Grid.Column="2" HorizontalAlignment="Center" Height="42.563" Margin="10,10,10,24.237" Grid.Row="2" VerticalAlignment="Center" 
                               Width="224.964" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" ItemsSource="{Binding Path=BusinessUnits}" DisplayMemberPath="BuName.DataValue" 
-                              SelectedValuePath="BuName.DataValue" SelectedValue="{Binding Path=SelectedBusinessUnit.DataValue, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                              SelectedValuePath="BuId.DataValue" SelectedValue="{Binding Path=SelectedBusinessUnit.DataValue, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
 
 				</Grid>
 				<Grid Grid.Row="2">

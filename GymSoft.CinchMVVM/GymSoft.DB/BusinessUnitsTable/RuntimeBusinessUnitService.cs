@@ -1,9 +1,12 @@
 ﻿using System;
+using System.Collections.Specialized;
 using System.ComponentModel.Composition;
+using System.Configuration;
 using System.Data;
 using System.Threading;
 using System.Threading.Tasks;
 using Cinch;
+using GymSoft.CinchMVVM.Common;
 using MEFedMVVM.ViewModelLocator;
 using MySql.Data.MySqlClient;
 
@@ -45,10 +48,7 @@ namespace GymSoft.DB.BusinessUnitsTable
         #region Constructor
         public RuntimeBusinessUnitService()
         {
-            //To Do ..find a way to move this into a configuration file
-            ConnectionString = "Server=gymsoft.db.10266153.hostedresource.com; Port=3306; Database=gymsoft; Uid=gymsoft; Pwd='G3tf!t12';";
-
-            //ConnectionString = System.Configuration.ConfigurationManager.ConnectionStrings["gymsoftdb"].ConnectionString;
+            ConnectionString = GymSoftConfigurationManger.GetDatabaseConnection();
             MySqlConnection = new MySqlConnection(ConnectionString);
             MySqlCommand = MySqlConnection.CreateCommand();
             MySqlDataAdapter = new MySqlDataAdapter();
@@ -65,6 +65,7 @@ namespace GymSoft.DB.BusinessUnitsTable
 
         public BusinessUnits FindAll(int userId)
         {
+            
             MySqlCommand.CommandType = CommandType.StoredProcedure;
             MySqlCommand.CommandText = FindAllStoredProcedure;
             MySqlCommand.Parameters.AddWithValue("userid", userId);

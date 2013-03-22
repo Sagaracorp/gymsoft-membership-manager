@@ -92,7 +92,16 @@
     <Compile Include="ResultSet.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App.config" />
+    <None Include="App.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\GymSoft.CinchMVVM.Common\GymSoft.CinchMVVM.Common.csproj">
+      <Project>{E12ECD68-F948-4FD0-82BE-5FC540369345}</Project>
+      <Name>GymSoft.CinchMVVM.Common</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
