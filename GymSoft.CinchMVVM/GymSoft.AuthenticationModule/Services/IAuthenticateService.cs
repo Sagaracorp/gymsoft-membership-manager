@@ -1,4 +1,4 @@
-﻿using GymSoft.DB.BusinessUnitsTable;
+﻿using GymSoft.DB.UsersTable;
 
 namespace GymSoft.AuthenticationModule.Services
 {

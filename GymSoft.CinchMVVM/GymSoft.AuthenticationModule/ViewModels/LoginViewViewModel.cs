@@ -11,6 +11,7 @@ using GymSoft.AuthenticationModule.Services;
 using GymSoft.AuthenticationModule.Views;
 using GymSoft.CinchMVVM.Common.Services;
 using GymSoft.DB.BusinessUnitsTable;
+using GymSoft.DB.UsersTable;
 using MEFedMVVM.Common;
 using MEFedMVVM.ViewModelLocator;
 using Microsoft.Practices.Prism.Regions;

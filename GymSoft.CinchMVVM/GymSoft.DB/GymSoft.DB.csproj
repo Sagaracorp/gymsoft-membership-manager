@@ -90,6 +90,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="BusinessUnitsTable\RuntimeBusinessUnitService.cs" />
     <Compile Include="ResultSet.cs" />
+    <Compile Include="UsersTable\User.cs" />
+    <Compile Include="UsersTable\UserTableDefinition.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">
@@ -103,6 +105,7 @@
       <Name>GymSoft.CinchMVVM.Common</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

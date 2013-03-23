@@ -1,12 +1,11 @@
 ﻿using System;
-using System.Collections.Specialized;
 using System.ComponentModel.Composition;
-using System.Configuration;
 using System.Data;
 using System.Threading;
 using System.Threading.Tasks;
 using Cinch;
 using GymSoft.CinchMVVM.Common;
+using GymSoft.DB.UsersTable;
 using MEFedMVVM.ViewModelLocator;
 using MySql.Data.MySqlClient;
 
