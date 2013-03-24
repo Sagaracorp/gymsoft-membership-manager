@@ -108,7 +108,11 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="UserModule.cs" />
+    <Compile Include="ViewModels\AddNewUserViewViewModel.cs" />
     <Compile Include="ViewModels\UserRibbonViewViewModel.cs" />
+    <Compile Include="Views\AddNewUserView.xaml.cs">
+      <DependentUpon>AddNewUserView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\UserRibbonView.xaml.cs">
       <DependentUpon>UserRibbonView.xaml</DependentUpon>
     </Compile>
@@ -127,9 +131,17 @@
       <Project>{E12ECD68-F948-4FD0-82BE-5FC540369345}</Project>
       <Name>GymSoft.CinchMVVM.Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\GymSoft.DB\GymSoft.DB.csproj">
+      <Project>{413C16A3-0E6F-4356-8FE7-393E2AFC6D27}</Project>
+      <Name>GymSoft.DB</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <Page Include="Views\AddNewUserView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\UserRibbonView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

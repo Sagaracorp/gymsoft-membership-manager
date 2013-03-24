@@ -9,7 +9,7 @@
     meffed:ViewModelLocator.ViewModel="UserRibbonViewViewModel"
     mc:Ignorable="d" IsSelected="True">
     <telerik:RadRibbonGroup Header="User Related Functions" >
-        <telerik:RadRibbonButton Text="Add New User"/>
+        <telerik:RadRibbonButton Text="Add New User" Command="{Binding Path=AddNewUserCommand}"/>
         <telerik:RadRibbonButton Text="View All Users" Command="{Binding Path=ViewAllUsersCommand}"/>
         <telerik:RadRibbonButton Text="Delete All Users" Command="{Binding Path=DeleteAllUsersCommand}"/>
     </telerik:RadRibbonGroup>
