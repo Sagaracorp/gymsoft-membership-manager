@@ -1,0 +1,24 @@
+﻿<telerik:RadRibbonTab Header="User"
+    x:Class="GymSoft.UserModule.Views.UserRibbonView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+    xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+    xmlns:meffed="http:\\www.codeplex.com\MEFedMVVM"
+    meffed:ViewModelLocator.ViewModel="UserRibbonViewViewModel"
+    mc:Ignorable="d" IsSelected="True">
+    <telerik:RadRibbonGroup Header="User Related Functions" >
+        <telerik:RadRibbonButton Text="Add New User"/>
+        <telerik:RadRibbonButton Text="View All Users" Command="{Binding Path=ViewAllUsersCommand}"/>
+        <telerik:RadRibbonButton Text="Delete All Users" Command="{Binding Path=DeleteAllUsersCommand}"/>
+    </telerik:RadRibbonGroup>
+    <telerik:RadRibbonGroup>
+        <telerik:RadButtonGroup>
+            <telerik:RadOrderedWrapPanel/>
+            <telerik:RadRibbonButton Content="Edit User" Size="Large"/>
+            <telerik:RadRibbonButton Content="Delete User" Size="Large"/>
+            <telerik:RadRibbonButton Content="View User Details" Size="Large"/>
+        </telerik:RadButtonGroup>
+    </telerik:RadRibbonGroup>
+</telerik:RadRibbonTab>

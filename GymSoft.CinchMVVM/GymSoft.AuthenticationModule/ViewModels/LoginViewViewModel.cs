@@ -34,7 +34,8 @@ namespace GymSoft.AuthenticationModule.ViewModels
         private readonly IMessageBoxService messageBoxService;
         private readonly IBusinessUnitService businessUnitService;
         private readonly IViewInjectionService viewInjectionService;
-        //private IRegionManager regionManager;
+
+       // private IRegionManager regionManager;
 
         #endregion
 
@@ -248,23 +249,23 @@ namespace GymSoft.AuthenticationModule.ViewModels
         private void ExecuteLoginCommand(Object args)
         {
             //Use Authentication service to check login
-            bool loginSuccess = authenticateService.Authenticate(UserName.DataValue.ToLower(), Password.DataValue, SelectedBusinessUnit.DataValue);
+            var loginSuccess = authenticateService.Authenticate(UserName.DataValue.ToLower(), Password.DataValue, SelectedBusinessUnit.DataValue);
             if (loginSuccess)
             {
-                // Mediator.Instance.NotifyColleaguesAsync("LoginSuccessMessage", true); //Send Message
                 if (viewInjectionService.ClearRegionOfAllViews("RootRegion"))
                 {
                     if (!viewInjectionService.AddViewToRegion("RootRegion", "MainView", new MainView()))
                     {
                         messageBoxService.ShowError(viewInjectionService.Error);
                     }
-                    messageBoxService.ShowInformation("Login Success");
-                }
-                else
-                {
-                    messageBoxService.ShowError(viewInjectionService.Error);
-                }
+               }
+              else
+              {
+                  messageBoxService.ShowError(viewInjectionService.Error);
+              }
+            
                 #region This method Injects view but it caches it
+
                 /*
                 var export = ViewModelRepository.Instance.Resolver.Container.GetExport<MainView>();
 

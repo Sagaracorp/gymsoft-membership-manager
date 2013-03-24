@@ -87,16 +87,9 @@ namespace GymSoft.DB.BusinessUnitsTable
             return FindAll(1);
         }
 
-
-        public void FindAllAsync(object nothing, Action<BusinessUnits> callback)
-        {
-            return;
-        }
-
-
         public void FindAllTask(Action<BusinessUnits> resultCallback, Action<Exception> exceptionCallBack)
         {
-            throw new NotImplementedException();
+            resultCallback(FindAll());
         }
     }
 }

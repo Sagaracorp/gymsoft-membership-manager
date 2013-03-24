@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.Composition;
 using System.Linq;
 using System.Text;
 using System.Windows;
@@ -16,15 +15,13 @@ using System.Windows.Shapes;
 namespace GymSoft.AuthenticationModule.Views
 {
     /// <summary>
-    /// Interaction logic for LoginView.xaml
+    /// Interaction logic for RibbonView.xaml
     /// </summary>
-    
-    public partial class LoginView : UserControl
+    public partial class RibbonView : UserControl
     {
-        public LoginView()
+        public RibbonView()
         {
             InitializeComponent();
         }
-        
     }
 }

@@ -6,7 +6,8 @@ namespace GymSoft.AuthenticationModule.Views
     /// <summary>
     /// Interaction logic for MainView.xaml
     /// </summary>
-    [Export]
+    /*[Export("GymSoft.AuthenticationModule.Views.MainView", typeof(MainView))]
+    [PartCreationPolicy(CreationPolicy.NonShared)]*/
     public partial class MainView : UserControl
     {
         public MainView()

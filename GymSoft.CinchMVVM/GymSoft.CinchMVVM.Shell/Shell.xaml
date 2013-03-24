@@ -4,10 +4,10 @@
         xmlns:prism="http://www.codeplex.com/prism"
         Title="Gym Soft"
         Icon="Assets/icon.png"
-        MinHeight="850" 
+        MinHeight="855" 
         MinWidth="1100"
         WindowStartupLocation="CenterScreen" 
-        WindowState="Maximized">
+        WindowState="Maximized" Opacity="0.995" WindowStyle="ThreeDBorderWindow">
 	
     <Grid>
         <ContentControl prism:RegionManager.RegionName="RootRegion"/>

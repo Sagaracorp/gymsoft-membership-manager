@@ -12,7 +12,6 @@ namespace GymSoft.CinchMVVM.Common.Services
         private readonly IRegionManager regionManager;
         //private string error;
         public string Error { get; set; }
-       
         
         [ImportingConstructor]
         public RuntimeViewInjectionService(IRegionManager regionManager)
@@ -78,6 +77,12 @@ namespace GymSoft.CinchMVVM.Common.Services
                 Error = exception.Message;
                 return false;
             }
+        }
+
+
+        public void RegisterViewWithRegion(string regionName, object viewType)
+        {
+            this.regionManager.RegisterViewWithRegion(regionName, () => viewType);
         }
     }
 }

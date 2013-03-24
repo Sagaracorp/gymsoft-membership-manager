@@ -15,15 +15,17 @@ namespace GymSoft.AuthenticationModule.ViewModels
         private IViewAwareStatus viewAwareStatus;
         private IMessageBoxService messageBoxService;
         private IViewInjectionService viewInjectionService;
-
+      //  private IRegionManager regionManager;
+        
         /// <summary>
         /// Commands
         /// </summary>
         public SimpleCommand<Object, Object> LogoutCommand { get; private set; }
 
         [ImportingConstructor]
-        public MainViewViewModel(IViewAwareStatus viewAwareStatus, IMessageBoxService messageBoxService, IViewInjectionService viewInjectionService)
+        public MainViewViewModel( IViewAwareStatus viewAwareStatus, IMessageBoxService messageBoxService, IViewInjectionService viewInjectionService)
         {
+            //this.regionManager = regionManager;
             this.viewAwareStatus = viewAwareStatus;
             this.messageBoxService = messageBoxService;
             this.viewInjectionService = viewInjectionService;
@@ -38,7 +40,9 @@ namespace GymSoft.AuthenticationModule.ViewModels
         {
             //Will need to load up all the UI responsible for this
             //Send the mediator command or somthing
-            //throw new NotImplementedException();
+            
+            Mediator.Instance.NotifyColleagues("RibbonRegionLoadedMessage", true);
+            
         }
         private void ExecuteLogoutCommand(Object args)
         {

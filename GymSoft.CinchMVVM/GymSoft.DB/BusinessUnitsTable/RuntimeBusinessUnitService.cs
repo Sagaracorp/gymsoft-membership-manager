@@ -45,6 +45,7 @@ namespace GymSoft.DB.BusinessUnitsTable
         #endregion
 
         #region Constructor
+        [ImportingConstructor]
         public RuntimeBusinessUnitService()
         {
             ConnectionString = GymSoftConfigurationManger.GetDatabaseConnection();

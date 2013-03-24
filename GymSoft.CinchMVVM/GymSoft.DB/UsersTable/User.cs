@@ -17,6 +17,20 @@ namespace GymSoft.DB.UsersTable
         private DataWrapper<String> confirmPassword;
         private DataWrapper<String> status;
         private DataWrapper<String> jobTitle;
+        private DataWrapper<String> firstName;
+        private DataWrapper<String> middleName;
+        private DataWrapper<String> lastName;
+        private DataWrapper<DateTime> dateOfBirth;
+        private DataWrapper<String> emailAddress;
+        private DataWrapper<String> contactNum1;
+        private DataWrapper<String> contactNum2;
+        private DataWrapper<String> contactNum3;
+        private DataWrapper<String> address1;
+        private DataWrapper<String> address2;
+        private DataWrapper<String> address3;
+        private DataWrapper<String> parish;
+        private DataWrapper<String> gender;
+        private DataWrapper<Uri> photoPath;
         private DataWrapper<DateTime> createdAt;
         private DataWrapper<Int32> createdBy;
         private DataWrapper<DateTime> updatedAt;
@@ -25,11 +39,12 @@ namespace GymSoft.DB.UsersTable
         #endregion
 
         #region Rules
-
+        private static SimpleRule FirstNameCannotBeEmptyRule;
+        private static SimpleRule LastNameCannotBeEmptyRule;
         private static SimpleRule UserNameCannotBeEmptyRule;
         private static SimpleRule PasswordCannotBeEmptyRule;
         private static SimpleRule ConfrimPasswordCannotBeEmptyRule;
-        private static SimpleRule ConfirmPasswordAndPasswordMustBeEqualRule;
+       // private static SimpleRule ConfirmPasswordAndPasswordMustBeEqualRule;
         private static SimpleRule StatusCannotBeEmptyRule;
         private static SimpleRule JobTitleCannotBeEmpyRule;
 
@@ -46,6 +61,20 @@ namespace GymSoft.DB.UsersTable
             ConfirmPassword = new DataWrapper<String>(this, confirmPasswordArgs);
             Status = new DataWrapper<String>(this, statusArgs);
             JobTitle = new DataWrapper<String>(this, jobTitleArgs);
+            FirstName = new DataWrapper<String>(this, firstNameArgs);
+            MiddleName = new DataWrapper<String>(this, middleNameArgs); ;
+            LastName = new DataWrapper<String>(this, lastNameArgs); ;
+            DateOfBirth = new DataWrapper<DateTime>(this, dateOfBirthArgs); ;
+            EmailAddress = new DataWrapper<String>(this, emailAddressArgs); ;
+            ContactNum1 = new DataWrapper<String>(this, contactNum1Args); ;
+            ContactNum2 = new DataWrapper<String>(this, contactNum2Args); ;
+            ContactNum3 = new DataWrapper<String>(this, contactNum3Args); ;
+            Address1 = new DataWrapper<String>(this, address1Args); ;
+            Address2 = new DataWrapper<String>(this, address2Args); ;
+            Address3 = new DataWrapper<String>(this, address3Args); ;
+            Parish = new DataWrapper<String>(this, parishArgs); ;
+            Gender = new DataWrapper<String>(this, genderArgs); ;
+            PhotoPath = new DataWrapper<Uri>(this, photoPathArgs); ;
             CreatedAt = new DataWrapper<DateTime>(this, createdAtArgs);
             CreatedBy = new DataWrapper<Int32>(this, createdByArgs);
             UpdatedAt = new DataWrapper<DateTime>(this, updatedAtArgs);
@@ -57,10 +86,12 @@ namespace GymSoft.DB.UsersTable
                 DataWrapperHelper.GetWrapperProperties<User>(this);
 
             #region Create Validation Rules
+            firstName.AddRule(FirstNameCannotBeEmptyRule);
+            lastName.AddRule(LastNameCannotBeEmptyRule);
             userName.AddRule(UserNameCannotBeEmptyRule);
             password.AddRule(PasswordCannotBeEmptyRule);
             confirmPassword.AddRule(ConfrimPasswordCannotBeEmptyRule);
-            confirmPassword.AddRule(ConfirmPasswordAndPasswordMustBeEqualRule);
+            //confirmPassword.AddRule(ConfirmPasswordAndPasswordMustBeEqualRule);
             status.AddRule(StatusCannotBeEmptyRule);
             jobTitle.AddRule(JobTitleCannotBeEmpyRule);
             #endregion
@@ -93,6 +124,18 @@ namespace GymSoft.DB.UsersTable
                            return String.IsNullOrEmpty(obj.DataValue);
                        });
             JobTitleCannotBeEmpyRule = new SimpleRule("DataValue", "Password can not be empty",
+                       (Object domainObject) =>
+                       {
+                           DataWrapper<String> obj = (DataWrapper<String>)domainObject;
+                           return String.IsNullOrEmpty(obj.DataValue);
+                       });
+            FirstNameCannotBeEmptyRule = new SimpleRule("DataValue", "First Name can not be empty",
+                       (Object domainObject) =>
+                       {
+                           DataWrapper<String> obj = (DataWrapper<String>)domainObject;
+                           return String.IsNullOrEmpty(obj.DataValue);
+                       });
+            LastNameCannotBeEmptyRule = new SimpleRule("DataValue", "Last Name can not be empty",
                        (Object domainObject) =>
                        {
                            DataWrapper<String> obj = (DataWrapper<String>)domainObject;
@@ -171,6 +214,146 @@ namespace GymSoft.DB.UsersTable
         {
             get { return jobTitle; }
             set { jobTitle = value; NotifyPropertyChanged(jobTitleArgs); }
+        }
+        /// <summary>
+        /// FirstName
+        /// </summary>
+        static PropertyChangedEventArgs firstNameArgs =
+            ObservableHelper.CreateArgs<User>(x => x.FirstName);
+        public DataWrapper<String> FirstName
+        {
+            get { return firstName; }
+            set { firstName = value; NotifyPropertyChanged(firstNameArgs); }
+        }
+        /// <summary>
+        /// LastName
+        /// </summary>
+        static PropertyChangedEventArgs lastNameArgs =
+            ObservableHelper.CreateArgs<User>(x => x.LastName);
+        public DataWrapper<String> LastName
+        {
+            get { return lastName; }
+            set { lastName = value; NotifyPropertyChanged(lastNameArgs); }
+        }
+        /// <summary>
+        /// MiddleName
+        /// </summary>
+        static PropertyChangedEventArgs middleNameArgs =
+            ObservableHelper.CreateArgs<User>(x => x.MiddleName);
+        public DataWrapper<String> MiddleName
+        {
+            get { return middleName; }
+            set { middleName = value; NotifyPropertyChanged(middleNameArgs); }
+        }
+        /// <summary>
+        /// DateOfBirth
+        /// </summary>
+        static PropertyChangedEventArgs dateOfBirthArgs =
+            ObservableHelper.CreateArgs<User>(x => x.DateOfBirth);
+        public DataWrapper<DateTime> DateOfBirth
+        {
+            get { return dateOfBirth; }
+            set { dateOfBirth = value; NotifyPropertyChanged(dateOfBirthArgs); }
+        }
+        /// <summary>
+        /// EmailAddress
+        /// </summary>
+        static PropertyChangedEventArgs emailAddressArgs =
+            ObservableHelper.CreateArgs<User>(x => x.EmailAddress);
+        public DataWrapper<String> EmailAddress
+        {
+            get { return emailAddress; }
+            set { emailAddress = value; NotifyPropertyChanged(emailAddressArgs); }
+        }
+        /// <summary>
+        /// ContactNum1
+        /// </summary>
+        static PropertyChangedEventArgs contactNum1Args =
+            ObservableHelper.CreateArgs<User>(x => x.ContactNum1);
+        public DataWrapper<String> ContactNum1
+        {
+            get { return contactNum1; }
+            set { contactNum1 = value; NotifyPropertyChanged(contactNum1Args); }
+        }
+        /// <summary>
+        /// ContactNum2
+        /// </summary>
+        static PropertyChangedEventArgs contactNum2Args =
+            ObservableHelper.CreateArgs<User>(x => x.ContactNum2);
+        public DataWrapper<String> ContactNum2
+        {
+            get { return contactNum2; }
+            set { contactNum2 = value; NotifyPropertyChanged(contactNum2Args); }
+        }
+        /// <summary>
+        /// ContactNum3
+        /// </summary>
+        static PropertyChangedEventArgs contactNum3Args =
+            ObservableHelper.CreateArgs<User>(x => x.ContactNum3);
+        public DataWrapper<String> ContactNum3
+        {
+            get { return contactNum3; }
+            set { contactNum3 = value; NotifyPropertyChanged(contactNum3Args); }
+        }
+        /// <summary>
+        /// Address2
+        /// </summary>
+        static PropertyChangedEventArgs address2Args =
+            ObservableHelper.CreateArgs<User>(x => x.Address2);
+        public DataWrapper<String> Address2
+        {
+            get { return address2; }
+            set { address2 = value; NotifyPropertyChanged(address2Args); }
+        }
+        /// <summary>
+        /// Address3
+        /// </summary>
+        static PropertyChangedEventArgs address3Args =
+            ObservableHelper.CreateArgs<User>(x => x.Address3);
+        public DataWrapper<String> Address3
+        {
+            get { return address3; }
+            set { address3 = value; NotifyPropertyChanged(address3Args); }
+        }
+        /// <summary>
+        /// Address1
+        /// </summary>
+        static PropertyChangedEventArgs address1Args =
+            ObservableHelper.CreateArgs<User>(x => x.Address1);
+        public DataWrapper<String> Address1
+        {
+            get { return address1; }
+            set { address1 = value; NotifyPropertyChanged(address1Args); }
+        }
+        /// <summary>
+        /// Parish
+        /// </summary>
+        static PropertyChangedEventArgs parishArgs =
+            ObservableHelper.CreateArgs<User>(x => x.Parish);
+        public DataWrapper<String> Parish
+        {
+            get { return parish; }
+            set { parish = value; NotifyPropertyChanged(parishArgs); }
+        }
+        /// <summary>
+        /// Gender
+        /// </summary>
+        static PropertyChangedEventArgs genderArgs =
+            ObservableHelper.CreateArgs<User>(x => x.Gender);
+        public DataWrapper<String> Gender
+        {
+            get { return gender; }
+            set { gender = value; NotifyPropertyChanged(genderArgs); }
+        }
+        /// <summary>
+        /// PhotoPath
+        /// </summary>
+        static PropertyChangedEventArgs photoPathArgs =
+            ObservableHelper.CreateArgs<User>(x => x.PhotoPath);
+        public DataWrapper<Uri> PhotoPath
+        {
+            get { return photoPath; }
+            set { photoPath = value; NotifyPropertyChanged(photoPathArgs); }
         }
         /// <summary>
         /// CreatedAt
