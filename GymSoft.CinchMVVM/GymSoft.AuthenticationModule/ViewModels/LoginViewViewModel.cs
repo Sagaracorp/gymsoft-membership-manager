@@ -198,14 +198,14 @@ namespace GymSoft.AuthenticationModule.ViewModels
         /// </summary>
         static LoginViewViewModel()
         {
-            UserNameCannnotBeEmptyRule = new SimpleRule("DataValue", "Username cannot be null or empty",
+            UserNameCannnotBeEmptyRule = new SimpleRule("DataValue", "Username cannot be blank",
                                                         (Object domainObject) =>
                                                         {
                                                             DataWrapper<String> obj =
                                                                 (DataWrapper<String>)domainObject;
                                                             return String.IsNullOrEmpty(obj.DataValue);
                                                         });
-            PasswordCannotBeEmptyRule = new SimpleRule("DataValue", "Password cannot be null or empty",
+            PasswordCannotBeEmptyRule = new SimpleRule("DataValue", "Password cannot be blank",
                                                        (Object domainObject) =>
                                                        {
                                                            DataWrapper<String> obj =

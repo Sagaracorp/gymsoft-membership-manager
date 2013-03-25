@@ -30,12 +30,12 @@ namespace GymSoft.AuthenticationModule
             if (viewInjectionService.ClearRegionOfAllViews("RootRegion"))
             {
                 //Disable Authentication
-                if (!viewInjectionService.AddViewToRegion("RootRegion", "MainView", new MainView()))
+               if (!viewInjectionService.AddViewToRegion("RootRegion", "MainView", new MainView()))
                 {
                     messageBoxService.ShowError(viewInjectionService.Error);
                 }
                 //Enable Authentication
-                /*if (!viewInjectionService.AddViewToRegion("RootRegion", "LoginView", new LoginView()))
+               /* if (!viewInjectionService.AddViewToRegion("RootRegion", "LoginView", new LoginView()))
                 {
                     messageBoxService.ShowError(viewInjectionService.Error);
                 }*/

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using Cinch;
 
 namespace GymSoft.DB.UsersTable
@@ -13,7 +14,8 @@ namespace GymSoft.DB.UsersTable
         private DataWrapper<Int32> buId;
         private DataWrapper<Int32> userId;
         private DataWrapper<String> userName;
-        private DataWrapper<String> password;
+        private static DataWrapper<String> password;
+
         private DataWrapper<String> confirmPassword;
         private DataWrapper<String> status;
         private DataWrapper<String> jobTitle;
@@ -44,9 +46,10 @@ namespace GymSoft.DB.UsersTable
         private static SimpleRule UserNameCannotBeEmptyRule;
         private static SimpleRule PasswordCannotBeEmptyRule;
         private static SimpleRule ConfrimPasswordCannotBeEmptyRule;
-       // private static SimpleRule ConfirmPasswordAndPasswordMustBeEqualRule;
+        private static SimpleRule ConfirmPasswordAndPasswordMustBeEqualRule;
         private static SimpleRule StatusCannotBeEmptyRule;
         private static SimpleRule JobTitleCannotBeEmpyRule;
+        private static SimpleRule EmailAddressMustBeInCorrectFormat;
 
         #endregion
 
@@ -58,6 +61,8 @@ namespace GymSoft.DB.UsersTable
             UserId = new DataWrapper<Int32>(this,userIdArgs);
             UserName = new DataWrapper<String>(this, userNameArgs);
             Password = new DataWrapper<String>(this, passwordArgs);
+            
+
             ConfirmPassword = new DataWrapper<String>(this, confirmPasswordArgs);
             Status = new DataWrapper<String>(this, statusArgs);
             JobTitle = new DataWrapper<String>(this, jobTitleArgs);
@@ -80,6 +85,7 @@ namespace GymSoft.DB.UsersTable
             UpdatedAt = new DataWrapper<DateTime>(this, updatedAtArgs);
             UpdatedBy = new DataWrapper<Int32>(this, updatedByArgs);
 
+        
             //fetch list of all DataWrappers, so they can be used again later without the
             //need for reflection
             cachedListOfDataWrappers =
@@ -91,9 +97,10 @@ namespace GymSoft.DB.UsersTable
             userName.AddRule(UserNameCannotBeEmptyRule);
             password.AddRule(PasswordCannotBeEmptyRule);
             confirmPassword.AddRule(ConfrimPasswordCannotBeEmptyRule);
-            //confirmPassword.AddRule(ConfirmPasswordAndPasswordMustBeEqualRule);
+            confirmPassword.AddRule(ConfirmPasswordAndPasswordMustBeEqualRule);
             status.AddRule(StatusCannotBeEmptyRule);
             jobTitle.AddRule(JobTitleCannotBeEmpyRule);
+            emailAddress.AddRule(EmailAddressMustBeInCorrectFormat);
             #endregion
         }
 
@@ -117,13 +124,20 @@ namespace GymSoft.DB.UsersTable
                            DataWrapper<String> obj = (DataWrapper<String>)domainObject;
                            return String.IsNullOrEmpty(obj.DataValue);
                        });
+            ConfirmPasswordAndPasswordMustBeEqualRule = new SimpleRule("DataValue", "Confirm Password must equal Password",
+                       (Object domainObject) =>
+                       {
+                           DataWrapper<String> obj = (DataWrapper<String>)domainObject;
+                           return String.Compare(obj.DataValue, password.DataValue, StringComparison.Ordinal) != 0;
+                       });
+            
             StatusCannotBeEmptyRule = new SimpleRule("DataValue", "Status can not be empty",
                        (Object domainObject) =>
                        {
                            DataWrapper<String> obj = (DataWrapper<String>)domainObject;
                            return String.IsNullOrEmpty(obj.DataValue);
                        });
-            JobTitleCannotBeEmpyRule = new SimpleRule("DataValue", "Password can not be empty",
+            JobTitleCannotBeEmpyRule = new SimpleRule("DataValue", "Job Title can not be empty",
                        (Object domainObject) =>
                        {
                            DataWrapper<String> obj = (DataWrapper<String>)domainObject;
@@ -141,8 +155,26 @@ namespace GymSoft.DB.UsersTable
                            DataWrapper<String> obj = (DataWrapper<String>)domainObject;
                            return String.IsNullOrEmpty(obj.DataValue);
                        });
+            EmailAddressMustBeInCorrectFormat = new SimpleRule("DataValue", "Email Address must be in correct format",
+                       (Object domainObject) =>
+                       {
+                           DataWrapper<String> obj = (DataWrapper<String>)domainObject;
+                           if (obj.DataValue != null)
+                           {
+                               Regex re = new Regex(@"^[\w!#$%&'*+\-/=?\^_`{|}~]+(\.[\w!#$%&'*+\-/=?\^_`{|}~]+)*"
+                                                    + "@"
+                                                    + @"((([\-\w]+\.)+[a-zA-Z]{2,4})|(([0-9]{1,3}\.){3}[0-9]{1,3}))$",
+                                                    RegexOptions.IgnoreCase);
+                               return !re.IsMatch(obj.DataValue.ToLower());
+                           }
+                           else
+                           {
+                               return true;
+                           }
+                       });
         }
         #endregion
+       
 
         #region Public Properties
         /// <summary>
@@ -183,7 +215,11 @@ namespace GymSoft.DB.UsersTable
         public DataWrapper<String> Password
         {
             get { return password; }
-            set { password = value; NotifyPropertyChanged(passwordArgs); }
+            set 
+            { 
+                password = value;
+                NotifyPropertyChanged(passwordArgs); 
+            }
         }
         /// <summary>
         /// Confirm Password
