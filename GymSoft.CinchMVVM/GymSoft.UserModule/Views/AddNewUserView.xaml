@@ -115,10 +115,12 @@
                         <Cinch:NumericTextBoxBehaviour/>
                     </i:Interaction.Behaviors>
                 </TextBox>
+                <!-- Gender -->
 				<Label Content="Gender" HorizontalAlignment="Left" Margin="10,2.958,0,2.959" VerticalAlignment="Center" Grid.Column="0" Grid.Row="11" Height="25.96" Width="48.817"/>
-				<RadioButton Content="Male" Grid.Column="1" HorizontalAlignment="Left" Margin="42.333,15.354,0,0" Grid.Row="11" VerticalAlignment="Top" GroupName="Gender" IsChecked="True" Height="15.96" Width="42.066"/>
-				<RadioButton Content="Female" Grid.Column="1" HorizontalAlignment="Left" Margin="347.904,16.204,0,0" Grid.Row="11" VerticalAlignment="Top" GroupName="Gender" Height="15.96" Width="53.762"/>
-				<!--Job Title-->
+                <TextBox HorizontalAlignment="Center" Height="34.003" Margin="42.333,3.515,32.334,10.85" Grid.Row="11" Grid.Column="1" TextWrapping="Wrap" VerticalAlignment="Center" 
+                             Width="359.333" Text="{Binding NewUser.Gender.DataValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" Style="{DynamicResource ValidatingTextBox}" AutoWordSelection="True" FontSize="14.667" />
+
+                <!--Job Title-->
 				<TextBox HorizontalAlignment="Center" Height="34.003" Margin="42.333,3.515,32.334,10.85" Grid.Row="12" Grid.Column="1" TextWrapping="Wrap" VerticalAlignment="Center" 
                              Width="359.333" Text="{Binding NewUser.JobTitle.DataValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" Style="{DynamicResource ValidatingTextBox}" AutoWordSelection="True" FontSize="14.667" />
 				<Label Content="Job Title" HorizontalAlignment="Left" Margin="10,2.959,0,2.959" VerticalAlignment="Center" Grid.Column="0" Grid.Row="12" Height="25.96" Width="84.123"/>
@@ -152,7 +154,7 @@
 				<Label Content="Confirm Password" HorizontalAlignment="Left" Margin="10,3.454,0,3.46" VerticalAlignment="Center" Grid.Column="0" Grid.Row="17" Height="25.96" Width="105.667"/>
 				
 				<!--Add Person-->
-				<Button Grid.Row="19" Content="Add User" Grid.Column="0" Margin="10,0,67.002,10" FontSize="20" BorderBrush="{DynamicResource {x:Static SystemColors.ControlDarkDarkBrushKey}}" IsDefault="True" Command="{Binding AddNewUserCommand}"/>						
+				<Button Grid.Row="19" Content="Add User" Grid.Column="0" Margin="10,0,67.002,10" FontSize="20" BorderBrush="{DynamicResource {x:Static SystemColors.ControlDarkDarkBrushKey}}" IsDefault="True" Command="{Binding AddNewUserCommand}" />						
 				<!--Cancel-->
 				<Button Grid.Row="19" Content="Cancel" Grid.Column="1" Margin="42.333,0,32.334,10" FontSize="20" IsCancel="True" Command="{Binding CancelAddNewUserCommand}" />
 				
@@ -166,8 +168,8 @@
                 
 			</Grid>			 
 		</Border>
-		<Button Grid.Row="1" Content="Take Photo" Margin="10,10.562,287.5,447.5" BorderBrush="{DynamicResource {x:Static SystemColors.ControlDarkDarkBrushKey}}" Command="{Binding AddNewUserCommand}"/>
-		<Button Grid.Row="1" Content="Upload Image" Margin="287.5,10,10,447.5" BorderBrush="{DynamicResource {x:Static SystemColors.ControlDarkDarkBrushKey}}" Command="{Binding AddNewUserCommand}" RenderTransformOrigin="0.261,2.494"/>
+		<Button Grid.Row="1" Content="Take Photo" Margin="10,10.562,287.5,447.5" BorderBrush="{DynamicResource {x:Static SystemColors.ControlDarkDarkBrushKey}}" Command="{Binding TakePhotoCommand}"/>
+		<Button Grid.Row="1" Content="Upload Image" Margin="287.5,10,10,447.5" BorderBrush="{DynamicResource {x:Static SystemColors.ControlDarkDarkBrushKey}}" Command="{Binding UploadImageCommand}" RenderTransformOrigin="0.261,2.494"/>
 		<GroupBox Grid.Column="1" Header="Address" HorizontalAlignment="Left" Margin="10,207,0,0" VerticalAlignment="Top" Height="188.96" Width="880"/>         
 		<GroupBox Header="Contact Numbers" HorizontalAlignment="Left" VerticalAlignment="Top" Height="151.873" Grid.RowSpan="2" Width="880" Margin="10,400.96,0,0" Grid.Column="1"/>
 				

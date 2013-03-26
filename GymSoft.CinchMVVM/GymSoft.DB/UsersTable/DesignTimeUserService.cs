@@ -132,5 +132,11 @@ namespace GymSoft.DB.UsersTable
         {
             resultCallback(FindAll());
         }
+
+
+        public void CreateNewUserTask(User newUser, Action<int> resultCallback, Action<Exception> exceptionCallBack)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

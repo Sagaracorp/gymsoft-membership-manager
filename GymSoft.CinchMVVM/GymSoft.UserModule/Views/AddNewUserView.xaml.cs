@@ -23,5 +23,7 @@ namespace GymSoft.UserModule.Views
         {
             InitializeComponent();
         }
+
+        
     }
 }

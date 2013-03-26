@@ -14,9 +14,14 @@ namespace GymSoft.UserModule.ViewModels
     [PartCreationPolicy(CreationPolicy.NonShared)]
     public class AddNewUserViewViewModel : ViewModelBase
     {
-        private readonly IViewAwareStatus _viewAwareStatus;
-        private readonly IMessageBoxService _messageBoxService;
+        private readonly IViewAwareStatus viewAwareStatus;
+        private readonly IMessageBoxService messageBoxService;
         private readonly IUserService _userService;
+
+        #region Commands
+        public SimpleCommand<Object, Object> AddNewUserCommand { get; private set; }
+        public SimpleCommand<Object, Object> CancelAddNewUserCommand { get; private set; }
+        #endregion
 
         private User _newUser;
         
@@ -39,16 +44,41 @@ namespace GymSoft.UserModule.ViewModels
         [ImportingConstructor]
         public AddNewUserViewViewModel(IViewAwareStatus viewAwareStatus, IMessageBoxService messageBoxService, IUserService userService)
         {
-            _viewAwareStatus = viewAwareStatus;
-            _messageBoxService = messageBoxService;
+            this.viewAwareStatus = viewAwareStatus;
+            this.messageBoxService = messageBoxService;
             _userService = userService;
             NewUser = new User();
-            this._viewAwareStatus.ViewLoaded += new Action(_viewAwareStatus_ViewLoaded);
+            //Initialise Commands
+            AddNewUserCommand = new SimpleCommand<object, object>(CanAddNewUserCommand, ExecuteAddNewUserCommand);
+            CancelAddNewUserCommand = new SimpleCommand<object, object>(ExecuteCancelAddNewUserCommand);
+            //this._viewAwareStatus.ViewLoaded += new Action(_viewAwareStatus_ViewLoaded);
         }
 
-        void _viewAwareStatus_ViewLoaded()
+        private bool CanAddNewUserCommand(Object args)
         {
+            return NewUser.IsValid;
+        }
+
+        private void ExecuteCancelAddNewUserCommand(Object args)
+        {
+            NewUser = new User();
+        }
+        private void ExecuteAddNewUserCommand(Object args)
+        {
+            _userService.CreateNewUserTask(this.NewUser,NewUserAdded, ErrorAddingNewUser);
             
         }
+        private void NewUserAdded(int userId)
+        {
+            messageBoxService.ShowInformation(String.Format("New User Added with userId = {0}", userId));
+        }
+        private void ErrorAddingNewUser(Exception exception)
+        {
+            messageBoxService.ShowError(exception.Message);
+        }
+        //void _viewAwareStatus_ViewLoaded()
+       // {
+            
+        //}
     }
 }

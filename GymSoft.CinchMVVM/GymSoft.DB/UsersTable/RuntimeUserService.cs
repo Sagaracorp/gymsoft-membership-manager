@@ -27,7 +27,9 @@ namespace GymSoft.DB.UsersTable
         #endregion
 
         #region Stored Procedures
-        public static string FindAllStoredProcedure = "gym_sp_GetAllUsers";
+
+        private const string FindAllStoredProcedure = "gym_sp_GetAllUsers";
+        private const string AddNewUserStoredProcedure = "gym_sp_CreateNewUser";
         #endregion
 
         #region Backgroud Task Method: Easier but I dont like  it much
@@ -212,6 +214,77 @@ namespace GymSoft.DB.UsersTable
                 }
             }, CancellationToken.None, TaskContinuationOptions.None,
                 TaskScheduler.FromCurrentSynchronizationContext());
+        }
+
+
+        public void CreateNewUserTask(User newUser, Action<Int32> resultCallback, Action<Exception> exceptionCallBack)
+        {
+            Task<ResultSet<Int32>> task =
+                Task.Factory.StartNew(() =>
+                {
+                    try
+                    {
+                        int newUserId = AddNewUser(newUser);
+                        return new ResultSet<Int32>(newUserId, null);
+                    }
+                    catch (Exception ex)
+                    {
+                        return new ResultSet<Int32>(-99, ex);
+                    }
+                });
+            task.ContinueWith(r =>
+            {
+                if (r.Result.Exception != null)
+                {
+                    //An error occured
+                    exceptionCallBack(r.Result.Exception);
+                }
+                else
+                {
+                    //Return the results
+                    resultCallback(r.Result.Data);
+                }
+            }, CancellationToken.None, TaskContinuationOptions.None,
+                TaskScheduler.FromCurrentSynchronizationContext());
+        }
+
+        private int AddNewUser(User newUser, int buId = 1, int userId = 1)
+        {
+            MySqlCommand.CommandType = CommandType.StoredProcedure;
+            MySqlCommand.CommandText = AddNewUserStoredProcedure;
+            MySqlCommand.Parameters.AddWithValue("buid", buId);
+            MySqlCommand.Parameters.AddWithValue("userid", userId);
+
+            MySqlCommand.Parameters.AddWithValue("fname", newUser.FirstName.DataValue);
+            MySqlCommand.Parameters.AddWithValue("mname", newUser.MiddleName.DataValue);
+            MySqlCommand.Parameters.AddWithValue("lname", newUser.LastName.DataValue);
+            MySqlCommand.Parameters.AddWithValue("dob", newUser.DateOfBirth.DataValue);
+            MySqlCommand.Parameters.AddWithValue("email", newUser.EmailAddress.DataValue);
+            MySqlCommand.Parameters.AddWithValue("num1", newUser.ContactNum1.DataValue);
+            MySqlCommand.Parameters.AddWithValue("num2", newUser.ContactNum2.DataValue);
+            MySqlCommand.Parameters.AddWithValue("num3", newUser.ContactNum3.DataValue);
+            MySqlCommand.Parameters.AddWithValue("add1", newUser.Address1.DataValue);
+            MySqlCommand.Parameters.AddWithValue("add2", newUser.Address2.DataValue);
+            MySqlCommand.Parameters.AddWithValue("add3", newUser.Address3.DataValue);
+            MySqlCommand.Parameters.AddWithValue("par", newUser.Parish.DataValue);
+            MySqlCommand.Parameters.AddWithValue("sex", newUser.Gender.DataValue);
+            MySqlCommand.Parameters.AddWithValue("photo", newUser.PhotoPath.DataValue);
+            MySqlCommand.Parameters.AddWithValue("uname", newUser.UserName.DataValue);
+            MySqlCommand.Parameters.AddWithValue("pwd", newUser.Password.DataValue);
+            MySqlCommand.Parameters.AddWithValue("status", newUser.Status.DataValue);
+            MySqlCommand.Parameters.AddWithValue("jt", newUser.JobTitle.DataValue);
+
+
+
+            MySqlCommand.Parameters.Add(new MySqlParameter("@newUserId", MySqlDbType.Int32));
+            MySqlCommand.Parameters["@newUserId"].Direction = ParameterDirection.Output;
+            MySqlCommand.Parameters.Add(new MySqlParameter("@result", MySqlDbType.Int32));
+            MySqlCommand.Parameters["@result"].Direction = ParameterDirection.Output;
+            MySqlCommand.Connection.Open();
+            MySqlCommand.ExecuteNonQuery();
+            MySqlCommand.Connection.Close();
+
+            return (int)MySqlCommand.Parameters["@newUserId"].Value;
         }
     }
 }
