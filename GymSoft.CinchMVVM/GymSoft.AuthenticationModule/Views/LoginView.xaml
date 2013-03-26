@@ -4,7 +4,6 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:meffed="http:\\www.codeplex.com\MEFedMVVM"
-             xmlns:cinch="clr-namespace:Cinch;assembly=Cinch.WPF"
              xmlns:common="clr-namespace:GymSoft.CinchMVVM.Common;assembly=GymSoft.CinchMVVM.Common"
              meffed:ViewModelLocator.ViewModel="LoginViewViewModel"
              mc:Ignorable="d" d:DesignHeight="811" d:DesignWidth="1058">
