@@ -5,10 +5,20 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:meffed="http:\\www.codeplex.com\MEFedMVVM"
              xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
-             xmlns:regions="clr-namespace:Microsoft.Practices.Prism.Regions;assembly=Microsoft.Practices.Prism"
+             xmlns:prism="http://www.codeplex.com/prism"
+             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+             xmlns:cinch="clr-namespace:Cinch;assembly=Cinch.WPF"
+             xmlns:common="clr-namespace:GymSoft.CinchMVVM.Common;assembly=GymSoft.CinchMVVM.Common"
              meffed:ViewModelLocator.ViewModel="ViewAllUsersViewViewModel"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/GymSoft.CinchMVVM.Common;component/AppResources.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
@@ -18,17 +28,209 @@
 
         <!-- UserListRegion -->
         <Border BorderBrush= "Silver" BorderThickness="2" CornerRadius="3" Margin="5" Grid.Column="0">
-            <ContentControl regions:RegionManager.RegionName="UserListRegion" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" />
+            <ScrollViewer  HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                <ContentControl VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch">
+                <telerik:RadBusyIndicator BusyContent="{Binding WaitText}" IsBusy="{Binding IsBusy}" IsIndeterminate="True" >
+                        <telerik:RadGridView RowHeight="45"
+							 ItemsSource="{Binding Users}"
+							 IsSynchronizedWithCurrentItem="True"
+							 IsReadOnly="True"
+                             MaxColumnWidth="200"
+							 AutoGenerateColumns="False"
+							 CanUserFreezeColumns="False"
+							 CanUserResizeColumns="False"
+                             SelectedItem="{Binding Path=CurrentlySelectedUser, Mode=TwoWay}">
+                        <telerik:RadGridView.Columns>
+                            <telerik:GridViewImageColumn Header="Photo"
+											 DataMemberBinding="{Binding Picture}"
+											 ImageHeight="35"
+											 ImageWidth="35"
+											 Width="45" />
+                            <telerik:GridViewDataColumn Header="First Name"
+											DataMemberBinding="{Binding FirstName.DataValue}" 
+                                                        Width="Auto"/>
+                            <telerik:GridViewDataColumn Header="Last Name"
+											DataMemberBinding="{Binding LastName.DataValue}" 
+                                                        Width="Auto"/>
+                        </telerik:RadGridView.Columns>
+                    </telerik:RadGridView>
+                </telerik:RadBusyIndicator>
+            </ContentControl>
+                </ScrollViewer>
         </Border>
         <!--GridSplitter-->
         <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ResizeDirection="Columns" Width="3" Background="Black"/>
         <!-- UserDetailsRegion -->
-        <Border Margin="5" Grid.Column="2"  BorderThickness="0" CornerRadius="4" BorderBrush="Silver">
-            <TabControl Grid.Column="2" regions:RegionManager.RegionName="UserDetailsRegion" 
-                        regions:RegionManager.RegionManager="{Binding CurrentUser}"
-                        Width ="Auto" Height="Auto" HorizontalAlignment="Stretch">
+        
+        
+            <Border Margin="5" Grid.Column="2"  BorderThickness="0" CornerRadius="4" BorderBrush="Silver">
+                
+                <TabControl Grid.Column="2" Width ="Auto" Height="Auto" HorizontalAlignment="Stretch">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="2*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
 
+                    <GroupBox Grid.Row="0" Header="Personal Information" HorizontalAlignment="Left" Height="628.303" Margin="181.039,0,0,0" Grid.RowSpan="2" VerticalAlignment="Top" Width="488.543" Grid.ColumnSpan="2">
+
+                        <Grid>
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="32*"/>
+                                <RowDefinition Height="32*"/>
+                                <RowDefinition Height="32*"/>
+                                <RowDefinition Height="32*"/>
+                                <RowDefinition Height="32*"/>
+                                <RowDefinition Height="32*"/>
+                                <RowDefinition Height="32*"/>
+                                <RowDefinition Height="32*"/>
+                                <RowDefinition Height="32*"/>
+                                <RowDefinition Height="32*"/>
+                                <RowDefinition Height="32*"/>
+                                <RowDefinition Height="32*"/>
+                                <RowDefinition Height="32*"/>
+                                <RowDefinition Height="31*"/>
+                                <RowDefinition Height="33*"/>
+                                <RowDefinition Height="32*"/>
+                                <RowDefinition Height="32*"/>
+                                <RowDefinition Height="32*"/>
+                                <RowDefinition Height="32*"/>
+                                <RowDefinition Height="32*"/>
+                            </Grid.RowDefinitions>
+
+                            <!--First Name-->
+                            <TextBox HorizontalAlignment="Center" Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" 
+                             Width="238.271" Text="{Binding CurrentlySelectedUser.FirstName.DataValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" Style="{DynamicResource ValidatingTextBox}" FontSize="14.667" VerticalContentAlignment="Center" Margin="0,1.38" />
+                            <Label Content="First Name" HorizontalAlignment="Left" Margin="10,2.959,0,2.959" VerticalAlignment="Center" Grid.Column="0" Grid.Row="0" Height="25.96" Width="67.083"/>
+
+                            <!--Middle Name-->
+                            <TextBox HorizontalAlignment="Center" Height="25.96" Margin="0,2.153,0,2.154" Grid.Column="1" TextWrapping="Wrap" VerticalAlignment="Center" 
+                             Width="238.271" Text="{Binding CurrentlySelectedUser.MiddleName.DataValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" Style="{DynamicResource ValidatingTextBox}" AutoWordSelection="True" FontSize="14.667" Grid.Row="1" />
+                            <Label Content="Middle Name" HorizontalAlignment="Left" Margin="10,2.958,0,2.959" VerticalAlignment="Center" Grid.Column="0" Grid.Row="1" Height="25.96" Width="81.983"/>
+                            <!--Last Name-->
+                            <TextBox HorizontalAlignment="Center" Height="25.268" Margin="0,2.846,0,2.153" Grid.Row="2" Grid.Column="1" TextWrapping="Wrap" VerticalAlignment="Center" 
+                             Width="238.271" Text="{Binding CurrentlySelectedUser.LastName.DataValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" Style="{DynamicResource ValidatingTextBox}" AutoWordSelection="True" FontSize="14.667" />
+                            <Label Content="Last Name" HorizontalAlignment="Left" Margin="10,2.959,0,2.959" VerticalAlignment="Center" Grid.Column="0" Grid.Row="2" Height="25.96" Width="65.9"/>
+
+                            <!--Date Of Birth -->
+                            <DatePicker HorizontalAlignment="Center" Height="34.003" Margin="0,28.4,0,28.399" Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" SelectedDate="{Binding CurrentlySelectedUser.DateOfBirth.DataValue}"
+                             Width="238.271" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Text="1981/09/21" FontSize="14.667" SelectedDateFormat="Short" Grid.RowSpan="3"  />
+                            <Label Content="Date of Birth" HorizontalAlignment="Left" Margin="10,2.958,0,2.959" VerticalAlignment="Center" Grid.Column="0" Grid.Row="3" Height="25.96" Width="77.04"/>
+
+                            <!--Address1-->
+                            <TextBox HorizontalAlignment="Center" Height="23.399" Margin="0,6.868,0,0" Grid.Row="4" Grid.Column="1" TextWrapping="Wrap" VerticalAlignment="Center" 
+                             Width="238.271" Text="{Binding CurrentlySelectedUser.Address1.DataValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" Style="{DynamicResource ValidatingTextBox}" AutoWordSelection="True" FontSize="14.667" />
+                            <Label Content="Street" HorizontalAlignment="Left" Margin="10,18.898,0,18.897" VerticalAlignment="Center" Grid.Column="0" Grid.Row="4" Grid.RowSpan="2" Height="25.96" Width="41.233"/>
+                            <!--Address2-->
+                            <TextBox HorizontalAlignment="Center" Height="23.398" Margin="-0.001,5,0,1.869" Grid.Row="5" Grid.Column="1" TextWrapping="Wrap" VerticalAlignment="Center" 
+                             Width="238.272" Text="{Binding CurrentlySelectedUser.Address2.DataValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" Style="{DynamicResource ValidatingTextBox}" AutoWordSelection="True" FontSize="14.667" />
+                            <!--Address3-->
+                            <TextBox HorizontalAlignment="Center" Height="25.96" Margin="0,2.153,0,2.154" Grid.Row="6" Grid.Column="1" TextWrapping="Wrap" VerticalAlignment="Center" 
+                             Width="238.271" Text="{Binding CurrentlySelectedUser.Address3.DataValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" Style="{DynamicResource ValidatingTextBox}" AutoWordSelection="True" FontSize="14.667" />
+                            <Label Content="City" HorizontalAlignment="Left" Margin="10,2.959,0,2.959" VerticalAlignment="Center" Grid.Column="0" Grid.Row="6" Height="25.96" Width="30.21"/>
+                            <!--Parish-->
+                            <TextBox HorizontalAlignment="Center" Height="25.96" Margin="-0.001,2.153,0,2.154" Grid.Row="7" Grid.Column="1" TextWrapping="Wrap" VerticalAlignment="Center" 
+                             Width="238.272" VerticalContentAlignment="Center" Text="{Binding CurrentlySelectedUser.Parish.DataValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" Style="{DynamicResource ValidatingTextBox}" AutoWordSelection="True" FontSize="14.667" />
+                            <Label Content="Parish" HorizontalAlignment="Left" Margin="10,2.958,0,2.959" VerticalAlignment="Center" Grid.Column="0" Grid.Row="7" Height="25.96" Width="41.79"/>
+
+                            <!--ContactNum1-->
+                            <TextBox HorizontalAlignment="Center" Height="20.267" Margin="238.27,10,0.001,0" Grid.Row="8" TextWrapping="Wrap" VerticalAlignment="Center" 
+                             Width="238.272" Text="{Binding CurrentlySelectedUser.Contact1.DataValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" Style="{DynamicResource ValidatingTextBox}" AutoWordSelection="True" FontSize="14.667" Grid.ColumnSpan="2" >
+                                <i:Interaction.Behaviors>
+                                    <cinch:TextBoxFocusBehavior IsUsingDataWrappers="true" />
+                                    <cinch:NumericTextBoxBehaviour/>
+                                </i:Interaction.Behaviors>
+                            </TextBox>
+                            <Label Content="Contact Numbers" HorizontalAlignment="Left" Margin="10,2.958,0,2.959" VerticalAlignment="Center" Grid.Column="0" Grid.Row="9" Height="25.96" Width="103.02"/>
+
+                            <!--ContactNum2-->
+                            <TextBox HorizontalAlignment="Center" Height="23.113" Margin="-0.001,5,0,2.154" Grid.Row="9" Grid.Column="1" TextWrapping="Wrap" VerticalAlignment="Center" 
+                             Width="238.272" VerticalContentAlignment="Center" Text="{Binding CurrentlySelectedUser.Contact2.DataValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" Style="{DynamicResource ValidatingTextBox}" AutoWordSelection="True" FontSize="14.667" >
+                                <i:Interaction.Behaviors>
+                                    <cinch:TextBoxFocusBehavior IsUsingDataWrappers="true" />
+                                    <cinch:NumericTextBoxBehaviour/>
+                                </i:Interaction.Behaviors>
+                            </TextBox>
+                            <TextBox HorizontalAlignment="Center" Height="24.575" Margin="0,2.846,-0.001,2.847" Grid.Row="10" TextWrapping="Wrap" VerticalAlignment="Center" 
+                             Width="238.272" VerticalContentAlignment="Center" Text="{Binding CurrentlySelectedUser.Contact3.DataValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" Style="{DynamicResource ValidatingTextBox}" AutoWordSelection="True" FontSize="14.667" Grid.Column="1" >
+                                <i:Interaction.Behaviors>
+                                    <cinch:TextBoxFocusBehavior IsUsingDataWrappers="true" />
+                                    <cinch:NumericTextBoxBehaviour/>
+                                </i:Interaction.Behaviors>
+                            </TextBox>
+                            <!-- Gender -->
+                            <Label Content="Gender" HorizontalAlignment="Left" Margin="10,2.958,0,2.959" VerticalAlignment="Center" Grid.Column="0" Grid.Row="11" Height="25.96" Width="48.817"/>
+                            <TextBox HorizontalAlignment="Center" Height="25.96" Margin="-0.001,2.153,0,2.154" Grid.Row="11" Grid.Column="1" TextWrapping="Wrap" VerticalAlignment="Center" 
+                             Width="238.272" Text="{Binding CurrentlySelectedUser.Gender.DataValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" Style="{DynamicResource ValidatingTextBox}" AutoWordSelection="True" FontSize="14.667" />
+
+                            <!--Job Title-->
+                            <TextBox HorizontalAlignment="Right" Height="24.913" Margin="-0.001,3.2,0,2.154" Grid.Row="12" Grid.Column="1" TextWrapping="Wrap" VerticalAlignment="Center" 
+                             Width="238.272" Text="{Binding CurrentlySelectedUser.JobTitle.DataValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" Style="{DynamicResource ValidatingTextBox}" AutoWordSelection="True" FontSize="14.667" />
+                            <Label Content="Job Title" HorizontalAlignment="Left" Margin="10,2.959,0,2.959" VerticalAlignment="Center" Grid.Column="0" Grid.Row="12" Height="25.96" Width="84.123"/>
+
+                            <!--Status-->
+                            <TextBox HorizontalAlignment="Center" Height="23.748" Margin="0,3.2,0,2.373" Grid.Row="13" Grid.Column="1" TextWrapping="Wrap" VerticalAlignment="Center" 
+                             Width="238.271" Text="{Binding CurrentlySelectedUser.Status.DataValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" Style="{DynamicResource ValidatingTextBox}" AutoWordSelection="True" FontSize="14.667" />
+                            <Label Content="Status" HorizontalAlignment="Left" Margin="10,2.959,0,2.959" VerticalAlignment="Center" Grid.Column="0" Grid.Row="13" Height="25.96" Width="84.123"/>
+
+
+                            <!--Email Address-->
+                            <TextBox HorizontalAlignment="Center" Height="26.667" Margin="-0.001,2.627,0.001,1.919" Grid.Row="14" Grid.Column="1" TextWrapping="Wrap" VerticalAlignment="Center" 
+                             Width="238.271" Text="{Binding CurrentlySelectedUser.EmailAddress.DataValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" Style="{DynamicResource ValidatingTextBox}" AutoWordSelection="True" FontSize="14.667" />
+                            <Label Content="Email Address" HorizontalAlignment="Left" Margin="10,2.959,0,2.959" VerticalAlignment="Center" Grid.Column="0" Grid.Row="14" Height="25.96" Width="84.123"/>
+
+                            <!--UserName-->
+                            <TextBox HorizontalAlignment="Center" Height="25.498" Margin="-0.001,2.374,0,2.395" Grid.Row="15" Grid.Column="1" TextWrapping="Wrap" VerticalAlignment="Center" 
+                             Width="238.272" Text="{Binding CurrentlySelectedUser.UserName.DataValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" Style="{DynamicResource ValidatingTextBox}" AutoWordSelection="True" FontSize="14.667" />
+                            <Label Content="Username" HorizontalAlignment="Left" Margin="10,2.959,0,2.959" VerticalAlignment="Center" Grid.Column="0" Grid.Row="15" Height="25.96" Width="84.123"/>
+
+                            <!--Password-->
+                            <PasswordBox Grid.Column="1" HorizontalAlignment="Center"  Grid.Row="16" VerticalAlignment="Center" Height="25.507" Width="238.271" Margin="0,2.605,0,2.156" Style="{DynamicResource ValidatingPasswordBox}" PasswordChar="•"
+                                 common:PasswordHelper.Attach="True"
+                                 common:PasswordHelper.Password="{Binding CurrentlySelectedUser.Password.DataValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" FontSize="14.667"/>
+
+                            <Label Content="Password" HorizontalAlignment="Left" Margin="10,2.459,0,2.462" VerticalAlignment="Center" Grid.Column="0" Grid.Row="16" Height="25.96" Width="59.957"/>
+                            <!--Confirm Passowrd-->
+                            <PasswordBox Grid.Column="1" HorizontalAlignment="Left"  Grid.Row="17" VerticalAlignment="Top" Style="{DynamicResource ValidatingPasswordBox}" PasswordChar="•"
+                                 common:PasswordHelper.Attach="True"
+                                 common:PasswordHelper.Password="{Binding CurrentlySelectedUser.ConfirmPassword.DataValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" FontSize="14.667" Margin="0,2.844,0,0" Width="238.27" Height="24.661"/>
+                            <Label Content="Confirm Password" HorizontalAlignment="Left" Margin="10,3.454,0,3.46" VerticalAlignment="Center" Grid.Column="0" Grid.Row="17" Height="25.96" Width="105.667"/>
+
+                            <!--Add Person-->
+                            <Button Grid.Row="19" Content="Add User" Grid.Column="0" Margin="10,0,67.002,0" FontSize="20" BorderBrush="{DynamicResource {x:Static SystemColors.ControlDarkDarkBrushKey}}" IsDefault="True" Command="{Binding AddNewUserCommand}" />
+                            <!--Cancel-->
+                            <Button Grid.Row="19" Content="Cancel" Grid.Column="1" Margin="42.334,0,32.334,0" FontSize="20" IsCancel="True" Command="{Binding CancelAddNewUserCommand}" />
+
+
+
+                        </Grid>
+
+                    </GroupBox>
+                    <Border Grid.Row="0" Grid.Column="0" BorderThickness="3" CornerRadius="5" BorderBrush="{DynamicResource {x:Static SystemColors.ActiveCaptionBrushKey}}" Margin="0,0,50.488,93.553">
+                        <Grid Margin="0,0,7,7">
+                            <Image Source="/GymSoft.UserModule;component/Images/kirito_soa.png" Margin="0,10,0,-10"/>
+
+                        </Grid>
+                    </Border>
+                    <Button Content="Take Photo"  BorderBrush="{DynamicResource {x:Static SystemColors.ControlDarkDarkBrushKey}}" Command="{Binding TakePhotoCommand}" Margin="0,234.598,143.846,49.594"/>
+                    <Button Content="Upload Image" BorderBrush="{DynamicResource {x:Static SystemColors.ControlDarkDarkBrushKey}}" Command="{Binding UploadImageCommand}" RenderTransformOrigin="0.261,2.494" Margin="87.015,234.599,55.488,49.594"/>
+                    <GroupBox Header="Address" HorizontalAlignment="Left" Margin="181.039,132,0,0" VerticalAlignment="Top" Height="128.96" Width="488.543" Grid.ColumnSpan="2" BorderThickness="1,1,1,0"/>
+                    <GroupBox Header="Contact Numbers" HorizontalAlignment="Left" VerticalAlignment="Top" Height="97.373" Grid.RowSpan="2" Width="488.543" Margin="181.039,252.96,0,0" Grid.ColumnSpan="2"/>
+
+                    
+
+                </Grid>
             </TabControl>
         </Border>
+        
     </Grid>
 </UserControl>

@@ -30,7 +30,9 @@
 		</Grid.RowDefinitions>
 		
           <GroupBox Grid.Row="0" Header="Personal Information" HorizontalAlignment="Left" Height="628.303" Margin="181.039,0,0,0" Grid.RowSpan="2" VerticalAlignment="Top" Width="488.543" Grid.ColumnSpan="2">
-			<Grid>
+            
+                <Grid>
+                
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition/>
 					<ColumnDefinition/>
@@ -57,6 +59,7 @@
 					<RowDefinition Height="32*"/>
 					<RowDefinition Height="32*"/>
 				</Grid.RowDefinitions>
+                
 				<!--First Name-->
 				<TextBox HorizontalAlignment="Center" Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" 
                              Width="238.271" Text="{Binding NewUser.FirstName.DataValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" Style="{DynamicResource ValidatingTextBox}" FontSize="14.667" VerticalContentAlignment="Center" Margin="0,1.38" />
@@ -72,7 +75,7 @@
 				<Label Content="Last Name" HorizontalAlignment="Left" Margin="10,2.959,0,2.959" VerticalAlignment="Center" Grid.Column="0" Grid.Row="2" Height="25.96" Width="65.9"/>
 				
 				<!--Date Of Birth -->
-				<DatePicker HorizontalAlignment="Center" Height="34.003" Margin="0,28.4,0,28.399" Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" 
+                <DatePicker HorizontalAlignment="Center" Height="34.003" Margin="0,28.4,0,28.399" Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" SelectedDate="{Binding NewUser.DateOfBirth.DataValue, Mode=TwoWay}"
                              Width="238.271" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Text="1981/09/21" FontSize="14.667" SelectedDateFormat="Short" Grid.RowSpan="3" />
 				<Label Content="Date of Birth" HorizontalAlignment="Left" Margin="10,2.958,0,2.959" VerticalAlignment="Center" Grid.Column="0" Grid.Row="3" Height="25.96" Width="77.04"/>
 				
@@ -158,13 +161,13 @@
 				<!--Add Person-->
 				<Button Grid.Row="19" Content="Add User" Grid.Column="0" Margin="10,0,67.002,0" FontSize="20" BorderBrush="{DynamicResource {x:Static SystemColors.ControlDarkDarkBrushKey}}" IsDefault="True" Command="{Binding AddNewUserCommand}" />						
 				<!--Cancel-->
-				<Button Grid.Row="19" Content="Cancel" Grid.Column="1" Margin="42.334,0,32.334,0" FontSize="20" IsCancel="True" Command="{Binding CancelAddNewUserCommand}" />			
-				
-				
-				
-			</Grid>
-			
-		</GroupBox>
+				<Button Grid.Row="19" Content="Cancel" Grid.Column="1" Margin="42.334,0,32.334,0" FontSize="20" IsCancel="True" Command="{Binding CancelAddNewUserCommand}" />
+
+
+                
+            </Grid>
+            
+        </GroupBox>
 		<Border Grid.Row="0" Grid.Column="0" BorderThickness="3" CornerRadius="5" BorderBrush="{DynamicResource {x:Static SystemColors.ActiveCaptionBrushKey}}" Margin="0,0,50.488,93.553">
 			<Grid Margin="0,0,7,7">
                 <Image Source="/GymSoft.UserModule;component/Images/kirito_soa.png" Margin="0,10,0,-10"/>               

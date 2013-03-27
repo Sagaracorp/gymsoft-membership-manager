@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.Composition;
+using System.Linq;
 using MEFedMVVM.ViewModelLocator;
 using Microsoft.Practices.Prism.Regions;
 
@@ -24,9 +25,18 @@ namespace GymSoft.CinchMVVM.Common.Services
             try
             {
                 IRegion region = regionManager.Regions[regionName];
-                region.Add(viewType, viewName);
-                region.Activate(viewType);
+                var existingView = region.Views.FirstOrDefault();
+                if (existingView == null)
+                {
+                    region.Add(viewType, viewName);
+                    region.Activate(viewType);
+                }
+                else
+                {
+                    region.Activate(existingView);
+                }
                 return true;
+
             }
             catch (Exception exception)
             {
@@ -83,6 +93,52 @@ namespace GymSoft.CinchMVVM.Common.Services
         public void RegisterViewWithRegion(string regionName, object viewType)
         {
             this.regionManager.RegisterViewWithRegion(regionName, () => viewType);
+        }
+
+
+        public bool ClearRegionOfView(string regionName, string view)
+        {
+            try
+            {
+                IRegion region = regionManager.Regions[regionName];
+                var existingView = region.GetView(view);
+                if (existingView != null)
+                {
+                    region.Remove(existingView);
+                }
+                return true;
+            }
+            catch (Exception exception)
+            {
+                Error = exception.Message;
+                return false;
+            }
+        }
+
+
+        public bool AddOrActivateViewInRegion(string regionName, string viewName, object view = null)
+        {
+            try
+            {
+                //Get region
+                IRegion region = regionManager.Regions[regionName];
+                var existingView = region.GetView(viewName);
+                if (existingView != null)
+                {
+                    region.Activate(existingView);
+                }
+                else
+                {
+                    region.Add(view, viewName);
+                    region.Activate(view);
+                }
+                return true;
+            }
+            catch (Exception exception)
+            {
+                Error = exception.Message;
+                return false;
+            }
         }
     }
 }

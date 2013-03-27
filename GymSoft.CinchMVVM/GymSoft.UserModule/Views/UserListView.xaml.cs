@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.Composition;
 using System.Linq;
 using System.Text;
 using System.Windows;
@@ -17,6 +18,7 @@ namespace GymSoft.UserModule.Views
     /// <summary>
     /// Interaction logic for UserListView.xaml
     /// </summary>
+    
     public partial class UserListView : UserControl
     {
         public UserListView()

@@ -18,6 +18,7 @@ namespace GymSoft.UserModule.ViewModels
         private readonly IMessageBoxService messageBoxService;
         private readonly IUserService userService;
         private Users users;
+        private User currentlySelectedUser;
         private bool isBusy;
         private string waitText;
 
@@ -35,6 +36,23 @@ namespace GymSoft.UserModule.ViewModels
             {
                 users = value;
                 NotifyPropertyChanged(usersArgs);
+            }
+        }
+        /// <summary>
+        /// CurrentlySelectedUser
+        /// </summary>
+        static PropertyChangedEventArgs currentlySelectedUserArgs =
+            ObservableHelper.CreateArgs<UserListViewViewModel>(x => x.CurrentlySelectedUser);
+
+
+        public User CurrentlySelectedUser
+        {
+            get { return currentlySelectedUser; }
+            private set
+            {
+                currentlySelectedUser = value;
+                NotifyPropertyChanged(currentlySelectedUserArgs);
+                Mediator.Instance.NotifyColleagues<User>("CurrentlySelectedUser", currentlySelectedUser);
             }
         }
         /// <summary>
@@ -76,6 +94,7 @@ namespace GymSoft.UserModule.ViewModels
             this.viewAwareStatus = viewAwareStatus;
             this.messageBoxService = messageBoxService;
             this.userService = userService;
+            Mediator.Instance.Register(this);
 
             this.viewAwareStatus.ViewLoaded += new Action(viewAwareStatus_ViewLoaded);
         }

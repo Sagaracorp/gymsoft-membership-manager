@@ -11,16 +11,16 @@
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
 
-        <controls:RadBusyIndicator BusyContent="{Binding WaitText}" IsBusy="{Binding IsBusy}" IsIndeterminate="True" controls:StyleManager.Theme="Metro">
-        <telerik:RadGridView x:Name="RadGridView1"
-							 RowHeight="45"
+        <controls:RadBusyIndicator BusyContent="{Binding WaitText}" IsBusy="{Binding IsBusy}" IsIndeterminate="True" >
+        <telerik:RadGridView RowHeight="45"
 							 ItemsSource="{Binding Users}"
 							 IsSynchronizedWithCurrentItem="True"
 							 IsReadOnly="True"
                              MaxColumnWidth="200"
 							 AutoGenerateColumns="False"
 							 CanUserFreezeColumns="False"
-							 CanUserResizeColumns="False">
+							 CanUserResizeColumns="False"
+                             SelectedItem="{Binding Path=CurrentlySelectedUser, Mode=TwoWay}">
             <telerik:RadGridView.Columns>
                 <telerik:GridViewImageColumn Header="Photo"
 											 DataMemberBinding="{Binding Picture}"

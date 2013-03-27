@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.Composition;
 using System.Linq;
 using System.Text;
 using System.Windows;
@@ -17,6 +18,8 @@ namespace GymSoft.UserModule.Views
     /// <summary>
     /// Interaction logic for ViewAllUsersView.xaml
     /// </summary>
+    [Export("GymSoft.UserModule.Views.ViewAllUsersView", typeof(ViewAllUsersView))]
+    [PartCreationPolicy(CreationPolicy.Shared)]
     public partial class ViewAllUsersView : UserControl
     {
         public ViewAllUsersView()
