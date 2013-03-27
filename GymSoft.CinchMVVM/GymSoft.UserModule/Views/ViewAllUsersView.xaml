@@ -1,0 +1,34 @@
+﻿<UserControl x:Class="GymSoft.UserModule.Views.ViewAllUsersView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:meffed="http:\\www.codeplex.com\MEFedMVVM"
+             xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+             xmlns:regions="clr-namespace:Microsoft.Practices.Prism.Regions;assembly=Microsoft.Practices.Prism"
+             meffed:ViewModelLocator.ViewModel="ViewAllUsersViewViewModel"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="3*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- UserListRegion -->
+        <Border BorderBrush= "Silver" BorderThickness="2" CornerRadius="3" Margin="5" Grid.Column="0">
+            <ContentControl regions:RegionManager.RegionName="UserListRegion" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" />
+        </Border>
+        <!--GridSplitter-->
+        <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ResizeDirection="Columns" Width="3" Background="Black"/>
+        <!-- UserDetailsRegion -->
+        <Border Margin="5" Grid.Column="2"  BorderThickness="0" CornerRadius="4" BorderBrush="Silver">
+            <TabControl Grid.Column="2" regions:RegionManager.RegionName="UserDetailsRegion" 
+                        regions:RegionManager.RegionManager="{Binding CurrentUser}"
+                        Width ="Auto" Height="Auto" HorizontalAlignment="Stretch">
+
+            </TabControl>
+        </Border>
+    </Grid>
+</UserControl>

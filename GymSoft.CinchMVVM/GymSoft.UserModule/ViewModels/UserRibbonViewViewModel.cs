@@ -56,7 +56,9 @@ namespace GymSoft.UserModule.ViewModels
 
         private void ExecuteViewAllUsersCommand(Object args)
         {
-            messageBoxService.ShowInformation("ExecuteViewAllUsersCommand");
+            //Inject Add User view
+            viewInjectionService.ClearRegionOfAllViews("MainContentRegion");
+            viewInjectionService.AddViewToRegion("MainContentRegion", "ViewAllUsersView", new ViewAllUsersView());
         }
         #endregion
     }

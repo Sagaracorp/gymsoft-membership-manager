@@ -41,11 +41,11 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Cinch.WPF">
-      <HintPath>..\..\..\ProjectDLLs\Cinch.WPF.dll</HintPath>
+      <HintPath>..\..\..\..\CinchMVVMDLLs\Cinch.WPF.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="MEFedMVVM.WPF">
-      <HintPath>..\..\..\ProjectDLLs\MEFedMVVM.WPF.dll</HintPath>
+      <HintPath>..\..\..\..\CinchMVVMDLLs\MEFedMVVM.WPF.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Microsoft.Expression.Interactions, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -70,6 +70,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
     <Reference Include="System.Windows.Interactivity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -85,9 +86,11 @@
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
     <Reference Include="Telerik.Windows.Controls, Version=2012.2.912.40, Culture=neutral, PublicKeyToken=5803cfa389c90ce7" />
+    <Reference Include="Telerik.Windows.Controls.GridView, Version=2012.2.912.40, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL" />
     <Reference Include="Telerik.Windows.Controls.Input, Version=2012.2.912.40, Culture=neutral, PublicKeyToken=5803cfa389c90ce7" />
     <Reference Include="Telerik.Windows.Controls.Navigation, Version=2012.2.912.40, Culture=neutral, PublicKeyToken=5803cfa389c90ce7" />
     <Reference Include="Telerik.Windows.Controls.RibbonBar, Version=2012.2.912.40, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL" />
+    <Reference Include="Telerik.Windows.Data, Version=2012.2.912.40, Culture=neutral, PublicKeyToken=5803cfa389c90ce7" />
     <Reference Include="UIAutomationProvider" />
     <Reference Include="UIAutomationTypes" />
     <Reference Include="WindowsBase" />
@@ -110,12 +113,24 @@
     </Compile>
     <Compile Include="UserModule.cs" />
     <Compile Include="ViewModels\AddNewUserViewViewModel.cs" />
+    <Compile Include="ViewModels\UserDetailViewViewModel.cs" />
+    <Compile Include="ViewModels\UserListViewViewModel.cs" />
     <Compile Include="ViewModels\UserRibbonViewViewModel.cs" />
+    <Compile Include="ViewModels\ViewAllUsersViewViewModel.cs" />
     <Compile Include="Views\AddNewUserView.xaml.cs">
       <DependentUpon>AddNewUserView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\UserDetailView.xaml.cs">
+      <DependentUpon>UserDetailView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserListView.xaml.cs">
+      <DependentUpon>UserListView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\UserRibbonView.xaml.cs">
       <DependentUpon>UserRibbonView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ViewAllUsersView.xaml.cs">
+      <DependentUpon>ViewAllUsersView.xaml</DependentUpon>
     </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -143,7 +158,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\UserDetailView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserListView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\UserRibbonView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ViewAllUsersView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
