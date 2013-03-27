@@ -361,11 +361,13 @@ CREATE PROCEDURE gym_sp_CreatePerson(buid int, userid int, fname VARCHAR(1024), 
     INSERT INTO gymsoft.gym_AuditTrail(buId, activity, description, updatedAt, updatedBy)
     VALUES      (buid,
                  'CREATE PERSON',
-                 concat(personid, '|', fname, '|', mname, '|', lname, '|', dob, '|', email, '|', num1, '|',
-                        num2, '|', num3, '|', add1, '|', add2, '|', add3, '|',
-                        par, '|', sex, '|', photo, '|', usrtyp),
+                 concat(personid, '|', coalesce(fname,'NULL'), '|', coalesce(mname,'NULL'), '|', coalesce(lname,'NULL'), '|', coalesce(dob,'NULL'), '|', coalesce(email,'NULL'), '|', coalesce(num1,'NULL'), '|',
+                        coalesce(num2,'NULL'), '|', coalesce(num3,'NULL'), '|', coalesce(add1,'NULL'), '|', coalesce(add2,'NULL'), '|', coalesce(add3,'NULL'), '|',
+                        coalesce(par,'NULL'), '|', coalesce(sex,'NULL'), '|', coalesce(photo,'NULL'), '|', usrtyp),
                  modTime,
                  userid);
+
+
 
     COMMIT;
   END;
@@ -432,13 +434,13 @@ CREATE PROCEDURE gym_sp_CreateUserFromPerson(buid int, userid int, personid int,
     INSERT INTO gymsoft.gym_Users(buId, userId, userName, password, status, jobTitle, createdAt, createdBy, updatedAt, updatedBy)
     VALUES      (buid, personid, uname, AES_ENCRYPT(hashkey,pwd), status, jt, modTime, userid, modTime, userid);
 
-    INSERT INTO gymsoft.gym_AuditTrail(buId, activity, description, updatedAt, updatedBy)
-    VALUES      (buid,
-                 'CREATE USER',
-                 concat(personid, '|',uname, '|',
-                        pwd, '|', status, '|', jt),
-                 modTime,
-                 userid);
+    #INSERT INTO gymsoft.gym_AuditTrail(buId, activity, description, updatedAt, updatedBy)
+    #VALUES      (buid,
+    #             'CREATE USER',
+    #             concat(personid, '|',uname, '|',
+    #                    pwd, '|', status, '|', jt),
+    #             modTime,
+    #             userid);
 
     SET result1 = 0;
 
