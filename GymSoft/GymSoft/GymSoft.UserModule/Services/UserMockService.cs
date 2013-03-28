@@ -254,7 +254,7 @@ namespace GymSoft.UserModule.Services
                                                   UserName = "rcrosbourne@gmail.com"
                                               },
                                       };
-           /* for (int i = 0; i < 1000000; i++)
+            for (int i = 0; i < 1000000; i++)
             {
                 usersVar.Add(new User()
                 {
@@ -264,7 +264,7 @@ namespace GymSoft.UserModule.Services
                     Password = "sdfsdfs",
                     UserName = "username" + i
                 });
-            }*/
+            }
             
 
             return usersVar;
