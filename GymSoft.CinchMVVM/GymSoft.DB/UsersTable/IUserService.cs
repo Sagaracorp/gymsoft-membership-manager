@@ -11,6 +11,8 @@ namespace GymSoft.DB.UsersTable
         Users FindAll(); // This should be used buy the login screen. 
         void FindAllTask(Action<Users> resultCallback, Action<Exception> exceptionCallBack);
         void CreateNewUserTask(User newUser, Action<Int32> resultCallback, Action<Exception> exceptionCallBack);
+        void UpdateUserTask(User user, Action<Int32> resultCallback, Action<Exception> exceptionCallBack);
 
+      
     }
 }

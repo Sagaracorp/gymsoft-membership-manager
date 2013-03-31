@@ -23,6 +23,7 @@ namespace GymSoft.UserModule.ViewModels
 
         private Users users;
         private User currentlySelectedUser;
+        
         private bool isBusy;
         private string waitText;
 

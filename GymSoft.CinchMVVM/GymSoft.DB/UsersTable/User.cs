@@ -32,7 +32,7 @@ namespace GymSoft.DB.UsersTable
         private DataWrapper<String> address3;
         private DataWrapper<String> parish;
         private DataWrapper<String> gender;
-        private DataWrapper<Uri> photoPath;
+        private DataWrapper<String> photoPath;
         private DataWrapper<DateTime> createdAt;
         private DataWrapper<Int32> createdBy;
         private DataWrapper<DateTime> updatedAt;
@@ -79,13 +79,13 @@ namespace GymSoft.DB.UsersTable
             Address3 = new DataWrapper<String>(this, address3Args); ;
             Parish = new DataWrapper<String>(this, parishArgs); ;
             Gender = new DataWrapper<String>(this, genderArgs); ;
-            PhotoPath = new DataWrapper<Uri>(this, photoPathArgs); ;
+            PhotoPath = new DataWrapper<String>(this, photoPathArgs); ;
             CreatedAt = new DataWrapper<DateTime>(this, createdAtArgs);
             CreatedBy = new DataWrapper<Int32>(this, createdByArgs);
             UpdatedAt = new DataWrapper<DateTime>(this, updatedAtArgs);
             UpdatedBy = new DataWrapper<Int32>(this, updatedByArgs);
 
-        
+            PhotoPath.DataValue = GymSoft.CinchMVVM.Common.GymSoftConfigurationManger.GetDefaultUserPicture().ToString();
             //fetch list of all DataWrappers, so they can be used again later without the
             //need for reflection
             cachedListOfDataWrappers =
@@ -386,7 +386,7 @@ namespace GymSoft.DB.UsersTable
         /// </summary>
         static PropertyChangedEventArgs photoPathArgs =
             ObservableHelper.CreateArgs<User>(x => x.PhotoPath);
-        public DataWrapper<Uri> PhotoPath
+        public DataWrapper<String> PhotoPath
         {
             get { return photoPath; }
             set { photoPath = value; NotifyPropertyChanged(photoPathArgs); }

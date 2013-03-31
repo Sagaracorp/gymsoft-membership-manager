@@ -99,7 +99,7 @@ namespace GymSoft.DB.UsersTable
                     },
                     PhotoPath =
                     {
-                        DataValue = new Uri(String.Format("../Users/Image/{0}", i), UriKind.RelativeOrAbsolute)
+                        DataValue = new Uri(String.Format("../UsersImage/{0}", i), UriKind.Relative).AbsolutePath
                     },
                     CreatedAt =
                     {
@@ -135,6 +135,18 @@ namespace GymSoft.DB.UsersTable
 
 
         public void CreateNewUserTask(User newUser, Action<int> resultCallback, Action<Exception> exceptionCallBack)
+        {
+            throw new NotImplementedException();
+        }
+
+
+        public void UploadUserImageTask(string sourceImage, int userId, Action<int> resultCallback, Action<Exception> exceptionCallBack)
+        {
+            throw new NotImplementedException();
+        }
+
+
+        public void UpdateUserTask(User user, Action<int> resultCallback, Action<Exception> exceptionCallBack)
         {
             throw new NotImplementedException();
         }

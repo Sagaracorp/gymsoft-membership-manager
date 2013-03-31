@@ -41,7 +41,7 @@
                              SelectedItem="{Binding Path=CurrentlySelectedUser, Mode=TwoWay}">
                         <telerik:RadGridView.Columns>
                             <telerik:GridViewImageColumn Header="Photo"
-											 DataMemberBinding="{Binding Picture}"
+											 DataMemberBinding="{Binding PhotoPath.DataValue}"
 											 ImageHeight="35"
 											 ImageWidth="35"
 											 Width="45" />
@@ -68,7 +68,8 @@
             <DockPanel Grid.Column="0">
                 <StackPanel DockPanel.Dock="Top">
                     <Border Margin="10" CornerRadius="5" BorderThickness="2" BorderBrush="DarkCyan">
-                        <Image Grid.Row="0" Source="/GymSoft.UserModule;component/Images/kirito_soa.png"/>
+                        <Image Grid.Row="0" Source="{Binding Path=CurrentlySelectedUser.PhotoPath.DataValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, 
+                        ValidatesOnExceptions=True}"/>
                     </Border>
                 </StackPanel>
                 <StackPanel DockPanel.Dock="Left">

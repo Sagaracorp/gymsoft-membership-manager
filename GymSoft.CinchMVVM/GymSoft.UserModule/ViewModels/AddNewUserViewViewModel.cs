@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.Composition;
+using System.IO;
 using System.Linq;
 using System.Text;
 using Cinch;
 using GymSoft.DB.UsersTable;
+using MEFedMVVM.Common;
 using MEFedMVVM.ViewModelLocator;
 
 namespace GymSoft.UserModule.ViewModels
@@ -16,7 +18,8 @@ namespace GymSoft.UserModule.ViewModels
     {
         private readonly IViewAwareStatus viewAwareStatus;
         private readonly IMessageBoxService messageBoxService;
-        private readonly IUserService _userService;
+        private readonly IUserService userService;
+        private readonly IOpenFileService openFileService;
 
         private AsyncType asyncState = AsyncType.Content;
         private bool isBusy;
@@ -90,6 +93,7 @@ namespace GymSoft.UserModule.ViewModels
         #region Commands
         public SimpleCommand<Object, Object> AddNewUserCommand { get; private set; }
         public SimpleCommand<Object, Object> CancelAddNewUserCommand { get; private set; }
+        public SimpleCommand<Object, Object> UploadUserImageCommand { get; private set; }
         #endregion
 
         private User _newUser;
@@ -111,16 +115,50 @@ namespace GymSoft.UserModule.ViewModels
         }
 
         [ImportingConstructor]
-        public AddNewUserViewViewModel(IViewAwareStatus viewAwareStatus, IMessageBoxService messageBoxService, IUserService userService)
+        public AddNewUserViewViewModel(IViewAwareStatus viewAwareStatus, IMessageBoxService messageBoxService, IUserService userService, IOpenFileService openFileService)
         {
             this.viewAwareStatus = viewAwareStatus;
             this.messageBoxService = messageBoxService;
-            _userService = userService;
+            this.userService = userService;
+            this.openFileService = openFileService;
             NewUser = new User();
+            NewUser.PhotoPath.DataValue = GymSoft.CinchMVVM.Common.GymSoftConfigurationManger.GetDefaultUserPicture().ToString();
+           
+            messageBoxService.ShowInformation(Directory.GetCurrentDirectory());
+            
             //Initialise Commands
             AddNewUserCommand = new SimpleCommand<object, object>(CanAddNewUserCommand, ExecuteAddNewUserCommand);
             CancelAddNewUserCommand = new SimpleCommand<object, object>(ExecuteCancelAddNewUserCommand);
+            UploadUserImageCommand = new SimpleCommand<object, object>(CanExecuteUploadUserImageCommand,
+                                                                       ExecuteUploadUserImageCommand);
             //this._viewAwareStatus.ViewLoaded += new Action(_viewAwareStatus_ViewLoaded);
+        }
+
+        private bool CanExecuteUploadUserImageCommand(Object args)
+        {
+            return true;
+        }
+
+        private void ExecuteUploadUserImageCommand(Object args)
+        {
+            //User File open service to get the file
+            openFileService.InitialDirectory = @"C:\";
+            openFileService.Filter = "Image files (*.jpg, *.jpeg, *.jpe, *.jfif, *.png) | *.jpg; *.jpeg; *.jpe; *.jfif; *.png";
+ 
+            var result = openFileService.ShowDialog(null);
+            if (result.HasValue && result.Value == true)
+            {
+                var fileName = openFileService.FileName;
+                NewUser.PhotoPath.DataValue = fileName;
+            }
+        }
+        public void UploadUserImageCompleted(int userId)
+        {
+            messageBoxService.ShowInformation(String.Format("Image for user {0} was uploaded", userId));
+        }
+        public void UploadUserImageException(Exception exception)
+        {
+            messageBoxService.ShowError(exception.Message);
         }
 
         private bool CanAddNewUserCommand(Object args)
@@ -131,13 +169,14 @@ namespace GymSoft.UserModule.ViewModels
         private void ExecuteCancelAddNewUserCommand(Object args)
         {
             NewUser = new User();
+            NewUser.PhotoPath.DataValue = GymSoft.CinchMVVM.Common.GymSoftConfigurationManger.GetDefaultUserPicture().AbsolutePath;
         }
         private void ExecuteAddNewUserCommand(Object args)
         {
             //AsyncState = AsyncType.Busy;
             IsBusy = true;
             WaitText = string.Format("Adding new user");
-            _userService.CreateNewUserTask(this.NewUser,NewUserAdded, ErrorAddingNewUser);
+            userService.CreateNewUserTask(this.NewUser,NewUserAdded, ErrorAddingNewUser);
             
         }
         private void NewUserAdded(int userId)

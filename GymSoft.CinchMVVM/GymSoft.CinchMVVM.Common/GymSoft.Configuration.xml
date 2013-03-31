@@ -3,4 +3,9 @@
   <database>
     <connectionString>Server=gymsoft.db.10266153.hostedresource.com; Port=3306; Database=gymsoft; Uid=gymsoft; Pwd='G3tf!t12';</connectionString>
   </database>
+  <user_images>
+    <default_directory>UserImages</default_directory>
+    <default_picture>..\UserImages\default.png</default_picture>
+    <default_assembly_root>/GymSoft.UserModule;component/UserImages</default_assembly_root>
+  </user_images>
 </GymSoft>

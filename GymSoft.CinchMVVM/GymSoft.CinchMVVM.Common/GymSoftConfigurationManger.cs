@@ -22,5 +22,30 @@ namespace GymSoft.CinchMVVM.Common
                                    select conString.Value;
             return connectionString.First().ToString();
         }
+        public static Uri GetUserDefaultPictureDirectory()
+        {
+            var userDefaultPictureDirectory = from userImages in configFile.Descendants("user_images")
+                                              let xElement = userImages.Element("default_directory")
+                                              where xElement != null
+                                              select xElement.Value;
+            return new Uri(userDefaultPictureDirectory.First().ToString(), UriKind.RelativeOrAbsolute);
+        }
+        public static Uri GetDefaultUserPicture()
+        {
+            var userDefaultPicture = from userImages in configFile.Descendants("user_images")
+                                     let xElement = userImages.Element("default_picture")
+                                     where xElement != null
+                                     select xElement.Value;
+          
+            return new Uri(userDefaultPicture.First(), UriKind.Relative);
+        }
+        public static string GetUserPicturesAssemblyRoot()
+        {
+            var userPicturesAssemblyRoot = from userImages in configFile.Descendants("user_images")
+                                     let xElement = userImages.Element("default_assembly_root")
+                                     where xElement != null
+                                     select xElement.Value;
+            return userPicturesAssemblyRoot.First().ToString();
+        }
     }
 }
