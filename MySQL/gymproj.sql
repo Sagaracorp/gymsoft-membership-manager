@@ -703,16 +703,17 @@ CREATE PROCEDURE gym_sp_AuthenticateUser(buid int, uname VARCHAR(1024), pass VAR
 DROP PROCEDURE IF EXISTS gym_sp_GetAllUsers;
 
 CREATE PROCEDURE gym_sp_GetAllUsers(buid int, userid int, OUT result int)
-  BEGIN
+BEGIN
     DECLARE modTime DATETIME;
     
     START TRANSACTION;
 
     SET modTime = current_timestamp();
 
-    SELECT u.userId, u.userName, u.status, u.jobTitle, p.firstName, p.middleName, p.lastName, p.dateOfBirth, p.emailAddress,
-       p.contactNum1, p.contactNum2, p.contactNum3, p.address1, p.address2, p.address3, p.parish, p.gender, p.photoPath
-    FROM   gym_Users u INNER JOIN gym_Person p ON p.personId = u.userId AND p.buId = u.buId;
+    SELECT u.buId, u.userId, u.userName, u.password, u.status, u.jobTitle, p.firstName, p.middleName, p.lastName,
+       p.dateOfBirth, p.emailAddress, p.contactNum1, p.contactNum2, p.contactNum3, p.address1, p.address2, p.address3, p.parish,
+       p.gender, p.photoPath, u.CreatedAt, u.CreatedBy, u.UpdatedAt, u.UpdatedBy
+FROM   gym_Users u INNER JOIN gym_Person p ON p.personId = u.userId AND p.buId = u.buId;
 
     INSERT INTO gymsoft.gym_AuditTrail(buId, activity, description, updatedAt, updatedBy)
     VALUES      (buid,
@@ -940,7 +941,7 @@ call gym_sp_CreateNewCustomer (1,0,'Vladimir','Ivor','George','1986-09-19','Inte
 
 
 
-
+update gym_Person set photoPath = (select filename from gym_PhotoAlbum order by rand() limit 0,1)
 
 
 
