@@ -1,0 +1,47 @@
+﻿<UserControl x:Class="GymSoft.UserModule.Views.UserListView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:meffed="http:\\www.codeplex.com\MEFedMVVM"
+             xmlns:telerik="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Controls.GridView"
+             xmlns:controls="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Controls"
+             meffed:ViewModelLocator.ViewModel="UserListViewViewModel"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <Grid>
+
+        <controls:RadBusyIndicator BusyContent="{Binding WaitText}" IsBusy="{Binding IsBusy}" IsIndeterminate="True" >
+        <telerik:RadGridView RowHeight="45"
+							 ItemsSource="{Binding Users}"
+							 IsSynchronizedWithCurrentItem="True"
+							 IsReadOnly="True"
+                             MaxColumnWidth="200"
+							 AutoGenerateColumns="False"
+							 CanUserFreezeColumns="False"
+							 CanUserResizeColumns="False"
+                             SelectedItem="{Binding Path=CurrentlySelectedUser, Mode=TwoWay}">
+            <telerik:RadGridView.Columns>
+                <telerik:GridViewImageColumn Header="Photo"
+											 DataMemberBinding="{Binding Picture}"
+											 ImageHeight="35"
+											 ImageWidth="35"
+											 Width="45" />
+                <telerik:GridViewDataColumn Header="First Name"
+											DataMemberBinding="{Binding FirstName.DataValue}" />
+                <telerik:GridViewDataColumn Header="Last Name"
+											DataMemberBinding="{Binding LastName.DataValue}" />
+                <telerik:GridViewDataColumn Header="Title"
+											DataMemberBinding="{Binding UserName.DataValue}" />
+                <telerik:GridViewDataColumn Header="City"
+											DataMemberBinding="{Binding City.DataValue}" />
+                <telerik:GridViewDataColumn Header="Country"
+											DataMemberBinding="{Binding Parish.DataValue}" />
+                <telerik:GridViewDataColumn Header="Phone"
+											DataMemberBinding="{Binding Contact1.DataValue}"
+											Width="*" />
+            </telerik:RadGridView.Columns>
+        </telerik:RadGridView>
+        </controls:RadBusyIndicator>
+    </Grid>
+</UserControl>
