@@ -119,6 +119,12 @@ namespace GymSoft.UserModule.ViewModels
             //viewInjectionService.ClearRegionOfAllViews("UserDetailRegion");
             //viewInjectionService.AddViewToRegion("UserListRegion", "UserListView", new UserListView());
             //viewInjectionService.AddViewToRegion("UserDetailRegion", "UserDetailView", new UserDetailView());
+
+
+            //string path;
+            //path = System.IO.Path.GetDirectoryName(
+            //  System.Reflection.Assembly.GetExecutingAssembly().GetName().CodeBase);
+            //MessageBox.Show(path);
         }
         void LoadUsers(Users result)
         {

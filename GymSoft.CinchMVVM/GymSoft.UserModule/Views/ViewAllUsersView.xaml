@@ -8,6 +8,7 @@
              xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
              xmlns:cinch="clr-namespace:Cinch;assembly=Cinch.WPF"
              xmlns:common="clr-namespace:GymSoft.CinchMVVM.Common;assembly=GymSoft.CinchMVVM.Common"
+             xmlns:utilities="clr-namespace:GymSoft.CinchMVVM.Common.Utilities;assembly=GymSoft.CinchMVVM.Common"
              meffed:ViewModelLocator.ViewModel="ViewAllUsersViewViewModel"
              mc:Ignorable="d" 
              d:DesignHeight="722" d:DesignWidth="891" MaxHeight="722" MaxWidth="991">
@@ -68,8 +69,7 @@
             <DockPanel Grid.Column="0">
                 <StackPanel DockPanel.Dock="Top">
                     <Border Margin="10" CornerRadius="5" BorderThickness="2" BorderBrush="DarkCyan">
-                        <Image Grid.Row="0" Source="{Binding Path=CurrentlySelectedUser.PhotoPath.DataValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, 
-                        ValidatesOnExceptions=True}"/>
+                        <Image Grid.Row="0" Source="{Binding Path=CurrentlySelectedUser.PhotoPath.DataValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}"/>
                     </Border>
                 </StackPanel>
                 <StackPanel DockPanel.Dock="Left">
@@ -177,7 +177,7 @@
                                 <ColumnDefinition/>
                             </Grid.ColumnDefinitions>
                             <Label Content="Contact Numbers" Grid.Column="0"/>
-                            <TextBox Text="{Binding CurrentlySelectedUser.ContactNumber1.DataValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" 
+                            <TextBox Text="{Binding CurrentlySelectedUser.ContactNum1.DataValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" 
 								 Style="{DynamicResource ValidatingTextBox}" Grid.Column="1" >
                                 <i:Interaction.Behaviors>
                                     <cinch:TextBoxFocusBehavior IsUsingDataWrappers="true" />
@@ -191,7 +191,7 @@
                                 <ColumnDefinition/>
                             </Grid.ColumnDefinitions>
 
-                            <TextBox Text="{Binding CurrentlySelectedUser.ContactNumber2.DataValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" 
+                            <TextBox Text="{Binding CurrentlySelectedUser.ContactNum2.DataValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" 
 								 Style="{DynamicResource ValidatingTextBox}" Grid.Column="1" >
                                 <i:Interaction.Behaviors>
                                     <cinch:TextBoxFocusBehavior IsUsingDataWrappers="true" />
@@ -205,7 +205,7 @@
                                 <ColumnDefinition/>
                             </Grid.ColumnDefinitions>
 
-                            <TextBox Text="{Binding CurrentlySelectedUser.ContactNumber3.DataValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" 
+                            <TextBox Text="{Binding CurrentlySelectedUser.ContactNum3.DataValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" 
 								 Style="{DynamicResource ValidatingTextBox}" Grid.Column="1" >
                                 <i:Interaction.Behaviors>
                                     <cinch:TextBoxFocusBehavior IsUsingDataWrappers="true" />
@@ -219,10 +219,11 @@
                                 <ColumnDefinition/>
                             </Grid.ColumnDefinitions>
                             <Label Content="Gender" Grid.Column="0"/>
-                            <ComboBox Grid.Column="1" SelectedValue="{Binding NewUser.Gender.DataValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}">
-                                <ComboBoxItem>MALE</ComboBoxItem>
-                                <ComboBoxItem>FEMALE</ComboBoxItem>
-                            </ComboBox>
+                            <ComboBox ItemsSource="{Binding Converter={StaticResource GenderListProvider}}"  
+                                  SelectedItem="{Binding CurrentlySelectedUser.Gender.DataValue, 
+                                                Converter={StaticResource GenderValueConverter}, 
+                                                Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, 
+                                                ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" Grid.Column="1"/>
                         </Grid>
                         <Grid Margin="5">
                             <Grid.ColumnDefinitions>
@@ -239,8 +240,11 @@
                                 <ColumnDefinition/>
                             </Grid.ColumnDefinitions>
                             <Label Content="Status" Grid.Column="0"/>
-                            <TextBox Text="{Binding CurrentlySelectedUser.Status.DataValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" 
-								 Style="{DynamicResource ValidatingTextBox}" Grid.Column="1" />
+                            <ComboBox ItemsSource="{Binding Converter={StaticResource StatusListProvider}}"  
+                                  SelectedItem="{Binding CurrentlySelectedUser.Status.DataValue, 
+                                                Converter={StaticResource StatusValueConverter}, 
+                                                Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, 
+                                                ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" Grid.Column="1"/>
                         </Grid>
                         <Grid Margin="5">
                             <Grid.ColumnDefinitions>

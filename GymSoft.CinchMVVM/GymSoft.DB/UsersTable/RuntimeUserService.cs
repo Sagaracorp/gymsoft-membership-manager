@@ -9,6 +9,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Cinch;
 using GymSoft.CinchMVVM.Common;
+using GymSoft.CinchMVVM.Common.Utilities;
 using GymSoft.DB.BusinessUnitsTable;
 using MEFedMVVM.ViewModelLocator;
 using MySql.Data.MySqlClient;
@@ -53,9 +54,12 @@ namespace GymSoft.DB.UsersTable
         }
         #endregion
 
+        
+
         [ImportingConstructor]
         public RuntimeUserService()
         {
+
             ConnectionString = GymSoftConfigurationManger.GetDatabaseConnection();
             MySqlConnection = new MySqlConnection(ConnectionString);
             MySqlCommand = MySqlConnection.CreateCommand();
@@ -79,6 +83,9 @@ namespace GymSoft.DB.UsersTable
             //Now lets return buis
             var users = new Users();
             DataTable dataTable = UserDataSet.Tables[0]; // Only 1 table
+
+           
+
             for (var i = 0; i < dataTable.Rows.Count; i++)
             {
                 #region Add to list
@@ -102,7 +109,7 @@ namespace GymSoft.DB.UsersTable
                     },
                     Status = 
                     {
-                        DataValue = (dataTable.Rows[i][(int)UserTableDefinition.Status].ToString())
+                        DataValue = GetStatus((dataTable.Rows[i][(int)UserTableDefinition.Status].ToString()))
                     },
                     JobTitle = 
                     {
@@ -158,11 +165,12 @@ namespace GymSoft.DB.UsersTable
                     },
                     Gender = 
                     {
-                        DataValue = (dataTable.Rows[i][(int)UserTableDefinition.Gender].ToString())
+                        DataValue = (dataTable.Rows[i][(int)UserTableDefinition.Gender].ToString()).ToUpper() == "MALE" ? 
+                                    Gender.Male : Gender.Female
                     },
                     PhotoPath = 
                     {
-                        DataValue = dataTable.Rows[i][(int)UserTableDefinition.PhotoPath].ToString()
+                        DataValue = GetAbsoluteFilePath(dataTable.Rows[i][(int)UserTableDefinition.PhotoPath].ToString())
                     },
                     CreatedAt =
                     {
@@ -186,6 +194,32 @@ namespace GymSoft.DB.UsersTable
             }
             return users;
         }
+
+        private Status GetStatus(string p)
+        {
+            switch (p.Trim().ToUpper())
+            {
+                case "ACTIVE":
+                    return Status.Active;
+                case "INACTIVE":
+                    return Status.Inactive;
+                case "EXPIRED":
+                    return Status.Expired;
+                default:
+                    return Status.Active;
+            }
+            
+        }
+
+        public string GetAbsoluteFilePath(string relativeFilePath)
+		{
+			string filepath = System.Reflection.Assembly.GetExecutingAssembly().Location;
+            filepath = filepath.Substring(0,filepath.LastIndexOf('\\'));
+			filepath = filepath.Substring(0, filepath.LastIndexOf('\\'));
+			filepath += "\\Userimages\\" + (String.IsNullOrEmpty(relativeFilePath) ? "default.png" : relativeFilePath);
+			
+			return filepath;
+		}
 
         public Users FindAll()
         {
@@ -259,6 +293,11 @@ namespace GymSoft.DB.UsersTable
         private int AddNewUser(User newUser, int buId = 1, int userId = 1)
         {
             //Upload image
+
+
+           
+
+
             var currentPath = newUser.PhotoPath.DataValue;
             newUser.PhotoPath.DataValue = currentPath.Equals(GymSoftConfigurationManger.GetDefaultUserPicture().ToString()) 
                 ? currentPath : UploadUserImage(currentPath);
@@ -280,11 +319,11 @@ namespace GymSoft.DB.UsersTable
             MySqlCommand.Parameters.AddWithValue("add2", newUser.Address2.DataValue);
             MySqlCommand.Parameters.AddWithValue("add3", newUser.Address3.DataValue);
             MySqlCommand.Parameters.AddWithValue("par", newUser.Parish.DataValue);
-            MySqlCommand.Parameters.AddWithValue("sex", newUser.Gender.DataValue);
+            MySqlCommand.Parameters.AddWithValue("sex", newUser.Gender.DataValue.ToString().ToUpper());
             MySqlCommand.Parameters.AddWithValue("photo", newUser.PhotoPath.DataValue);
             MySqlCommand.Parameters.AddWithValue("uname", newUser.UserName.DataValue);
             MySqlCommand.Parameters.AddWithValue("pwd", newUser.Password.DataValue);
-            MySqlCommand.Parameters.AddWithValue("status", newUser.Status.DataValue);
+            MySqlCommand.Parameters.AddWithValue("status", newUser.Status.DataValue.ToString().ToUpper());
             MySqlCommand.Parameters.AddWithValue("jt", newUser.JobTitle.DataValue);
 
 
@@ -320,14 +359,17 @@ namespace GymSoft.DB.UsersTable
             
             source.CopyTo(destination, true);
 
-            var baseUri = new Uri(currentDirectory);
-            var fullUri = new Uri(destination);
-            var relativeUri = fullUri.MakeRelativeUri(baseUri);
-            var directoryFormat = relativeUri.OriginalString.Replace('/', Path.DirectorySeparatorChar);
-            var relativeDestination = String.Format(@"{0}\{1}\{2}", directoryFormat,
-                                                    GymSoftConfigurationManger.GetUserDefaultPictureDirectory()
-                                                                              .ToString(), source.Name);
+            //var baseUri = new Uri(currentDirectory);
+            //var fullUri = new Uri(destination);
+            //var relativeUri = fullUri.MakeRelativeUri(baseUri);
+            //var directoryFormat = relativeUri.OriginalString.Replace('/', Path.DirectorySeparatorChar);
+            //var relativeDestination = String.Format(@"{0}\{1}\{2}", directoryFormat,
+            //                                        GymSoftConfigurationManger.GetUserDefaultPictureDirectory()
+            //                                                                  .ToString(), source.Name);
             //return destination;
+
+            var relativeDestination = source.Name;
+
             return relativeDestination;
         }
 

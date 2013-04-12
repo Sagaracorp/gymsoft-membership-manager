@@ -9,6 +9,7 @@
 	xmlns:cinch="clr-namespace:Cinch;assembly=Cinch.WPF"
 	xmlns:common="clr-namespace:GymSoft.CinchMVVM.Common;assembly=GymSoft.CinchMVVM.Common"
 	xmlns:telerik="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Controls"
+	xmlns:utilities="clr-namespace:GymSoft.CinchMVVM.Common.Utilities;assembly=GymSoft.CinchMVVM.Common"
 	mc:Ignorable="d"
 	x:Class="GymSoft.UserModule.Views.AddNewUserView"
 	x:Name="UserControl"
@@ -90,10 +91,10 @@
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
                         <Label Content="Date of Birth" Grid.Column="0"/>
-                        <DatePicker Grid.Column="1" Text="1981/09/21" FontSize="14.667" SelectedDateFormat="Short"
-                                    SelectedDate="{Binding NewUser.ContactNumber1.DataValue, Mode=TwoWay, 
+                        <DatePicker Grid.Column="1" FontSize="14.667" SelectedDateFormat="Short"
+                                    SelectedDate="{Binding NewUser.DateOfBirth.DataValue, Mode=TwoWay, 
                                     UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, 
-                                    ValidatesOnExceptions=True}" />
+                                    ValidatesOnExceptions=True}"  Style="{DynamicResource ValidatingDatePicker}" />
 
                     </Grid>
                     <Grid Margin="5">
@@ -138,7 +139,7 @@
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
                         <Label Content="Contact Numbers" Grid.Column="0"/>
-                        <TextBox Text="{Binding NewUser.ContactNumber1.DataValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" 
+                        <TextBox Text="{Binding NewUser.ContactNum1.DataValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" 
 								 Style="{DynamicResource ValidatingTextBox}" Grid.Column="1" >
                             <i:Interaction.Behaviors>
                                 <cinch:TextBoxFocusBehavior IsUsingDataWrappers="true" />
@@ -152,7 +153,7 @@
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
 
-                        <TextBox Text="{Binding NewUser.ContactNumber2.DataValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" 
+                        <TextBox Text="{Binding NewUser.ContactNum2.DataValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" 
 								 Style="{DynamicResource ValidatingTextBox}" Grid.Column="1" >
                             <i:Interaction.Behaviors>
                                 <cinch:TextBoxFocusBehavior IsUsingDataWrappers="true" />
@@ -166,7 +167,7 @@
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
 
-                        <TextBox Text="{Binding NewUser.ContactNumber3.DataValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" 
+                        <TextBox Text="{Binding NewUser.ContactNum3.DataValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" 
 								 Style="{DynamicResource ValidatingTextBox}" Grid.Column="1" >
                             <i:Interaction.Behaviors>
                                 <cinch:TextBoxFocusBehavior IsUsingDataWrappers="true" />
@@ -180,10 +181,11 @@
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
                         <Label Content="Gender" Grid.Column="0"/>
-                        <ComboBox Grid.Column="1" SelectedItem="{Binding NewUser.Gender.DataValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" SelectedIndex="0">
-                            <ComboBoxItem>Male</ComboBoxItem>
-                            <ComboBoxItem>Female</ComboBoxItem>
-                        </ComboBox>
+                        <ComboBox ItemsSource="{Binding Converter={StaticResource GenderListProvider}}"  
+                                  SelectedItem="{Binding NewUser.Gender.DataValue, 
+                                                Converter={StaticResource GenderValueConverter}, 
+                                                Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, 
+                                                ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" Grid.Column="1"/>
                     </Grid>
                     <Grid Margin="5">
                         <Grid.ColumnDefinitions>
@@ -200,8 +202,11 @@
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
                         <Label Content="Status" Grid.Column="0"/>
-                        <TextBox Text="{Binding NewUser.Status.DataValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" 
-								 Style="{DynamicResource ValidatingTextBox}" Grid.Column="1" />
+                        <ComboBox ItemsSource="{Binding Converter={StaticResource StatusListProvider}}"  
+                                  SelectedItem="{Binding NewUser.Status.DataValue, 
+                                                Converter={StaticResource StatusValueConverter}, 
+                                                Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, 
+                                                ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" Grid.Column="1"/>
                     </Grid>
                     <Grid Margin="5">
                         <Grid.ColumnDefinitions>

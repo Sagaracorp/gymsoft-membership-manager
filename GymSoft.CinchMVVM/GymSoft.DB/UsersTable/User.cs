@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using Cinch;
+using GymSoft.CinchMVVM.Common.Utilities;
 
 namespace GymSoft.DB.UsersTable
 {
@@ -15,9 +17,8 @@ namespace GymSoft.DB.UsersTable
         private DataWrapper<Int32> userId;
         private DataWrapper<String> userName;
         private static DataWrapper<String> password;
-
         private DataWrapper<String> confirmPassword;
-        private DataWrapper<String> status;
+        private DataWrapper<Status> status;
         private DataWrapper<String> jobTitle;
         private DataWrapper<String> firstName;
         private DataWrapper<String> middleName;
@@ -31,7 +32,7 @@ namespace GymSoft.DB.UsersTable
         private DataWrapper<String> address2;
         private DataWrapper<String> address3;
         private DataWrapper<String> parish;
-        private DataWrapper<String> gender;
+        private DataWrapper<Gender> gender;
         private DataWrapper<String> photoPath;
         private DataWrapper<DateTime> createdAt;
         private DataWrapper<Int32> createdBy;
@@ -50,7 +51,8 @@ namespace GymSoft.DB.UsersTable
         private static SimpleRule StatusCannotBeEmptyRule;
         private static SimpleRule JobTitleCannotBeEmpyRule;
         private static SimpleRule EmailAddressMustBeInCorrectFormat;
-
+        //private static SimpleRule DateOfBirthCannotBeNullRule;
+        private static SimpleRule DateOfBirthMustBeAValidDate;
         #endregion
 
         #region Constructors
@@ -64,27 +66,30 @@ namespace GymSoft.DB.UsersTable
             
 
             ConfirmPassword = new DataWrapper<String>(this, confirmPasswordArgs);
-            Status = new DataWrapper<String>(this, statusArgs);
+            Status = new DataWrapper<Status>(this, statusArgs);
             JobTitle = new DataWrapper<String>(this, jobTitleArgs);
             FirstName = new DataWrapper<String>(this, firstNameArgs);
-            MiddleName = new DataWrapper<String>(this, middleNameArgs); ;
-            LastName = new DataWrapper<String>(this, lastNameArgs); ;
-            DateOfBirth = new DataWrapper<DateTime>(this, dateOfBirthArgs); ;
-            EmailAddress = new DataWrapper<String>(this, emailAddressArgs); ;
-            ContactNum1 = new DataWrapper<String>(this, contactNum1Args); ;
-            ContactNum2 = new DataWrapper<String>(this, contactNum2Args); ;
-            ContactNum3 = new DataWrapper<String>(this, contactNum3Args); ;
+            MiddleName = new DataWrapper<String>(this, middleNameArgs); 
+            LastName = new DataWrapper<String>(this, lastNameArgs); 
+            DateOfBirth = new DataWrapper<DateTime>(this, dateOfBirthArgs); 
+            EmailAddress = new DataWrapper<String>(this, emailAddressArgs); 
+            ContactNum1 = new DataWrapper<String>(this, contactNum1Args); 
+            ContactNum2 = new DataWrapper<String>(this, contactNum2Args); 
+            ContactNum3 = new DataWrapper<String>(this, contactNum3Args); 
             Address1 = new DataWrapper<String>(this, address1Args); ;
             Address2 = new DataWrapper<String>(this, address2Args); ;
             Address3 = new DataWrapper<String>(this, address3Args); ;
             Parish = new DataWrapper<String>(this, parishArgs); ;
-            Gender = new DataWrapper<String>(this, genderArgs); ;
+            Gender = new DataWrapper<Gender>(this, genderArgs); ;
             PhotoPath = new DataWrapper<String>(this, photoPathArgs); ;
             CreatedAt = new DataWrapper<DateTime>(this, createdAtArgs);
             CreatedBy = new DataWrapper<Int32>(this, createdByArgs);
             UpdatedAt = new DataWrapper<DateTime>(this, updatedAtArgs);
             UpdatedBy = new DataWrapper<Int32>(this, updatedByArgs);
 
+            DateOfBirth.DataValue = DateTime.Today;
+            
+            
             PhotoPath.DataValue = GymSoft.CinchMVVM.Common.GymSoftConfigurationManger.GetDefaultUserPicture().ToString();
             //fetch list of all DataWrappers, so they can be used again later without the
             //need for reflection
@@ -101,6 +106,8 @@ namespace GymSoft.DB.UsersTable
             status.AddRule(StatusCannotBeEmptyRule);
             jobTitle.AddRule(JobTitleCannotBeEmpyRule);
             emailAddress.AddRule(EmailAddressMustBeInCorrectFormat);
+            //dateOfBirth.AddRule(DateOfBirthCannotBeNullRule);
+            dateOfBirth.AddRule(DateOfBirthMustBeAValidDate);
             #endregion
         }
 
@@ -134,8 +141,8 @@ namespace GymSoft.DB.UsersTable
             StatusCannotBeEmptyRule = new SimpleRule("DataValue", "Status can not be empty",
                        (Object domainObject) =>
                        {
-                           DataWrapper<String> obj = (DataWrapper<String>)domainObject;
-                           return String.IsNullOrEmpty(obj.DataValue);
+                           DataWrapper<Status> obj = (DataWrapper<Status>)domainObject;
+                           return obj.DataValue.Equals(null);
                        });
             JobTitleCannotBeEmpyRule = new SimpleRule("DataValue", "Job Title can not be empty",
                        (Object domainObject) =>
@@ -154,6 +161,19 @@ namespace GymSoft.DB.UsersTable
                        {
                            DataWrapper<String> obj = (DataWrapper<String>)domainObject;
                            return String.IsNullOrEmpty(obj.DataValue);
+                       });
+            //DateOfBirthCannotBeNullRule = new SimpleRule("DataValue", "Date of birth can not be empty",
+              //         (Object domainObject) =>
+                //       {
+                           //DataWrapper<DateTime> obj = (DataWrapper<DateTime>)domainObject;
+                           //return String.IsNullOrEmpty(obj.DataValue.ToString(CultureInfo.InvariantCulture));
+                  //     });
+            DateOfBirthMustBeAValidDate = new SimpleRule("DataValue", "Date of birth must be a valid date",
+                       (Object domainObject) =>
+                       {
+                           DataWrapper<DateTime> obj = (DataWrapper<DateTime>)domainObject;
+                           DateTime dt;
+                           return !DateTime.TryParse(obj.DataValue.ToString(CultureInfo.InvariantCulture), out dt);
                        });
             EmailAddressMustBeInCorrectFormat = new SimpleRule("DataValue", "Email Address must be in correct format",
                        (Object domainObject) =>
@@ -236,7 +256,7 @@ namespace GymSoft.DB.UsersTable
         /// </summary>
         static PropertyChangedEventArgs statusArgs =
             ObservableHelper.CreateArgs<User>(x => x.Status);
-        public DataWrapper<String> Status
+        public DataWrapper<Status> Status
         {
             get { return status; }
             set { status = value; NotifyPropertyChanged(statusArgs); }
@@ -376,7 +396,7 @@ namespace GymSoft.DB.UsersTable
         /// </summary>
         static PropertyChangedEventArgs genderArgs =
             ObservableHelper.CreateArgs<User>(x => x.Gender);
-        public DataWrapper<String> Gender
+        public DataWrapper<Gender> Gender
         {
             get { return gender; }
             set { gender = value; NotifyPropertyChanged(genderArgs); }
@@ -431,6 +451,7 @@ namespace GymSoft.DB.UsersTable
             get { return updatedBy; }
             set { updatedBy = value; NotifyPropertyChanged(updatedByArgs); }
         }
+        
         #endregion
         #region Overrides
 

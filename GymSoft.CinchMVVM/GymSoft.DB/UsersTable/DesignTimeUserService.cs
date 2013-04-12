@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using GymSoft.CinchMVVM.Common.Utilities;
 using MEFedMVVM.ViewModelLocator;
 
 namespace GymSoft.DB.UsersTable
@@ -39,7 +40,7 @@ namespace GymSoft.DB.UsersTable
                     },
                     Status =
                     {
-                        DataValue = String.Format("Status_{0}", i)
+                        DataValue = Status.Active
                     },
                     JobTitle =
                     {
@@ -95,7 +96,7 @@ namespace GymSoft.DB.UsersTable
                     },
                     Gender =
                     {
-                        DataValue = "Male"
+                        DataValue = Gender.Male
                     },
                     PhotoPath =
                     {

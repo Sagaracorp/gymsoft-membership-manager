@@ -122,9 +122,10 @@ namespace GymSoft.UserModule.ViewModels
             this.userService = userService;
             this.openFileService = openFileService;
             NewUser = new User();
+            
             NewUser.PhotoPath.DataValue = GymSoft.CinchMVVM.Common.GymSoftConfigurationManger.GetDefaultUserPicture().ToString();
            
-            messageBoxService.ShowInformation(Directory.GetCurrentDirectory());
+            //messageBoxService.ShowInformation(Directory.GetCurrentDirectory());
             
             //Initialise Commands
             AddNewUserCommand = new SimpleCommand<object, object>(CanAddNewUserCommand, ExecuteAddNewUserCommand);
@@ -169,7 +170,7 @@ namespace GymSoft.UserModule.ViewModels
         private void ExecuteCancelAddNewUserCommand(Object args)
         {
             NewUser = new User();
-            NewUser.PhotoPath.DataValue = GymSoft.CinchMVVM.Common.GymSoftConfigurationManger.GetDefaultUserPicture().AbsolutePath;
+            //NewUser.PhotoPath.DataValue = GymSoft.CinchMVVM.Common.GymSoftConfigurationManger.GetDefaultUserPicture().AbsolutePath;
         }
         private void ExecuteAddNewUserCommand(Object args)
         {
