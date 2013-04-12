@@ -4,8 +4,8 @@
         xmlns:prism="http://www.codeplex.com/prism"
         Title="Gym Soft"
         Icon="Assets/icon.png"
-        MinHeight="855" 
-        MinWidth="1100"
+        MinHeight="768" 
+        MinWidth="1024"
         WindowStartupLocation="CenterScreen" 
         WindowState="Maximized" Opacity="0.995" WindowStyle="ThreeDBorderWindow">
 	

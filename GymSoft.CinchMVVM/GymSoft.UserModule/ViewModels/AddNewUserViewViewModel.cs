@@ -21,7 +21,7 @@ namespace GymSoft.UserModule.ViewModels
         private readonly IUserService userService;
         private readonly IOpenFileService openFileService;
 
-        private AsyncType asyncState = AsyncType.Content;
+        //private AsyncType asyncState = AsyncType.Content;
         private bool isBusy;
         private string waitText;
         private string errorMessage;
@@ -43,7 +43,7 @@ namespace GymSoft.UserModule.ViewModels
         /// <summary>
         /// AsyncState
         /// </summary>
-        static PropertyChangedEventArgs asyncStateArgs =
+        /*static PropertyChangedEventArgs asyncStateArgs =
             ObservableHelper.CreateArgs<AddNewUserViewViewModel>(x => x.AsyncState);
 
         public AsyncType AsyncState
@@ -54,7 +54,7 @@ namespace GymSoft.UserModule.ViewModels
                 asyncState = value;
                 NotifyPropertyChanged(asyncStateArgs);
             }
-        }
+        }*/
         /// <summary>
         /// WaitText
         /// </summary>
@@ -190,7 +190,7 @@ namespace GymSoft.UserModule.ViewModels
         private void ErrorAddingNewUser(Exception exception)
         {
             ErrorMessage = exception.Message;
-            AsyncState = AsyncType.Error;
+            //AsyncState = AsyncType.Error;
             IsBusy = false;
             messageBoxService.ShowError(exception.Message);
         }

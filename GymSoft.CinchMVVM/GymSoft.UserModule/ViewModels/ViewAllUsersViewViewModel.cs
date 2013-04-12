@@ -20,13 +20,19 @@ namespace GymSoft.UserModule.ViewModels
         private readonly IViewAwareStatus viewAwareStatus;
         private readonly IViewInjectionService viewInjectionService;
         private readonly IUserService userService;
-
+        private readonly IOpenFileService openFileService;
+        private bool canUpdate = false;
         private Users users;
         private User currentlySelectedUser;
         
         private bool isBusy;
         private string waitText;
 
+        private bool isBusyUpdatingUser;
+        private string updatingUserWaitText;
+
+        public SimpleCommand<Object, Object> UpdateUserCommand { get; private set; }
+        public SimpleCommand<Object, Object> UploadUserImageCommand { get; private set; }
         /// <summary>
         /// Users
         /// </summary>
@@ -82,7 +88,6 @@ namespace GymSoft.UserModule.ViewModels
         static PropertyChangedEventArgs waitTextArgs =
             ObservableHelper.CreateArgs<ViewAllUsersViewViewModel>(x => x.WaitText);
 
-
         public string WaitText
         {
             get { return waitText; }
@@ -92,17 +97,53 @@ namespace GymSoft.UserModule.ViewModels
                 NotifyPropertyChanged(waitTextArgs);
             }
         }
+        /// <summary>
+        /// IsBusyUpdatingUser
+        /// </summary>
+        static PropertyChangedEventArgs isBusyUpdatingUserArgs =
+            ObservableHelper.CreateArgs<ViewAllUsersViewViewModel>(x => x.IsBusyUpdatingUser);
+
+
+        public bool IsBusyUpdatingUser
+        {
+            get { return isBusyUpdatingUser; }
+            private set
+            {
+                isBusyUpdatingUser = value;
+                NotifyPropertyChanged(isBusyUpdatingUserArgs);
+            }
+        }
+        /// <summary>
+        /// UpdatingUserWaitText
+        /// </summary>
+        static PropertyChangedEventArgs updatingUserWaitTextArgs =
+            ObservableHelper.CreateArgs<ViewAllUsersViewViewModel>(x => x.UpdatingUserWaitText);
+
+        public string UpdatingUserWaitText
+        {
+            get { return updatingUserWaitText; }
+            private set
+            {
+                updatingUserWaitText = value;
+                NotifyPropertyChanged(updatingUserWaitTextArgs);
+            }
+        }
 
 
         [ImportingConstructor]
-        public ViewAllUsersViewViewModel(IMessageBoxService messageBoxService, IViewAwareStatus viewAwareStatus, 
-            IViewInjectionService viewInjectionService, IUserService userService)
+        public ViewAllUsersViewViewModel(IMessageBoxService messageBoxService, IViewAwareStatus viewAwareStatus,
+            IViewInjectionService viewInjectionService, IUserService userService, IOpenFileService openFileService)
         {
             this.messageBoxService = messageBoxService;
             this.viewAwareStatus = viewAwareStatus;
             this.userService = userService;
             this.viewInjectionService = viewInjectionService;
+            this.openFileService = openFileService;
             Mediator.Instance.Register(this);
+            //Initialise Commands
+            UpdateUserCommand = new SimpleCommand<object, object>(CanExecuteUpdateUserCommand, ExecuteUpdateUserCommand);
+            UploadUserImageCommand = new SimpleCommand<object, object>(CanExecuteUploadUserImageCommand,
+                                                                       ExecuteUploadUserImageCommand);
             viewAwareStatus.ViewLoaded += new Action(viewAwareStatus_ViewLoaded);
         }
 
@@ -111,30 +152,74 @@ namespace GymSoft.UserModule.ViewModels
             IsBusy = true;
             WaitText = "Getting those users";
             userService.FindAllTask(LoadUsers, ErrorLoadUsers);
-            //UserListView userListView = ViewModelRepository.Instance.Resolver.Container.GetExport<UserListView>().Value;
-            //viewInjectionService.AddOrActivateViewInRegion("UserListRegion", "UserListView", userListView );
-            //Inject UserDetailView into UserDetailRegion
-            //viewInjectionService.ClearRegionOfAllViews("UserListRegion");
-            //viewInjectionService.ClearRegionOfView("UserListRegion", "UserListView");
-            //viewInjectionService.ClearRegionOfAllViews("UserDetailRegion");
-            //viewInjectionService.AddViewToRegion("UserListRegion", "UserListView", new UserListView());
-            //viewInjectionService.AddViewToRegion("UserDetailRegion", "UserDetailView", new UserDetailView());
-
-
-            //string path;
-            //path = System.IO.Path.GetDirectoryName(
-            //  System.Reflection.Assembly.GetExecutingAssembly().GetName().CodeBase);
-            //MessageBox.Show(path);
         }
         void LoadUsers(Users result)
         {
             IsBusy = false;
             this.Users = result;
+            canUpdate = true;
         }
         void ErrorLoadUsers(Exception exception)
         {
             IsBusy = false;
             messageBoxService.ShowError(exception.Message);
         }
+        private bool CanExecuteUploadUserImageCommand(Object args)
+        {
+            return canUpdate;
+        }
+
+        private void ExecuteUploadUserImageCommand(Object args)
+        {
+            //User File open service to get the file
+            openFileService.InitialDirectory = @"C:\";
+            openFileService.Filter = "Image files (*.jpg, *.jpeg, *.jpe, *.jfif, *.png) | *.jpg; *.jpeg; *.jpe; *.jfif; *.png";
+
+            var result = openFileService.ShowDialog(null);
+            if (result.HasValue && result.Value == true)
+            {
+                var fileName = openFileService.FileName;
+                CurrentlySelectedUser.PhotoPath.DataValue = fileName;
+            }
+        }
+        public void UploadUserImageCompleted(int userId)
+        {
+            messageBoxService.ShowInformation(String.Format("Image for user {0} was uploaded", userId));
+        }
+        public void UploadUserImageException(Exception exception)
+        {
+            messageBoxService.ShowError(exception.Message);
+        }
+
+        private bool CanExecuteUpdateUserCommand(Object args)
+        {
+            //return CurrentlySelectedUser.IsValid;
+            return canUpdate;
+        }
+
+        
+        private void ExecuteUpdateUserCommand(Object args)
+        {
+            //AsyncState = AsyncType.Busy;
+            IsBusyUpdatingUser = true;
+            UpdatingUserWaitText = string.Format("Updating user");
+            userService.UpdateUserTask(this.CurrentlySelectedUser, UserUpdated, ErrorUpdatingUser);
+
+        }
+        private void UserUpdated(int userId)
+        {
+            IsBusyUpdatingUser = false;
+            //AsyncState = AsyncType.Content;
+            messageBoxService.ShowInformation(String.Format("User updated with userId = {0}", userId));
+        }
+        private void ErrorUpdatingUser(Exception exception)
+        {
+            //ErrorMessage = exception.Message;
+            //AsyncState = AsyncType.Error;
+            IsBusyUpdatingUser = false;
+            messageBoxService.ShowError(exception.Message);
+        }
+
+        
     }
 }

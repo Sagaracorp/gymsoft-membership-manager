@@ -10,8 +10,7 @@
              xmlns:common="clr-namespace:GymSoft.CinchMVVM.Common;assembly=GymSoft.CinchMVVM.Common"
              xmlns:utilities="clr-namespace:GymSoft.CinchMVVM.Common.Utilities;assembly=GymSoft.CinchMVVM.Common"
              meffed:ViewModelLocator.ViewModel="ViewAllUsersViewViewModel"
-             mc:Ignorable="d" 
-             d:DesignHeight="722" d:DesignWidth="891" MaxHeight="722" MaxWidth="991">
+             mc:Ignorable="d">
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -19,7 +18,7 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
-    <Grid>
+    <Grid Margin="0,0,0,-2">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="Auto"/>
@@ -42,17 +41,26 @@
                              SelectedItem="{Binding Path=CurrentlySelectedUser, Mode=TwoWay}">
                         <telerik:RadGridView.Columns>
                             <telerik:GridViewImageColumn Header="Photo"
-											 DataMemberBinding="{Binding PhotoPath.DataValue}"
-											 ImageHeight="35"
-											 ImageWidth="35"
-											 Width="45" />
+											 DataMemberBinding="{Binding PhotoPath.DataValue, Mode=TwoWay}"
+											 ImageHeight="40"
+											 ImageWidth="40"
+											 Width="50" />
                             <telerik:GridViewDataColumn Header="First Name"
 											DataMemberBinding="{Binding FirstName.DataValue}" 
                                                         Width="Auto"/>
                             <telerik:GridViewDataColumn Header="Last Name"
 											DataMemberBinding="{Binding LastName.DataValue}" 
                                                         Width="Auto"/>
-                        </telerik:RadGridView.Columns>
+                             <telerik:GridViewDataColumn Header="Email Address"
+											DataMemberBinding="{Binding EmailAddress.DataValue}" 
+                                                        Width="Auto"/>
+                                <telerik:GridViewDataColumn Header="User Name"
+											DataMemberBinding="{Binding UserName.DataValue}" 
+                                                        Width="Auto"/>
+                                <telerik:GridViewDataColumn Header="Status"
+											DataMemberBinding="{Binding Status.DataValue}" 
+                                                        Width="Auto"/>
+                            </telerik:RadGridView.Columns>
                     </telerik:RadGridView>
                 </telerik:RadBusyIndicator>
             </ContentControl>
@@ -61,14 +69,15 @@
         <!--GridSplitter-->
         <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ResizeDirection="Columns" Width="3" Background="Black"/>
         <!-- UserDetailsRegion -->
-        <Grid x:Name="LayoutRoot" Grid.Column="2" Margin="0,0,-38,-11">
+        
+        <Grid x:Name="LayoutRoot" Grid.Column="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="2*"/>
                 <ColumnDefinition Width="4*"/>
-            </Grid.ColumnDefinitions>
+            </Grid.ColumnDefinitions>			
             <DockPanel Grid.Column="0">
                 <StackPanel DockPanel.Dock="Top">
-                    <Border Margin="10" CornerRadius="5" BorderThickness="2" BorderBrush="DarkCyan">
+                    <Border Margin="10" CornerRadius="5" BorderThickness="2" BorderBrush="DarkCyan" MinWidth="200" MinHeight="300">
                         <Image Grid.Row="0" Source="{Binding Path=CurrentlySelectedUser.PhotoPath.DataValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}"/>
                     </Border>
                 </StackPanel>
@@ -79,11 +88,14 @@
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
                         <Button Content="Take Picture" Grid.Column="0" Margin="10"/>
-                        <Button Content="Upload Picture" Grid.Column="1" Margin="10"/>
+                        <Button Content="Upload Picture" Grid.Column="1" Margin="10" Command="{Binding UploadUserImageCommand}"/>
                     </Grid>
                 </StackPanel>
             </DockPanel>
+			<ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Grid.Column="1">
+            <telerik:RadBusyIndicator BusyContent="{Binding UpdatingUserWaitText}" IsBusy="{Binding IsBusyUpdatingUser}" IsIndeterminate="True" >
             <Border Grid.Column="1" CornerRadius="5" BorderBrush="GreenYellow" Margin="10" BorderThickness="2">
+				
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
@@ -92,8 +104,9 @@
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
+					
                     <StackPanel Grid.Row="0" Orientation="Horizontal">
-                        <TextBlock Text="Enter User Information" FontSize="29.333" FontFamily="Snap ITC"/>
+                        <TextBlock Text="Update User Information" FontSize="29.333" FontFamily="Snap ITC" />
                     </StackPanel>
                     <Rectangle Grid.Row="1" Height="1" Stroke="Black"/>
                     <StackPanel Grid.Row="2" Orientation="Vertical">
@@ -104,7 +117,7 @@
                             </Grid.ColumnDefinitions>
                             <Label Content="First Name" Grid.Column="0"/>
                             <TextBox Text="{Binding CurrentlySelectedUser.FirstName.DataValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" 
-								 Style="{DynamicResource ValidatingTextBox}" Grid.Column="1" />
+								 Style="{DynamicResource ValidatingTextBoxForViewAll}" Grid.Column="1" />
                         </Grid>
                         <Grid Margin="5">
                             <Grid.ColumnDefinitions>
@@ -112,8 +125,8 @@
                                 <ColumnDefinition/>
                             </Grid.ColumnDefinitions>
                             <Label Content="Middle Name" Grid.Column="0"/>
-                            <TextBox Text="{Binding CurrentlySelectedUser.Middle.DataValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" 
-								 Style="{DynamicResource ValidatingTextBox}" Grid.Column="1" />
+                            <TextBox Text="{Binding CurrentlySelectedUser.MiddleName.DataValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" 
+								 Style="{DynamicResource ValidatingTextBoxForViewAll}" Grid.Column="1" />
                         </Grid>
                         <Grid Margin="5">
                             <Grid.ColumnDefinitions>
@@ -122,7 +135,7 @@
                             </Grid.ColumnDefinitions>
                             <Label Content="Last Name" Grid.Column="0"/>
                             <TextBox Text="{Binding CurrentlySelectedUser.LastName.DataValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" 
-								 Style="{DynamicResource ValidatingTextBox}" Grid.Column="1" />
+								 Style="{DynamicResource ValidatingTextBoxForViewAll}" Grid.Column="1" />
                         </Grid>
                         <Grid Margin="5">
                             <Grid.ColumnDefinitions>
@@ -143,7 +156,7 @@
                             </Grid.ColumnDefinitions>
                             <Label Content="Address" Grid.Column="0"/>
                             <TextBox Text="{Binding CurrentlySelectedUser.Address1.DataValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" 
-								 Style="{DynamicResource ValidatingTextBox}" Grid.Column="1" />
+								 Style="{DynamicResource ValidatingTextBoxForViewAll}" Grid.Column="1" />
                         </Grid>
                         <Grid Margin="5">
                             <Grid.ColumnDefinitions>
@@ -151,7 +164,7 @@
                                 <ColumnDefinition/>
                             </Grid.ColumnDefinitions>
                             <TextBox Text="{Binding CurrentlySelectedUser.Address2.DataValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" 
-								 Style="{DynamicResource ValidatingTextBox}" Grid.Column="1" />
+								 Style="{DynamicResource ValidatingTextBoxForViewAll}" Grid.Column="1" />
                         </Grid>
                         <Grid Margin="5">
                             <Grid.ColumnDefinitions>
@@ -160,7 +173,7 @@
                             </Grid.ColumnDefinitions>
                             <Label Content="City" Grid.Column="0"/>
                             <TextBox Text="{Binding CurrentlySelectedUser.Address3.DataValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" 
-								 Style="{DynamicResource ValidatingTextBox}" Grid.Column="1" />
+								 Style="{DynamicResource ValidatingTextBoxForViewAll}" Grid.Column="1" />
                         </Grid>
                         <Grid Margin="5">
                             <Grid.ColumnDefinitions>
@@ -169,7 +182,7 @@
                             </Grid.ColumnDefinitions>
                             <Label Content="Parish" Grid.Column="0"/>
                             <TextBox Text="{Binding CurrentlySelectedUser.Parish.DataValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" 
-								 Style="{DynamicResource ValidatingTextBox}" Grid.Column="1" />
+								 Style="{DynamicResource ValidatingTextBoxForViewAll}" Grid.Column="1" />
                         </Grid>
                         <Grid Margin="5">
                             <Grid.ColumnDefinitions>
@@ -178,7 +191,7 @@
                             </Grid.ColumnDefinitions>
                             <Label Content="Contact Numbers" Grid.Column="0"/>
                             <TextBox Text="{Binding CurrentlySelectedUser.ContactNum1.DataValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" 
-								 Style="{DynamicResource ValidatingTextBox}" Grid.Column="1" >
+								 Style="{DynamicResource ValidatingTextBoxForViewAll}" Grid.Column="1" >
                                 <i:Interaction.Behaviors>
                                     <cinch:TextBoxFocusBehavior IsUsingDataWrappers="true" />
                                     <cinch:NumericTextBoxBehaviour/>
@@ -192,7 +205,7 @@
                             </Grid.ColumnDefinitions>
 
                             <TextBox Text="{Binding CurrentlySelectedUser.ContactNum2.DataValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" 
-								 Style="{DynamicResource ValidatingTextBox}" Grid.Column="1" >
+								 Style="{DynamicResource ValidatingTextBoxForViewAll}" Grid.Column="1" >
                                 <i:Interaction.Behaviors>
                                     <cinch:TextBoxFocusBehavior IsUsingDataWrappers="true" />
                                     <cinch:NumericTextBoxBehaviour/>
@@ -206,7 +219,7 @@
                             </Grid.ColumnDefinitions>
 
                             <TextBox Text="{Binding CurrentlySelectedUser.ContactNum3.DataValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" 
-								 Style="{DynamicResource ValidatingTextBox}" Grid.Column="1" >
+								 Style="{DynamicResource ValidatingTextBoxForViewAll}" Grid.Column="1" >
                                 <i:Interaction.Behaviors>
                                     <cinch:TextBoxFocusBehavior IsUsingDataWrappers="true" />
                                     <cinch:NumericTextBoxBehaviour/>
@@ -232,7 +245,7 @@
                             </Grid.ColumnDefinitions>
                             <Label Content="Job Title" Grid.Column="0"/>
                             <TextBox Text="{Binding CurrentlySelectedUser.JobTitle.DataValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" 
-								 Style="{DynamicResource ValidatingTextBox}" Grid.Column="1" />
+								 Style="{DynamicResource ValidatingTextBoxForViewAll}" Grid.Column="1" />
                         </Grid>
                         <Grid Margin="5">
                             <Grid.ColumnDefinitions>
@@ -253,39 +266,9 @@
                             </Grid.ColumnDefinitions>
                             <Label Content="Email Address" Grid.Column="0"/>
                             <TextBox Text="{Binding CurrentlySelectedUser.EmailAddress.DataValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" 
-								 Style="{DynamicResource ValidatingTextBox}" Grid.Column="1" />
+								 Style="{DynamicResource ValidatingTextBoxForViewAll}" Grid.Column="1" MaxLength="35" />
                         </Grid>
-                        <Grid Margin="5">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition/>
-                                <ColumnDefinition/>
-                            </Grid.ColumnDefinitions>
-                            <Label Content="User Name" Grid.Column="0"/>
-                            <TextBox Text="{Binding CurrentlySelectedUser.UserName.DataValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" 
-								 Style="{DynamicResource ValidatingTextBox}" Grid.Column="1" />
-                        </Grid>
-                        <Grid Margin="5">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition/>
-                                <ColumnDefinition/>
-                            </Grid.ColumnDefinitions>
-                            <Label Content="Password" Grid.Column="0"/>
-                            <PasswordBox Grid.Column="1" Style="{DynamicResource ValidatingPasswordBox}" PasswordChar="•"
-                                 common:PasswordHelper.Attach="True"
-                                 common:PasswordHelper.Password="{Binding CurrentlySelectedUser.Password.DataValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" FontSize="14.667"/>
-
-                        </Grid>
-                        <Grid Margin="5">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition/>
-                                <ColumnDefinition/>
-                            </Grid.ColumnDefinitions>
-                            <Label Content="Confirm Password" Grid.Column="0"/>
-                            <PasswordBox Grid.Column="1" Style="{DynamicResource ValidatingPasswordBox}" PasswordChar="•"
-                                 common:PasswordHelper.Attach="True"
-                                 common:PasswordHelper.Password="{Binding CurrentlySelectedUser.ConfirmPassword.DataValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" FontSize="14.667" />
-
-                        </Grid>
+                        
                     </StackPanel>
                     <Rectangle Grid.Row="3" Height="1" Stroke="Black"/>
                     <Grid Grid.Row="4">
@@ -293,11 +276,16 @@
                             <ColumnDefinition/>
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
-                        <Button Grid.Column="0" Content="Add User" Margin="5" IsDefault="True" Command="{Binding AddNewUserCommand}"/>
-                        <Button Grid.Column="1" Content="Cancel" Margin="5" IsCancel="True" Command="{Binding CancelAddNewUserCommand}"/>
+                        <Button Grid.Column="0" Content="Update User" Margin="5" IsDefault="True" Command="{Binding UpdateUserCommand}"/>
+                        
                     </Grid>
+					
                 </Grid>
-            </Border>
-        </Grid>
+				
+            </Border>	
+                </telerik:RadBusyIndicator>
+			</ScrollViewer>	
+        </Grid>  
+		     
     </Grid>
 </UserControl>

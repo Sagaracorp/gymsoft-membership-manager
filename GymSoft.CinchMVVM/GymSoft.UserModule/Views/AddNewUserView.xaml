@@ -9,11 +9,10 @@
 	xmlns:cinch="clr-namespace:Cinch;assembly=Cinch.WPF"
 	xmlns:common="clr-namespace:GymSoft.CinchMVVM.Common;assembly=GymSoft.CinchMVVM.Common"
 	xmlns:telerik="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Controls"
-	xmlns:utilities="clr-namespace:GymSoft.CinchMVVM.Common.Utilities;assembly=GymSoft.CinchMVVM.Common"
 	mc:Ignorable="d"
 	x:Class="GymSoft.UserModule.Views.AddNewUserView"
 	x:Name="UserControl"
-	d:DesignWidth="632" d:DesignHeight="737" MaxWidth="632" MaxHeight="737">
+	d:DesignWidth="632" d:DesignHeight="737" MaxWidth="1024" MaxHeight="768">
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -44,6 +43,7 @@
                 </Grid>
             </StackPanel>
         </DockPanel>
+		<ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Grid.Column="1">
         <Border Grid.Column="1" CornerRadius="5" BorderBrush="GreenYellow" Margin="10" BorderThickness="2">
             <Grid>
                 <Grid.RowDefinitions>
@@ -73,7 +73,7 @@
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
                         <Label Content="Middle Name" Grid.Column="0"/>
-                        <TextBox Text="{Binding NewUser.Middle.DataValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" 
+                        <TextBox Text="{Binding NewUser.MiddleName.DataValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" 
 								 Style="{DynamicResource ValidatingTextBox}" Grid.Column="1" />
                     </Grid>
                     <Grid Margin="5">
@@ -260,8 +260,10 @@
                 </Grid>
             </Grid>
         </Border>
+		</ScrollViewer>
         <telerik:RadBusyIndicator BusyContent="{Binding WaitText}" IsBusy="{Binding IsBusy}" IsIndeterminate="True" 
                                   Grid.ColumnSpan="2" Margin="0,0,10,10" Grid.Column="0" 
                                   telerik:StyleManager.Theme="Metro"/>
+
     </Grid>
 </UserControl>

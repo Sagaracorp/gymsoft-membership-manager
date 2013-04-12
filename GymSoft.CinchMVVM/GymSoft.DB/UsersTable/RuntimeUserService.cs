@@ -34,7 +34,7 @@ namespace GymSoft.DB.UsersTable
 
         private const string FindAllStoredProcedure = "gym_sp_GetAllUsers";
         private const string AddNewUserStoredProcedure = "gym_sp_CreateNewUser";
-        private const string UpdateUserStoredProcedure = "gym_sp_UpdateUserV2";
+        private const string UpdateUserStoredProcedure = "gym_sp_UpdateUser";
         #endregion
 
         #region Backgroud Task Method: Easier but I dont like  it much
@@ -293,11 +293,6 @@ namespace GymSoft.DB.UsersTable
         private int AddNewUser(User newUser, int buId = 1, int userId = 1)
         {
             //Upload image
-
-
-           
-
-
             var currentPath = newUser.PhotoPath.DataValue;
             newUser.PhotoPath.DataValue = currentPath.Equals(GymSoftConfigurationManger.GetDefaultUserPicture().ToString()) 
                 ? currentPath : UploadUserImage(currentPath);
@@ -356,20 +351,15 @@ namespace GymSoft.DB.UsersTable
             string destination = String.Format(@"{0}\{1}\{2}", Directory.GetCurrentDirectory(),
                                                GymSoftConfigurationManger.GetUserDefaultPictureDirectory().ToString(),
                                                source.Name);
-            
-            source.CopyTo(destination, true);
 
-            //var baseUri = new Uri(currentDirectory);
-            //var fullUri = new Uri(destination);
-            //var relativeUri = fullUri.MakeRelativeUri(baseUri);
-            //var directoryFormat = relativeUri.OriginalString.Replace('/', Path.DirectorySeparatorChar);
-            //var relativeDestination = String.Format(@"{0}\{1}\{2}", directoryFormat,
-            //                                        GymSoftConfigurationManger.GetUserDefaultPictureDirectory()
-            //                                                                  .ToString(), source.Name);
-            //return destination;
+            //Copy file only if sourceImageDirectory is not the same as destinationDirectory
+            var destinationDirectory = String.Format(@"{0}\{1}", Directory.GetCurrentDirectory(),
+                                               GymSoftConfigurationManger.GetUserDefaultPictureDirectory().ToString());
+            var sourceImageDirectory = sourceImage.Substring(0, sourceImage.LastIndexOf('\\')); 
 
+            if(!sourceImageDirectory.Equals(destinationDirectory, StringComparison.CurrentCultureIgnoreCase))
+                source.CopyTo(destination, true);
             var relativeDestination = source.Name;
-
             return relativeDestination;
         }
 
@@ -408,6 +398,9 @@ namespace GymSoft.DB.UsersTable
 
         private int UpdateUser(User user, int buId = 1, int userId = 1)
         {
+            var currentPath = user.PhotoPath.DataValue;
+            user.PhotoPath.DataValue = currentPath.Equals(GymSoftConfigurationManger.GetDefaultUserPicture().ToString())
+                ? currentPath : UploadUserImage(currentPath);
             MySqlCommand.CommandType = CommandType.StoredProcedure;
             MySqlCommand.CommandText = UpdateUserStoredProcedure;
             MySqlCommand.Parameters.Clear();
@@ -419,7 +412,7 @@ namespace GymSoft.DB.UsersTable
              * dob date,  email VARCHAR(1024),num1 VARCHAR(20), num2 VARCHAR(20), 
              * num3 VARCHAR(20), add1 VARCHAR(1024), add2 VARCHAR(1024), add3 VARCHAR(1024),
              * par VARCHAR(1024), sex VARCHAR(1024), photo VARCHAR(1024), OUT result int*/
-            MySqlCommand.Parameters.AddWithValue("personid", user.UserId.DataValue);
+            MySqlCommand.Parameters.AddWithValue("persid", user.UserId.DataValue);
             MySqlCommand.Parameters.AddWithValue("fname", user.FirstName.DataValue);
             MySqlCommand.Parameters.AddWithValue("mname", user.MiddleName.DataValue);
             MySqlCommand.Parameters.AddWithValue("lname", user.LastName.DataValue);
@@ -434,8 +427,6 @@ namespace GymSoft.DB.UsersTable
             MySqlCommand.Parameters.AddWithValue("par", user.Parish.DataValue);
             MySqlCommand.Parameters.AddWithValue("sex", user.Gender.DataValue);
             MySqlCommand.Parameters.AddWithValue("photo", user.PhotoPath.DataValue);
-            MySqlCommand.Parameters.AddWithValue("userName", user.UserName.DataValue);
-            MySqlCommand.Parameters.AddWithValue("passwd", user.Password.DataValue);
             MySqlCommand.Parameters.AddWithValue("stat", user.Status.DataValue);
             MySqlCommand.Parameters.AddWithValue("jt", user.JobTitle.DataValue);
 
