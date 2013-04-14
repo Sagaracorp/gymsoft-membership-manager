@@ -375,9 +375,9 @@ CREATE PROCEDURE gym_sp_CreatePerson(buid int, userid int, fname VARCHAR(1024), 
 
 DROP PROCEDURE IF EXISTS gym_sp_UpdatePerson;
 
-CREATE PROCEDURE gym_sp_UpdatePerson(buid int, userid int, personid int, fname VARCHAR(1024), mname VARCHAR(1024), lname VARCHAR(1024), dob date,
+CREATE PROCEDURE gym_sp_UpdatePerson(buid int, userid int, persid int, fname VARCHAR(1024), mname VARCHAR(1024), lname VARCHAR(1024), dob date,
   email VARCHAR(1024), num1 VARCHAR(20), num2 VARCHAR(20), num3 VARCHAR(20), add1 VARCHAR(1024),
-  add2 VARCHAR(1024), add3 VARCHAR(1024), par VARCHAR(1024), sex VARCHAR(1024), photo VARCHAR(1024),stat VARCHAR(1024), jt VARCHAR(1024), OUT result int)
+  add2 VARCHAR(1024), add3 VARCHAR(1024), par VARCHAR(1024), sex VARCHAR(1024), photo VARCHAR(1024), OUT result int)
   BEGIN
     DECLARE modTime DATETIME;
 
@@ -389,29 +389,19 @@ CREATE PROCEDURE gym_sp_UpdatePerson(buid int, userid int, personid int, fname V
 UPDATE gymsoft.gym_Person 
 SET firstName = fname, middleName = mname, lastName = lname, dateOfBirth = dob, emailAddress = email, contactNum1 = num1, contactNum2 = num2, 
 contactNum3 = num3, address1 = add1, address2 = add2, address3 = add3, parish = par, gender = sex, photoPath = photo, updatedAt = modTime, updatedBy = userid 
-WHERE buId = buid and personId = personid;
+WHERE buID = buid and personId = persid;
 
 
-
-    UPDATE gymsoft.gym_Users 
-SET status = stat, jobTitle = jt, updatedAt = modTime, updatedBy = userid 
-WHERE buId = buid and userId = personid;
-
-    
-    
-    
-    
-    
     SET result = 0;
 
-    INSERT INTO gymsoft.gym_AuditTrail(buId, activity, description, updatedAt, updatedBy)
-    VALUES      (buid,
-                 'UPDATE PERSON',
-                 concat(personid, '|', fname, '|', mname, '|', lname, '|', dob, '|', email, '|', num1, '|',
-                        num2, '|', num3, '|', add1, '|', add2, '|', add3, '|',
-                        par, '|', sex, '|', photo, '|', stat, '|', jt),
-                 modTime,
-                 userid);
+    #INSERT INTO gymsoft.gym_AuditTrail(buId, activity, description, updatedAt, updatedBy)
+    #VALUES      (buid,
+    #             'UPDATE PERSON',
+    #             concat(persid, '|', fname, '|', mname, '|', lname, '|', dob, '|', email, '|', num1, '|',
+    #                    num2, '|', num3, '|', add1, '|', add2, '|', add3, '|',
+    #                    par, '|', sex, '|', photo),
+    #             modTime,
+    #             userid);
 
     COMMIT;
   END;
@@ -420,7 +410,7 @@ WHERE buId = buid and userId = personid;
 
 DROP PROCEDURE IF EXISTS gym_sp_CreateUserFromPerson;
 
-CREATE PROCEDURE gym_sp_CreateUserFromPerson(buid int, userid int, personid int, uname VARCHAR(1024), pwd VARCHAR(1024), status VARCHAR(1024), jt VARCHAR(1024), OUT result1 int)
+CREATE PROCEDURE gym_sp_CreateUserFromPerson(buid int, userid int, persid int, uname VARCHAR(1024), pwd VARCHAR(1024), status VARCHAR(1024), jt VARCHAR(1024), OUT result1 int)
   BEGIN
     DECLARE modTime DATETIME;
     DECLARE hashkey VARCHAR(1024);
@@ -432,7 +422,7 @@ CREATE PROCEDURE gym_sp_CreateUserFromPerson(buid int, userid int, personid int,
     select parameterValue into hashkey from gym_SystemConfiguration where parameterName = 'HASHKEY' and buId = buid LIMIT 1;
 
     INSERT INTO gymsoft.gym_Users(buId, userId, userName, password, status, jobTitle, createdAt, createdBy, updatedAt, updatedBy)
-    VALUES      (buid, personid, uname, AES_ENCRYPT(hashkey,pwd), status, jt, modTime, userid, modTime, userid);
+    VALUES      (buid, persid, uname, AES_ENCRYPT(hashkey,pwd), status, jt, modTime, userid, modTime, userid);
 
     #INSERT INTO gymsoft.gym_AuditTrail(buId, activity, description, updatedAt, updatedBy)
     #VALUES      (buid,
@@ -485,11 +475,11 @@ CREATE PROCEDURE gym_sp_CreateNewUser(buid int, userid int, fname VARCHAR(1024),
   
   DROP PROCEDURE IF EXISTS gym_sp_UpdateUser;
 
-CREATE PROCEDURE gym_sp_UpdateUser(buid int, userid int, fname VARCHAR(1024), mname VARCHAR(1024), lname VARCHAR(1024), dob date,
+CREATE PROCEDURE gym_sp_UpdateUser(buid int, userid int, persid int, fname VARCHAR(1024), mname VARCHAR(1024), lname VARCHAR(1024), dob date,
   email VARCHAR(1024), num1 VARCHAR(20), num2 VARCHAR(20), num3 VARCHAR(20), add1 VARCHAR(1024),
   add2 VARCHAR(1024), add3 VARCHAR(1024), par VARCHAR(1024), sex VARCHAR(1024), photo VARCHAR(1024),
-  uname VARCHAR(1024), pwd VARCHAR(1024), status VARCHAR(1024), jt VARCHAR(1024), OUT result int)
-  
+  stat VARCHAR(1024), jt VARCHAR(1024), OUT result int)
+
   BEGIN
     DECLARE lastID  INT DEFAULT NULL;
     DECLARE modTime DATETIME;
@@ -498,31 +488,81 @@ CREATE PROCEDURE gym_sp_UpdateUser(buid int, userid int, fname VARCHAR(1024), mn
 
     SET modTime = current_timestamp();
 
-    CALL gym_sp_CreatePerson (buid, userid, fname, mname, lname, dob, email, num1, num2, num3, add1, add2,
-                 add3, par, sex, photo, 1, @personid, @res);
+
+   CALL gym_sp_UpdatePerson (buid, userid, persid, fname, mname, lname, dob, email, num1, num2, num3, add1, add2,
+                 add3, par, sex, photo, @res);
+
 
     IF @res = 0 THEN
-      CALL gym_sp_CreateUserFromPerson(buid, userid, @personid, uname, pwd, status, jt, @resp);
-      SET result = @resp;
+            UPDATE gymsoft.gym_Users
+      SET status = stat, jobTitle = jt, updatedAt = modTime, updatedBy = userid
+      WHERE buId = buid AND userId = persid;
+
+      #SET result = @resp;
+       SET result = @res;
     ELSE
       SET result = @res;
     END IF;
 
-    INSERT INTO gymsoft.gym_AuditTrail(buId, activity, description, updatedAt, updatedBy)
-    VALUES      (buid,
-                 'CREATE NEW USER',
-                 concat(@personid, '|', result),
-                 modTime,
-                 userid);
+    #INSERT INTO gymsoft.gym_AuditTrail(buId, activity, description, updatedAt, updatedBy)
+    #VALUES      (buid,
+    #             'UPDATE USER',
+    #             concat(@personid, '|', stat, '|', jt, '|', result),
+    #             modTime,
+     #            userid);
 
     COMMIT;
   END;
   
   
 
+DROP PROCEDURE IF EXISTS gym_sp_UpdateCustomer;
+
+CREATE PROCEDURE gym_sp_UpdateCustomer(buid int, userid int, persid int, fname VARCHAR(1024), mname VARCHAR(1024), lname VARCHAR(1024), dob date,
+  email VARCHAR(1024), num1 VARCHAR(20), num2 VARCHAR(20), num3 VARCHAR(20), add1 VARCHAR(1024),
+  add2 VARCHAR(1024), add3 VARCHAR(1024), par VARCHAR(1024), sex VARCHAR(1024), photo VARCHAR(1024),
+  stat VARCHAR(1024), OUT result int)
+
+  BEGIN
+    DECLARE lastID  INT DEFAULT NULL;
+    DECLARE modTime DATETIME;
+
+    START TRANSACTION;
+
+    SET modTime = current_timestamp();
+
+
+   CALL gym_sp_UpdatePerson (buid, userid, persid, fname, mname, lname, dob, email, num1, num2, num3, add1, add2,
+                 add3, par, sex, photo, @res);
+
+
+    IF @res = 0 THEN
+            UPDATE gymsoft.gym_Customers
+      SET status = stat, updatedAt = modTime, updatedBy = userid
+      WHERE buId = buid AND userId = persid;
+
+      #SET result = @resp;
+       SET result = @res;
+    ELSE
+      SET result = @res;
+    END IF;
+
+    #INSERT INTO gymsoft.gym_AuditTrail(buId, activity, description, updatedAt, updatedBy)
+    #VALUES      (buid,
+    #             'UPDATE CUSTOMER',
+    #             concat(@personid, '|', stat, '|', result),
+    #             modTime,
+    #             userid);
+
+    COMMIT;
+  END;
+  
+
+
+
 DROP PROCEDURE IF EXISTS gym_sp_CreateCustomerFromPerson;
 
-CREATE PROCEDURE gym_sp_CreateCustomerFromPerson(buid int, userid int, personid int, status VARCHAR(1024), OUT result int)
+CREATE PROCEDURE gym_sp_CreateCustomerFromPerson(buid int, userid int, persid int, status VARCHAR(1024), OUT result int)
   BEGIN
     DECLARE modTime DATETIME;
 
@@ -531,12 +571,12 @@ CREATE PROCEDURE gym_sp_CreateCustomerFromPerson(buid int, userid int, personid 
     SET modTime = current_timestamp();
 
     INSERT INTO gymsoft.gym_Customers(buId, customerId, status, createdAt, createdBy, updatedAt, updatedBy)
-    VALUES      (buid, personid, status, modTime, userid, modTime, userid);
+    VALUES      (buid, persid, status, modTime, userid, modTime, userid);
 
     INSERT INTO gymsoft.gym_AuditTrail(buId, activity, description, updatedAt, updatedBy)
     VALUES      (buid,
                  'CREATE CUSTOMER',
-                 concat(personid, '|', status),
+                 concat(persid, '|', status),
                  modTime,
                  userid);
 
@@ -643,7 +683,7 @@ CREATE PROCEDURE gym_sp_CreateSubscription(buid int, userid int, sname VARCHAR(1
 
 DROP PROCEDURE IF EXISTS gym_sp_PersonCheckIn;
 
-CREATE PROCEDURE gym_sp_PersonCheckIn(buid int, userid int, personid int, OUT result int)
+CREATE PROCEDURE gym_sp_PersonCheckIn(buid int, userid int, persid int, OUT result int)
   BEGIN
     DECLARE modTime DATETIME;
     DECLARE usrtyp CHAR(1);
@@ -653,16 +693,16 @@ CREATE PROCEDURE gym_sp_PersonCheckIn(buid int, userid int, personid int, OUT re
     SET modTime = current_timestamp();
 
     
-    select usertype into usrtyp from gym_Person where buId = buid and personId = personid LIMIT 1;
+    select usertype into usrtyp from gym_Person where buId = buid and personId = persid LIMIT 1;
     
     INSERT INTO gymsoft.gym_Visits
     (buId, personId, userType, timeIn, timeOut, createdAt, createdBy, updatedAt, updatedBy) 
-    VALUES (buid, personid, usrtyp, modTime, null, modTime, userid, modTime, userid);
+    VALUES (buid, persid, usrtyp, modTime, null, modTime, userid, modTime, userid);
 
     INSERT INTO gymsoft.gym_AuditTrail(buId, activity, description, updatedAt, updatedBy)
     VALUES      (buid,
                  concat(usrtyp,' CHECK-IN'),
-                 concat(personid, '|', usrtyp, '|', modTime, '|NULL'),
+                 concat(persid, '|', usrtyp, '|', modTime, '|NULL'),
                  modTime,
                  userid);
 
