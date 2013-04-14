@@ -38,17 +38,17 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Cinch.WPF">
-      <HintPath>..\..\..\..\CinchMVVMDLLs\Cinch.WPF.dll</HintPath>
+      <HintPath>..\..\..\..\..\Desktop\reupdatereport2232013\Cinch.WPF.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="MEFedMVVM.WPF, Version=1.0.0.0, Culture=neutral, PublicKeyToken=b6db3dc4f5fba1e3, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\CinchMVVMDLLs\MEFedMVVM.WPF.dll</HintPath>
+      <HintPath>..\..\..\..\..\Desktop\reupdatereport2232013\MEFedMVVM.WPF.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Microsoft.Expression.Interactions, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\reupdatereport2232013\Microsoft.Expression.Interactions.dll</HintPath>
+      <HintPath>..\..\..\..\..\Desktop\reupdatereport2232013\Microsoft.Expression.Interactions.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Microsoft.Practices.Prism, Version=4.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -67,7 +67,7 @@
       <Private>False</Private>
     </Reference>
     <Reference Include="MySql.Data, Version=6.6.5.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
-      <HintPath>..\..\..\mysql.dll\MySql.Data.dll</HintPath>
+      <HintPath>..\..\..\..\..\Desktop\mysql.dll\MySql.Data.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
@@ -75,7 +75,7 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Windows.Interactivity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\reupdatereport2232013\System.Windows.Interactivity.dll</HintPath>
+      <HintPath>..\..\..\..\..\Desktop\reupdatereport2232013\System.Windows.Interactivity.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="System.Xml.Linq" />

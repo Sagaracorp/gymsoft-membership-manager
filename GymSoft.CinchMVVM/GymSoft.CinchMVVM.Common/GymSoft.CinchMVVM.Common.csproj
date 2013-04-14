@@ -41,7 +41,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="MEFedMVVM.WPF">
-      <HintPath>..\..\..\..\CinchMVVMDLLs\MEFedMVVM.WPF.dll</HintPath>
+      <HintPath>..\..\..\..\..\Desktop\reupdatereport2232013\MEFedMVVM.WPF.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Microsoft.Practices.Prism, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
