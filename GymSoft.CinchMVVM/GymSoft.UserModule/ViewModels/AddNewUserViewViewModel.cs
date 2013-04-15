@@ -123,7 +123,7 @@ namespace GymSoft.UserModule.ViewModels
             this.openFileService = openFileService;
             NewUser = new User();
             
-            NewUser.PhotoPath.DataValue = GymSoft.CinchMVVM.Common.GymSoftConfigurationManger.GetDefaultUserPicture().ToString();
+           // NewUser.PhotoPath.DataValue = GymSoft.CinchMVVM.Common.GymSoftConfigurationManger.GetDefaultUserPicture().ToString();
            
             //messageBoxService.ShowInformation(Directory.GetCurrentDirectory());
             

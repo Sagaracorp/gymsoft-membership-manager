@@ -399,8 +399,14 @@ namespace GymSoft.DB.UsersTable
         private int UpdateUser(User user, int buId = 1, int userId = 1)
         {
             var currentPath = user.PhotoPath.DataValue;
-            user.PhotoPath.DataValue = currentPath.Equals(GymSoftConfigurationManger.GetDefaultUserPicture().ToString())
-                ? currentPath : UploadUserImage(currentPath);
+            var defaultPhotoPath = GymSoftConfigurationManger.GetDefaultUserPicture().ToString();
+
+
+            if (!currentPath.Equals(defaultPhotoPath))
+            {
+                currentPath = UploadUserImage(currentPath);
+            }
+
             MySqlCommand.CommandType = CommandType.StoredProcedure;
             MySqlCommand.CommandText = UpdateUserStoredProcedure;
             MySqlCommand.Parameters.Clear();
@@ -426,7 +432,7 @@ namespace GymSoft.DB.UsersTable
             MySqlCommand.Parameters.AddWithValue("add3", user.Address3.DataValue);
             MySqlCommand.Parameters.AddWithValue("par", user.Parish.DataValue);
             MySqlCommand.Parameters.AddWithValue("sex", user.Gender.DataValue);
-            MySqlCommand.Parameters.AddWithValue("photo", user.PhotoPath.DataValue);
+            MySqlCommand.Parameters.AddWithValue("photo", currentPath);
             MySqlCommand.Parameters.AddWithValue("stat", user.Status.DataValue);
             MySqlCommand.Parameters.AddWithValue("jt", user.JobTitle.DataValue);
 
