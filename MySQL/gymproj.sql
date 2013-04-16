@@ -243,6 +243,7 @@ CREATE TABLE `gymsoft`.`gym_RoleUserMap` (
 CREATE TABLE `gymsoft`.`gym_Roles` (
   `buId` int(11) NOT NULL DEFAULT 1,
   `roleId` int(11) NOT NULL AUTO_INCREMENT,
+  `roleName` varchar(30) NOT NULL,
   `description` varchar(2048) DEFAULT NULL,
   `createdAt` datetime DEFAULT NULL,
   `createdBy` int(11) NOT NULL,
@@ -267,6 +268,8 @@ CREATE TABLE `gymsoft`.`gym_Actions` (
   `actionId` int(11) NOT NULL AUTO_INCREMENT,
   `entityName` varchar(2048) DEFAULT NULL,
   `allowedActions` varchar(2048) DEFAULT NULL,
+  `friendlyName` varchar(50) NOT NULL,
+  `description` varchar(2048) default NULL,
   `createdAt` datetime DEFAULT NULL,
   `createdBy` int(11) NOT NULL,
   `updatedAt` datetime DEFAULT NULL,
@@ -977,9 +980,17 @@ call gym_sp_CreateNewCustomer (1,0,'Vladimir','Ivor','George','1986-09-19','Inte
 
 
 
-
-
-
+INSERT INTO gym_Actions(buId, entityName, allowedActions, createdAt, createdBy, updatedAt, updatedBy) VALUES (1, "Users", "ExecuteAddNewUserCommand", Now(), 1, Now(), 1);
+INSERT INTO gym_Actions(buId, entityName, allowedActions, createdAt, createdBy, updatedAt, updatedBy)VALUES (1, "Users", "ExecuteUploadUserImageCommand", Now(), 1, Now(), 1);
+INSERT INTO gym_Actions(buId, entityName, allowedActions, createdAt, createdBy, updatedAt, updatedBy) VALUES (1, "Users", "ExecuteUpdateUserCommand", Now(), 1, Now(), 1);
+INSERT INTO gym_Actions(buId, entityName, allowedActions, createdAt, createdBy, updatedAt, updatedBy) VALUES (1, "Users", "ExecuteViewAllUsersCommand", Now(), 1, Now(), 1);
+INSERT INTO gym_Roles(buId, roleName, description, createdAt, createdBy, updatedAt, updatedBy) VALUES (1, "Basic User", "Default role assigned to every user", now(), 1, now(), 1);
+INSERT INTO gym_Roles(buId, roleName, description, createdAt, createdBy, updatedAt, updatedBy) VALUES (1, "Administrator", "Adminstration Roles. Able to do any an everything.", now(), 1, now(), 1);
+INSERT INTO gym_RoleActionMap(buId, roleId, actionId, createdAt, createdBy, updatedAt, updatedBy) VALUES (1, 1, 4, now(), 1, now(), 1);
+INSERT INTO gym_RoleActionMap(buId, roleId, actionId, createdAt, createdBy, updatedAt, updatedBy) VALUES (1, 2, 1, now(), 1, now(), 1);
+INSERT INTO gym_RoleActionMap(buId, roleId, actionId, createdAt, createdBy, updatedAt, updatedBy) VALUES (1, 2, 2, now(), 1, now(), 1);
+INSERT INTO gym_RoleActionMap(buId, roleId, actionId, createdAt, createdBy, updatedAt, updatedBy) VALUES (1, 2, 3, now(), 1, now(), 1);
+INSERT INTO gym_RoleActionMap(buId, roleId, actionId, createdAt, createdBy, updatedAt, updatedBy) VALUES (1, 2, 4, now(), 1, now(), 1);
 
 update gym_Person set photoPath = (select filename from gym_PhotoAlbum order by rand() limit 0,1)
 
