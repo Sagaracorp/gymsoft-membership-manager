@@ -23,6 +23,7 @@ namespace GymSoft.UserModule.ViewModels
         /// </summary>
         public SimpleCommand<Object, Object> AddNewUserCommand { get; private set; }
         public SimpleCommand<Object, Object> ViewAllUsersCommand { get; private set; }
+        public SimpleCommand<Object, Object> ViewAllRolesCommand { get; private set; }
 
         [ImportingConstructor]
         public UserRibbonViewViewModel(IMessageBoxService messageBoxService, IViewAwareStatus viewAwareStatus, IViewInjectionService viewInjectionService)
@@ -35,6 +36,7 @@ namespace GymSoft.UserModule.ViewModels
             //Initialise Commands
             AddNewUserCommand = new SimpleCommand<object, object>(CanExecuteAddNewUserCommand, ExecuteAddNewUserCommand);
             ViewAllUsersCommand = new SimpleCommand<object, object>(CanExecuteViewAllUsersCommand, ExecuteViewAllUsersCommand);
+            ViewAllRolesCommand = new SimpleCommand<object, object>(CanExecuteViewAllRolesCommand, ExecuteViewAllRolesCommand);
         }
         #region Commands Execution Implementation
 
@@ -53,12 +55,22 @@ namespace GymSoft.UserModule.ViewModels
         {
             return true;
         }
+        private bool CanExecuteViewAllRolesCommand(Object args)
+        {
+            return true;
+        }
 
         private void ExecuteViewAllUsersCommand(Object args)
         {
             //Inject Add User view
             viewInjectionService.ClearRegionOfAllViews("MainContentRegion");
             viewInjectionService.AddViewToRegion("MainContentRegion", "ViewAllUsersView", new ViewAllUsersView());
+        }
+        private void ExecuteViewAllRolesCommand(Object args)
+        {
+            //Inject View all roles view
+            viewInjectionService.ClearRegionOfAllViews("MainContentRegion");
+            viewInjectionService.AddViewToRegion("MainContentRegion", "ViewAllRolesView", new ViewAllRolesView());
         }
         #endregion
     }

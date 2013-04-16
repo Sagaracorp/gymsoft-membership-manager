@@ -27,19 +27,19 @@
         </Grid.ColumnDefinitions>
         <DockPanel Grid.Column="0">
             <StackPanel DockPanel.Dock="Top">
-                <Border Margin="10" CornerRadius="5" BorderThickness="2" BorderBrush="DarkCyan">
+                <Border Margin="10" CornerRadius="5" BorderThickness="2" BorderBrush="DarkCyan" MaxHeight="300" MaxWidth="200">
                     <Image Grid.Row="0" Source="{Binding Path=NewUser.PhotoPath.DataValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, 
                         ValidatesOnExceptions=True}" />
                 </Border>
             </StackPanel>
-            <StackPanel DockPanel.Dock="Left">
+            <StackPanel DockPanel.Dock="Left" MaxHeight="300" MaxWidth="200">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
-                    <Button Content="Take Picture" Grid.Column="0" Margin="10"/>
-                    <Button Content="Upload Picture" Grid.Column="1" Margin="10" Command="{Binding UploadUserImageCommand}"/>
+                    <Button Content="Take Image" Grid.Column="0" Margin="10"/>
+                    <Button Content="Upload Image" Grid.Column="1" Margin="10" Command="{Binding UploadUserImageCommand}"/>
                 </Grid>
             </StackPanel>
         </DockPanel>

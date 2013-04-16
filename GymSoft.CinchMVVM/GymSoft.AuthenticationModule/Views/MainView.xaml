@@ -25,7 +25,7 @@
 				</LinearGradientBrush>
 			</Rectangle.Fill>
 		</Rectangle>
-		<Label Content="Gym Soft" Margin="375.51,28,0,28.04" Height="43.96" Width="265.84" FontFamily="Snap ITC" FontSize="26.667" FontWeight="Thin" TextOptions.TextHintingMode="Animated" RenderTransformOrigin="0.491,0.544" Background="{x:Null}">
+		<Label Content="Gym Soft" Margin="445.304,29.48,177.601,29.52" Height="43.96" FontFamily="Snap ITC" FontSize="26.667" FontWeight="Thin" TextOptions.TextHintingMode="Animated" RenderTransformOrigin="0.491,0.544" Background="{x:Null}">
 			<Label.RenderTransform>
 				<TransformGroup>
 					<ScaleTransform ScaleY="2.35" ScaleX="2.55"/>
@@ -74,5 +74,7 @@
 				</RadialGradientBrush>
 			</Button.Background>
 		</Button>
+		<TextBlock Text="Currently logged in as:" Margin="664.5,0,5,87"/>
+		<TextBlock Text="{Binding CurrentUser.UserName.DataValue, Mode=OneWayToSource}" Margin="666,18,0,64"/>
 	</Grid>
 </UserControl>

@@ -1,8 +1,10 @@
 ﻿using System;
 using System.ComponentModel.Composition;
 using Cinch;
+using GymSoft.AuthenticationModule.Services;
 using GymSoft.AuthenticationModule.Views;
 using GymSoft.CinchMVVM.Common.Services;
+using GymSoft.DB.UsersTable;
 using MEFedMVVM.ViewModelLocator;
 using Microsoft.Practices.Prism.Regions;
 
@@ -15,22 +17,26 @@ namespace GymSoft.AuthenticationModule.ViewModels
         private IViewAwareStatus viewAwareStatus;
         private IMessageBoxService messageBoxService;
         private IViewInjectionService viewInjectionService;
-      //  private IRegionManager regionManager;
+        private IAuthenticateService authenticateService;
+        //  private IRegionManager regionManager;
         
         /// <summary>
         /// Commands
         /// </summary>
+        public User  CurrentUser { get; set; }
         public SimpleCommand<Object, Object> LogoutCommand { get; private set; }
 
         [ImportingConstructor]
-        public MainViewViewModel( IViewAwareStatus viewAwareStatus, IMessageBoxService messageBoxService, IViewInjectionService viewInjectionService)
+        public MainViewViewModel( IViewAwareStatus viewAwareStatus, IMessageBoxService messageBoxService, IViewInjectionService viewInjectionService, IAuthenticateService authenticateService)
         {
             //this.regionManager = regionManager;
             this.viewAwareStatus = viewAwareStatus;
             this.messageBoxService = messageBoxService;
             this.viewInjectionService = viewInjectionService;
+            this.authenticateService = authenticateService;
             this.viewAwareStatus.ViewLoaded += new Action(viewAwareStatus_ViewLoaded);
-            
+            CurrentUser = new User();
+            CurrentUser = authenticateService.CurrentUser;
             //Listen for login event
             Mediator.Instance.Register(this);
             LogoutCommand = new SimpleCommand<object, object>(ExecuteLogoutCommand);

@@ -1,5 +1,9 @@
 ﻿using System.ComponentModel.Composition;
+using System.Data;
+using GymSoft.CinchMVVM.Common;
+using GymSoft.DB.UsersTable;
 using MEFedMVVM.ViewModelLocator;
+using MySql.Data.MySqlClient;
 
 namespace GymSoft.AuthenticationModule.Services
 {
@@ -7,13 +11,39 @@ namespace GymSoft.AuthenticationModule.Services
     [ExportService(ServiceType.Runtime, typeof(IAuthenticateService))]
     public class AuthenticationService : IAuthenticateService
     {
+        private const string AuthenticateUserStoredProcedure = "gym_sp_AuthenticateUser";
+
         public bool Authenticate(string username, string password, int businessUnitId)
         {
-            //Should do the database lookup right here..but for now..lets just return true..for test/test
-            if (username.Equals("test") && password.Equals("test") && businessUnitId == 1)
+            var connectionString = GymSoftConfigurationManger.GetDatabaseConnection();
+            var mySqlConnection = new MySqlConnection(connectionString);
+            var mySqlCommand = mySqlConnection.CreateCommand();
+
+            mySqlCommand.CommandType = CommandType.StoredProcedure;
+            mySqlCommand.CommandText = AuthenticateUserStoredProcedure;
+            mySqlCommand.Parameters.AddWithValue("buid", businessUnitId);
+            mySqlCommand.Parameters.AddWithValue("uname", username);
+            mySqlCommand.Parameters.AddWithValue("pass", password);
+            mySqlCommand.Parameters.Add(new MySqlParameter("@uid", MySqlDbType.Int32));
+            mySqlCommand.Parameters["@uid"].Direction = ParameterDirection.Output;
+            mySqlCommand.Parameters.Add(new MySqlParameter("@result", MySqlDbType.Int32));
+            mySqlCommand.Parameters["@result"].Direction = ParameterDirection.Output;
+            mySqlCommand.Connection.Open();
+            mySqlCommand.ExecuteNonQuery();
+            mySqlCommand.Connection.Close();
+
+            if (!string.IsNullOrEmpty(mySqlCommand.Parameters["@uid"].Value.ToString()))
+            {
+                CurrentUser = new User();
+                CurrentUser.UserId.DataValue = (int) mySqlCommand.Parameters["@uid"].Value;
+                CurrentUser.UserName.DataValue = username.ToLower();
+                //Load Roles
+                //Load Actions
                 return true;
-            else
-                return false;
+            }
+            return false;
         }
+
+        public DB.UsersTable.User CurrentUser { get; set; }
     }
 }

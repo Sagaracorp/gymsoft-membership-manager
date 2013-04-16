@@ -252,6 +252,7 @@ namespace GymSoft.AuthenticationModule.ViewModels
             var loginSuccess = authenticateService.Authenticate(UserName.DataValue.ToLower(), Password.DataValue, SelectedBusinessUnit.DataValue);
             if (loginSuccess)
             {
+                messageBoxService.ShowInformation(String.Format("Success with userid {0}", authenticateService.CurrentUser.UserId.DataValue));
                 if (viewInjectionService.ClearRegionOfAllViews("RootRegion"))
                 {
                     if (!viewInjectionService.AddViewToRegion("RootRegion", "MainView", new MainView()))
@@ -289,12 +290,13 @@ namespace GymSoft.AuthenticationModule.ViewModels
                 {
                     messageBoxService.ShowError("Create view MainView");
                 }*/
+                #endregion
             }
             else
             {
-                messageBoxService.ShowError("Incorrect username/password combintation");
+                messageBoxService.ShowError("Incorrect username/password combination");
             }
-                #endregion
+                
            
         }
 

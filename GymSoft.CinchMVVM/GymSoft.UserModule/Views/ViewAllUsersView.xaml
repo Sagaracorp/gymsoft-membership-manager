@@ -7,8 +7,6 @@
              xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
              xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
              xmlns:cinch="clr-namespace:Cinch;assembly=Cinch.WPF"
-             xmlns:common="clr-namespace:GymSoft.CinchMVVM.Common;assembly=GymSoft.CinchMVVM.Common"
-             xmlns:utilities="clr-namespace:GymSoft.CinchMVVM.Common.Utilities;assembly=GymSoft.CinchMVVM.Common"
              meffed:ViewModelLocator.ViewModel="ViewAllUsersViewViewModel"
              mc:Ignorable="d">
     <UserControl.Resources>
@@ -69,7 +67,6 @@
         <!--GridSplitter-->
         <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ResizeDirection="Columns" Width="3" Background="Black"/>
         <!-- UserDetailsRegion -->
-        
         <Grid x:Name="LayoutRoot" Grid.Column="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="2*"/>
@@ -77,7 +74,7 @@
             </Grid.ColumnDefinitions>			
             <DockPanel Grid.Column="0">
                 <StackPanel DockPanel.Dock="Top">
-                    <Border Margin="10" CornerRadius="5" BorderThickness="2" BorderBrush="DarkCyan" MinWidth="200" MinHeight="300">
+                    <Border Margin="10" CornerRadius="5" BorderThickness="2" BorderBrush="DarkCyan" MinWidth="200" MinHeight="300" MaxWidth="200" MaxHeight="300">
                         <Image Grid.Row="0" Source="{Binding Path=CurrentlySelectedUser.PhotoPath.DataValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}"/>
                     </Border>
                 </StackPanel>

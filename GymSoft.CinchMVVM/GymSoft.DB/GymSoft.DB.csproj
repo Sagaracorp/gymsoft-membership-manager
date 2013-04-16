@@ -38,12 +38,12 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Cinch.WPF">
-      <HintPath>..\..\..\..\..\Desktop\reupdatereport2232013\Cinch.WPF.dll</HintPath>
+      <HintPath>..\..\..\ProjectDLLs\Cinch.WPF.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="MEFedMVVM.WPF, Version=1.0.0.0, Culture=neutral, PublicKeyToken=b6db3dc4f5fba1e3, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\Desktop\reupdatereport2232013\MEFedMVVM.WPF.dll</HintPath>
+      <HintPath>..\..\..\ProjectDLLs\MEFedMVVM.WPF.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Microsoft.Expression.Interactions, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -92,6 +92,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="BusinessUnitsTable\RuntimeBusinessUnitService.cs" />
     <Compile Include="ResultSet.cs" />
+    <Compile Include="RolesTable\IRoleService.cs" />
+    <Compile Include="RolesTable\Role.cs" />
+    <Compile Include="RolesTable\RoleTableDefinition.cs" />
+    <Compile Include="RolesTable\RuntimeRoleService.cs" />
     <Compile Include="UsersTable\DesignTimeUserService.cs" />
     <Compile Include="UsersTable\IUserService.cs" />
     <Compile Include="UsersTable\RuntimeUserService.cs" />
@@ -110,7 +114,9 @@
       <Name>GymSoft.CinchMVVM.Common</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="ActionsTable\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
