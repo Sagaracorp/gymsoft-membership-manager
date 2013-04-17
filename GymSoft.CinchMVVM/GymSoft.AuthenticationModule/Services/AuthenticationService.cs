@@ -7,7 +7,7 @@ using MySql.Data.MySqlClient;
 
 namespace GymSoft.AuthenticationModule.Services
 {
-    [PartCreationPolicy(CreationPolicy.NonShared)]
+    [PartCreationPolicy(CreationPolicy.Shared)]
     [ExportService(ServiceType.Runtime, typeof(IAuthenticateService))]
     public class AuthenticationService : IAuthenticateService
     {

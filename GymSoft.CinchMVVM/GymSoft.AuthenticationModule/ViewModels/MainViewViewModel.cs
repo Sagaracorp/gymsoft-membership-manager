@@ -20,10 +20,12 @@ namespace GymSoft.AuthenticationModule.ViewModels
         private IAuthenticateService authenticateService;
         //  private IRegionManager regionManager;
         
+        
+        public User  CurrentUser { get; set; }
+        public String LoggedInMessage { get; set; } 
         /// <summary>
         /// Commands
         /// </summary>
-        public User  CurrentUser { get; set; }
         public SimpleCommand<Object, Object> LogoutCommand { get; private set; }
 
         [ImportingConstructor]
@@ -37,6 +39,7 @@ namespace GymSoft.AuthenticationModule.ViewModels
             this.viewAwareStatus.ViewLoaded += new Action(viewAwareStatus_ViewLoaded);
             CurrentUser = new User();
             CurrentUser = authenticateService.CurrentUser;
+            LoggedInMessage = CurrentUser == null ? "" : String.Format("Currently logged in as: {0}", CurrentUser.UserName.DataValue);
             //Listen for login event
             Mediator.Instance.Register(this);
             LogoutCommand = new SimpleCommand<object, object>(ExecuteLogoutCommand);

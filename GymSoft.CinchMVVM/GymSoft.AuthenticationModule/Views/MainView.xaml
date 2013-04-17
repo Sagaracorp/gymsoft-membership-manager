@@ -10,71 +10,70 @@
              meffed:ViewModelLocator.ViewModel="MainViewViewModel"
              mc:Ignorable="d" 
              d:DesignHeight="760" d:DesignWidth="846">
-	<Grid>
-		<Grid.RowDefinitions>
-			<RowDefinition Height="Auto"/>
-			<RowDefinition Height="Auto"/>
-			<RowDefinition Height="*"/>
-		</Grid.RowDefinitions>
-		<!-- Banner Region -->
-		<Rectangle HorizontalAlignment="Left" Stroke="Black" VerticalAlignment="Top" Grid.Row="0" Stretch="Fill">
-			<Rectangle.Fill>
-				<LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-					<GradientStop Color="Black" Offset="0"/>
-					<GradientStop Color="White" Offset="1"/>
-				</LinearGradientBrush>
-			</Rectangle.Fill>
-		</Rectangle>
-		<Label Content="Gym Soft" Margin="445.304,29.48,177.601,29.52" Height="43.96" FontFamily="Snap ITC" FontSize="26.667" FontWeight="Thin" TextOptions.TextHintingMode="Animated" RenderTransformOrigin="0.491,0.544" Background="{x:Null}">
-			<Label.RenderTransform>
-				<TransformGroup>
-					<ScaleTransform ScaleY="2.35" ScaleX="2.55"/>
-					<SkewTransform AngleY="0" AngleX="0"/>
-					<RotateTransform Angle="0"/>
-					<TranslateTransform X="-1.535" Y="1.064"/>
-				</TransformGroup>
-			</Label.RenderTransform>
-			<Label.Effect>
-				<ShaderEffects:HorizontalBlurEffect/>
-			</Label.Effect>
-		</Label>
-		<Image Source="/GymSoft.AuthenticationModule;component/Assets/masot2.jpg" Stretch="Fill" Grid.Row="0" Height="100" Width="100" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <!-- Banner Region -->
+        
+        <Rectangle HorizontalAlignment="Left" Stroke="Black" VerticalAlignment="Top" Grid.Row="0" Stretch="Fill">
+            <Rectangle.Fill>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="Black" Offset="0"/>
+                    <GradientStop Color="White" Offset="1"/>
+                </LinearGradientBrush>
+            </Rectangle.Fill>
+        </Rectangle>
+        <Label Content="Gym Soft" Margin="375.51,28,0,28.04" Height="43.96" Width="265.84" FontFamily="Snap ITC" FontSize="26.667" FontWeight="Thin" TextOptions.TextHintingMode="Animated" RenderTransformOrigin="0.491,0.544" Background="{x:Null}">
+            <Label.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform ScaleY="2.35" ScaleX="2.55"/>
+                    <SkewTransform AngleY="0" AngleX="0"/>
+                    <RotateTransform Angle="0"/>
+                    <TranslateTransform X="-1.535" Y="1.064"/>
+                </TransformGroup>
+            </Label.RenderTransform>
+            <Label.Effect>
+                <ShaderEffects:HorizontalBlurEffect/>
+            </Label.Effect>
+        </Label>
+        <Image Source="/GymSoft.AuthenticationModule;component/Assets/masot2.jpg" Stretch="Fill" Grid.Row="0" Height="100" Width="100" HorizontalAlignment="Left" VerticalAlignment="Center"/>
         <!-- Ribbon Region-->
         <Border BorderBrush="Turquoise" BorderThickness="1" Grid.Row="1" Margin="5" CornerRadius="5">
             <telerik:RadRibbonBar MinimizeButtonVisibility="Collapsed" 
 				TitleBarVisibility="Collapsed" ApplicationButtonVisibility="Collapsed" 
 				prism:RegionManager.RegionName="MainRibbonRegion" IsMinimizable="False" TitleBarBackground="#FF84CFF5" ApplicationButtonType="Office2010" QuickAccessToolBarPosition="BelowRibbon">
-                
+
             </telerik:RadRibbonBar>
 
         </Border>
         <!--Main Region-->
-		<Border BorderBrush="Firebrick"  BorderThickness="1" Grid.Row="2" Margin="5" CornerRadius="5">
-           
-                <ContentControl prism:RegionManager.RegionName="MainContentRegion"/>
-           
+        <Border BorderBrush="Firebrick"  BorderThickness="1" Grid.Row="2" Margin="5" CornerRadius="5">
+
+            <ContentControl prism:RegionManager.RegionName="MainContentRegion"/>
+
 
         </Border>
         <Button Content="Logout" Margin="0,0,25.591,14.772" VerticalAlignment="Bottom" Height="39.416" Command="{Binding LogoutCommand}" RenderTransformOrigin="0.5,0.5" Grid.Row="0" HorizontalAlignment="Right" Width="113.179">
-        	<Button.RenderTransform>
-        		<TransformGroup>
-        			<ScaleTransform ScaleX="1.1" ScaleY="1.15"/>
-        			<SkewTransform/>
-        			<RotateTransform/>
-        			<TranslateTransform/>
-        		</TransformGroup>
-        	</Button.RenderTransform>
-			<Button.Background>
-				<RadialGradientBrush>
-					<GradientStop Color="#FFF3F3F3" Offset="0"/>
-					<GradientStop Color="#FFEBEBEB" Offset="0.5"/>
-					<GradientStop Color="#FFDDDDDD" Offset="0.5"/>
-					<GradientStop Color="{DynamicResource {x:Static SystemColors.MenuBarColorKey}}" Offset="1"/>
-				</RadialGradientBrush>
-			</Button.Background>
-		</Button>
-		<TextBlock Text="Currently logged in as:" Margin="664.5,0,5,87"/>
-		<TextBlock Text="{Binding CurrentUser.UserName.DataValue, Mode=OneWayToSource}" Margin="666,18,0,64"/>
-	</Grid>
+            <Button.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform ScaleX="1.1" ScaleY="1.15"/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Button.RenderTransform>
+            <Button.Background>
+                <RadialGradientBrush>
+                    <GradientStop Color="#FFF3F3F3" Offset="0"/>
+                    <GradientStop Color="#FFEBEBEB" Offset="0.5"/>
+                    <GradientStop Color="#FFDDDDDD" Offset="0.5"/>
+                    <GradientStop Color="{DynamicResource {x:Static SystemColors.MenuBarColorKey}}" Offset="1"/>
+                </RadialGradientBrush>
+            </Button.Background>
+        </Button>
+        <TextBlock Text="{Binding LoggedInMessage}" HorizontalAlignment="Right" Margin="0,16,10,66" Width="Auto" />
+    </Grid>
 </UserControl>

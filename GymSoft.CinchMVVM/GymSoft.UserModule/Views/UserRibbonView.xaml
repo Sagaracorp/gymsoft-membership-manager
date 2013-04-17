@@ -11,12 +11,10 @@
     <telerik:RadRibbonGroup Header="User Related Functions" >
         <telerik:RadRibbonButton Text="Add New User" Command="{Binding Path=AddNewUserCommand}"/>
         <telerik:RadRibbonButton Text="View All Users" Command="{Binding Path=ViewAllUsersCommand}"/>
-        <telerik:RadRibbonButton Text="Delete All Users" Command="{Binding Path=DeleteAllUsersCommand}"/>
     </telerik:RadRibbonGroup>
     <telerik:RadRibbonGroup Header="Role Related Functions" >
         <telerik:RadRibbonButton Text="Add New Role" Command="{Binding Path=AddNewRoleCommand}"/>
         <telerik:RadRibbonButton Text="View All Roles" Command="{Binding Path=ViewAllRolesCommand}"/>
-        <telerik:RadRibbonButton Text="Delete All Roles" Command="{Binding Path=DeleteAllRolesCommand}"/>
     </telerik:RadRibbonGroup>
     <telerik:RadRibbonGroup>
         <telerik:RadButtonGroup>
