@@ -1,16 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Data;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Cinch;
 using GymSoft.CinchMVVM.Common;
 using GymSoft.CinchMVVM.Common.Utilities;
-using GymSoft.DB.BusinessUnitsTable;
+using GymSoft.DB.ActionsTable;
 using MEFedMVVM.ViewModelLocator;
 using MySql.Data.MySqlClient;
 
@@ -20,6 +17,10 @@ namespace GymSoft.DB.UsersTable
     [PartCreationPolicy(CreationPolicy.NonShared)]
     public class RuntimeUserService : IUserService
     {
+        #region Dependent Services
+
+        private readonly IActionService actionService;
+        #endregion
         #region Properties
         public DataSet UserDataSet { get; set; }
         public string ConnectionString { get; private set; }
@@ -54,12 +55,10 @@ namespace GymSoft.DB.UsersTable
         }
         #endregion
 
-        
-
         [ImportingConstructor]
-        public RuntimeUserService()
+        public RuntimeUserService(IActionService actionService)
         {
-
+            this.actionService = actionService;
             ConnectionString = GymSoftConfigurationManger.GetDatabaseConnection();
             MySqlConnection = new MySqlConnection(ConnectionString);
             MySqlCommand = MySqlConnection.CreateCommand();
@@ -172,6 +171,10 @@ namespace GymSoft.DB.UsersTable
                     {
                         DataValue = GetAbsoluteFilePath(dataTable.Rows[i][(int)UserTableDefinition.PhotoPath].ToString())
                     },
+                    UserActions =
+                        {
+                            DataValue = GetUserActions(Int32.Parse(dataTable.Rows[i][(int)UserTableDefinition.UserId].ToString()))
+                        },
                     CreatedAt =
                     {
                         DataValue = DateTime.Parse(dataTable.Rows[i][(int)UserTableDefinition.CreatedAt].ToString())
@@ -193,6 +196,11 @@ namespace GymSoft.DB.UsersTable
 
             }
             return users;
+        }
+
+        private ActionsTable.Actions GetUserActions(int userId)
+        {
+            return actionService.FindAllForUser(userId);
         }
 
         private Status GetStatus(string p)

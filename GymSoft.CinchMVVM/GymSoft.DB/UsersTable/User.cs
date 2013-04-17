@@ -7,11 +7,16 @@ using System.Text;
 using System.Text.RegularExpressions;
 using Cinch;
 using GymSoft.CinchMVVM.Common.Utilities;
+using GymSoft.DB.ActionsTable;
+using GymSoft.DB.RolesTable;
 
 namespace GymSoft.DB.UsersTable
 {
     public class User : ValidatingObject
     {
+        #region Dependent Services
+        private IActionService actionService;
+        #endregion
         #region Data
         private DataWrapper<Int32> buId;
         private DataWrapper<Int32> userId;
@@ -33,7 +38,9 @@ namespace GymSoft.DB.UsersTable
         private DataWrapper<String> address3;
         private DataWrapper<String> parish;
         private DataWrapper<Gender> gender;
-        private DataWrapper<String> photoPath;
+        private DataWrapper<String> photoPath; 
+        private DataWrapper<Roles> userRoles;
+        private DataWrapper<Actions> userActions;
         private DataWrapper<DateTime> createdAt;
         private DataWrapper<Int32> createdBy;
         private DataWrapper<DateTime> updatedAt;
@@ -59,6 +66,8 @@ namespace GymSoft.DB.UsersTable
 
         public User()
         {
+            //this.actionService = actionService;
+
             BuId = new DataWrapper<Int32>(this,buIdArgs);
             UserId = new DataWrapper<Int32>(this,userIdArgs);
             UserName = new DataWrapper<String>(this, userNameArgs);
@@ -76,12 +85,14 @@ namespace GymSoft.DB.UsersTable
             ContactNum1 = new DataWrapper<String>(this, contactNum1Args); 
             ContactNum2 = new DataWrapper<String>(this, contactNum2Args); 
             ContactNum3 = new DataWrapper<String>(this, contactNum3Args); 
-            Address1 = new DataWrapper<String>(this, address1Args); ;
-            Address2 = new DataWrapper<String>(this, address2Args); ;
-            Address3 = new DataWrapper<String>(this, address3Args); ;
-            Parish = new DataWrapper<String>(this, parishArgs); ;
-            Gender = new DataWrapper<Gender>(this, genderArgs); ;
-            PhotoPath = new DataWrapper<String>(this, photoPathArgs); ;
+            Address1 = new DataWrapper<String>(this, address1Args); 
+            Address2 = new DataWrapper<String>(this, address2Args); 
+            Address3 = new DataWrapper<String>(this, address3Args); 
+            Parish = new DataWrapper<String>(this, parishArgs); 
+            Gender = new DataWrapper<Gender>(this, genderArgs); 
+            PhotoPath = new DataWrapper<String>(this, photoPathArgs);
+            UserRoles = new DataWrapper<Roles>(this, userRolesArgs);
+            UserActions = new DataWrapper<Actions>(this, userActionsArgs);
             CreatedAt = new DataWrapper<DateTime>(this, createdAtArgs);
             CreatedBy = new DataWrapper<Int32>(this, createdByArgs);
             UpdatedAt = new DataWrapper<DateTime>(this, updatedAtArgs);
@@ -410,6 +421,26 @@ namespace GymSoft.DB.UsersTable
         {
             get { return photoPath; }
             set { photoPath = value; NotifyPropertyChanged(photoPathArgs); }
+        }
+        /// <summary>
+        /// UserRoles
+        /// </summary>
+        static PropertyChangedEventArgs userRolesArgs =
+            ObservableHelper.CreateArgs<User>(x => x.UserRoles);
+        public DataWrapper<Roles> UserRoles
+        {
+            get { return userRoles; }
+            set { userRoles = value; NotifyPropertyChanged(userRolesArgs); }
+        }
+        /// <summary>
+        /// UserActions
+        /// </summary>
+        static PropertyChangedEventArgs userActionsArgs =
+            ObservableHelper.CreateArgs<User>(x => x.UserActions);
+        public DataWrapper<Actions> UserActions
+        {
+            get { return userActions; }
+            set { userActions = value; NotifyPropertyChanged(userActionsArgs); }
         }
         /// <summary>
         /// CreatedAt

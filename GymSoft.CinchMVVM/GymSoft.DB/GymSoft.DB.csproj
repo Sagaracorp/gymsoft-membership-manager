@@ -85,6 +85,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ActionsTable\Action.cs" />
+    <Compile Include="ActionsTable\ActionTableDefinition.cs" />
+    <Compile Include="ActionsTable\IActionService.cs" />
+    <Compile Include="ActionsTable\RuntimeActionService.cs" />
     <Compile Include="BusinessUnitsTable\BusinessUnit.cs" />
     <Compile Include="BusinessUnitsTable\BusinessUnitTableDefinition.cs" />
     <Compile Include="BusinessUnitsTable\DesignTimeBusinessUnitService.cs" />
@@ -114,9 +118,7 @@
       <Name>GymSoft.CinchMVVM.Common</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="ActionsTable\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

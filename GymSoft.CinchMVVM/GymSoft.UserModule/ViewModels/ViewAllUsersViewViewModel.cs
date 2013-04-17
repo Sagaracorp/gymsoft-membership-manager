@@ -64,6 +64,14 @@ namespace GymSoft.UserModule.ViewModels
                 currentlySelectedUser = value;
                 NotifyPropertyChanged(currentlySelectedUserArgs);
                 Mediator.Instance.NotifyColleagues<User>("CurrentlySelectedUser", currentlySelectedUser);
+                if (CurrentlySelectedUser.UserActions.DataValue != null && CurrentlySelectedUser.UserActions.DataValue.Count > 0)
+                {
+                    foreach (var action in CurrentlySelectedUser.UserActions.DataValue)
+                    {
+                        messageBoxService.ShowInformation(action.AllowedActions.DataValue);
+                    }
+                    
+                }
             }
         }
         /// <summary>
@@ -158,6 +166,7 @@ namespace GymSoft.UserModule.ViewModels
             IsBusy = false;
             this.Users = result;
             canUpdate = true;
+            
         }
         void ErrorLoadUsers(Exception exception)
         {

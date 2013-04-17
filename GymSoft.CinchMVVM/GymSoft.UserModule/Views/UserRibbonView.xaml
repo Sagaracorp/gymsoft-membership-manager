@@ -15,6 +15,7 @@
     <telerik:RadRibbonGroup Header="Role Related Functions" >
         <telerik:RadRibbonButton Text="Add New Role" Command="{Binding Path=AddNewRoleCommand}"/>
         <telerik:RadRibbonButton Text="View All Roles" Command="{Binding Path=ViewAllRolesCommand}"/>
+        <telerik:RadRibbonButton Text="Assign Role to Actions" Command="{Binding Path=AssignRolesToActionCommand}"/>
     </telerik:RadRibbonGroup>
     <telerik:RadRibbonGroup>
         <telerik:RadButtonGroup>
