@@ -824,7 +824,113 @@ CREATE PROCEDURE gym_sp_AddSysConfig(buid int, userid int, paramName VARCHAR(102
     COMMIT;
   END;
 
+DROP PROCEDURE IF EXISTS gym_sp_GetAllRolesForUser;
+ 
+CREATE PROCEDURE gym_sp_GetAllRolesForUser (buid int, userid int, personid int, OUT result int)
+BEGIN
+ DECLARE modTime DATETIME;
 
+    START TRANSACTION;
+
+    SET modTime = current_timestamp();
+
+    SELECT r.*
+    FROM   gym_Roles r INNER JOIN gym_RoleUserMap ru ON r.roleId = ru.roleId AND ru.userId = personid;
+
+    INSERT INTO gymsoft.gym_AuditTrail(buId, activity, description, updatedAt, updatedBy)
+    VALUES      (buid,
+                 'GET ALL ROLES FOR USER',
+                 concat(userid, '|SUCCESS'),
+                 modTime,
+                 userid);
+
+    SET result = 0;
+
+    COMMIT;
+END;
+
+
+DROP PROCEDURE IF EXISTS gym_sp_GetAllActions;
+
+CREATE PROCEDURE gym_sp_GetAllActions (buid int, userid int, OUT result int)
+BEGIN
+	DECLARE modTime DATETIME;
+
+    START TRANSACTION;
+
+    SET modTime = current_timestamp();
+
+    SELECT a.*
+    FROM   gym_Actions;
+
+    INSERT INTO gymsoft.gym_AuditTrail(buId, activity, description, updatedAt, updatedBy)
+    VALUES      (buid,
+                 'GET ALL ACTIONS',
+                 concat(userid, '|SUCCESS'),
+                 modTime,
+                 userid);
+
+    SET result = 0;
+
+    COMMIT;
+END;
+
+DROP PROCEDURE IF EXISTS gym_sp_GetAllActionsForRole;
+
+CREATE PROCEDURE gym_sp_GetAllActionsForRole (buid int, userid int, roleid int, OUT result int)
+BEGIN
+	DECLARE modTime DATETIME;
+
+    START TRANSACTION;
+
+    SET modTime = current_timestamp();
+
+    SELECT a.*
+    FROM   gym_Actions a INNER JOIN gym_RoleActionMap ra ON a.actionId = ra.actionId AND ra.roleId = roleid;
+
+    INSERT INTO gymsoft.gym_AuditTrail(buId, activity, description, updatedAt, updatedBy)
+    VALUES      (buid,
+                 'GET ALL ACTIONS FOR ROLE',
+                 concat(userid, '|SUCCESS'),
+                 modTime,
+                 userid);
+
+    SET result = 0;
+
+    COMMIT;
+END;
+
+DROP PROCEDURE IF EXISTS gym_sp_GetAllActionsForUser;
+
+CREATE PROCEDURE gym_sp_GetAllActionsForUser (buid int, userid int, personid int, OUT result int)
+BEGIN
+	
+DECLARE modTime DATETIME;
+    
+    START TRANSACTION;
+
+    SET modTime = current_timestamp();
+
+    select a.* 
+    from gym_Actions a INNER JOIN gym_RoleActionMap ra on  ra.actionId = a.actionId inner join gym_RoleUserMap ru 
+    ON ru.roleId = ra.roleId where  ru.userid = personid;
+
+    INSERT INTO gymsoft.gym_AuditTrail(buId, activity, description, updatedAt, updatedBy)
+    VALUES      (buid,
+                 'GET ALL ACTIONS FOR USER',
+                 concat(userid, '|SUCCESS'),
+                 modTime,
+                 userid);
+
+    SET result = 0;
+
+    COMMIT;
+END; 
+  
+  
+  
+  
+    
 #call gym_sp_PersonCheckIn(1,1,19,@result);
 
 #select usertype from gym_Person where buId = 1 and personId = 21 LIMIT 1;
@@ -994,10 +1100,7 @@ INSERT INTO gym_RoleActionMap(buId, roleId, actionId, createdAt, createdBy, upda
 
 update gym_Person set photoPath = (select filename from gym_PhotoAlbum order by rand() limit 0,1)
 
-
-
-
-
+INSERT into gym_RoleUserMap(buid, userId, roleId, createdAt, createdBy, updatedAt, updatedBy) Values(1,121,2,now(),1,now(),1);
 
 
 
