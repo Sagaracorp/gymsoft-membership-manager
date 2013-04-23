@@ -20,6 +20,12 @@ DROP TABLE IF EXISTS `gymsoft`.`gym_Users`;
 DROP TABLE IF EXISTS `gymsoft`.`gym_Person`;
 DROP TABLE IF EXISTS `gymsoft`.`gym_BusinessUnits`;
 
+DROP TABLE IF EXISTS `gymsoft`.`tmp_PhotoAlbum`;
+
+CREATE TABLE `gymsoft`.`tmp_PhotoAlbum` (
+ `filename` varchar(1024) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 CREATE TABLE `gymsoft`.`gym_Users` (
   `buId` int(11) NOT NULL DEFAULT 1,
   `userId` int(11) NOT NULL,
@@ -1098,9 +1104,12 @@ INSERT INTO gym_RoleActionMap(buId, roleId, actionId, createdAt, createdBy, upda
 INSERT INTO gym_RoleActionMap(buId, roleId, actionId, createdAt, createdBy, updatedAt, updatedBy) VALUES (1, 2, 3, now(), 1, now(), 1);
 INSERT INTO gym_RoleActionMap(buId, roleId, actionId, createdAt, createdBy, updatedAt, updatedBy) VALUES (1, 2, 4, now(), 1, now(), 1);
 
-update gym_Person set photoPath = (select filename from gym_PhotoAlbum order by rand() limit 0,1)
-
 INSERT into gym_RoleUserMap(buid, userId, roleId, createdAt, createdBy, updatedAt, updatedBy) Values(1,121,2,now(),1,now(),1);
+
+INSERT INTO gymsoft.tmp_PhotoAlbum (filename) VALUES ('0000.jpg'), ('0001-001.jpg'), ('0001-002.jpg'), ('0001.jpg'), ('0002-001.jpg'), ('0002-002.jpg'), ('0002.jpg'), ('0004-001.jpg'), ('0004.jpg'), ('0005-001.jpg'), ('0005-002.jpg'), ('0005.jpg'), ('0006-001.jpg'), ('0006.jpg'), ('0020.jpg'), ('0021.jpg'), ('0022.jpg'), ('0025.jpg'), ('0026.jpg'), ('0030.jpg'), ('0034.jpg'), ('0035.jpg'), ('0052.jpg'), ('0053.jpg'), ('0056.jpg'), ('0060.jpg'), ('0065.jpg'), ('0080.jpg'), ('0085.jpg'), ('0094.jpg'), ('0100.jpg'), ('0102.jpg'), ('0103.jpg'), ('0106.jpg'), ('0110.jpg'), ('0135.jpg'), ('0144.jpg'), ('1000.jpg'), ('1005.jpg'), ('1010.jpg'), ('1014.jpg'), ('1015.jpg'), ('1020.jpg'), ('1025.jpg'), ('1030.jpg'), ('1035.jpg'), ('1040.jpg'), ('1045.jpg'), ('1050.jpg'), ('1055.jpg'), ('1060.jpg'), ('1065.jpg'), ('1070.jpg'), ('1075.jpg'), ('1085.jpg'), ('1090.jpg'), ('2000.jpg'), ('2004.jpg'), ('2008.jpg'), ('2012.jpg'), ('2016.jpg'), ('2020.jpg'), ('2025.jpg'), ('2028.jpg'), ('2031.jpg'), ('2032.jpg'), ('2044.jpg'), ('2045.jpg'), ('2046.jpg'), ('2048.jpg'), ('2050.jpg'), ('2056.jpg'), ('2061.jpg'), ('2068.jpg'), ('2073.jpg'), ('2076.jpg'), ('2080.jpg'), ('2085.jpg'), ('2088.jpg'), ('2092.jpg'), ('4000.jpg'), ('4005.jpg'), ('4010.jpg'), ('4015.jpg'), ('4020.jpg'), ('4030.jpg'), ('4031.jpg'), ('4035.jpg'), ('4040.jpg'), ('4045.jpg'), ('4050.jpg'), ('4055.jpg'), ('6000.jpg'), ('6005.jpg'), ('6010.jpg'), ('6011.jpg'), ('6015.jpg'), ('6020.jpg'), ('6021.jpg'), ('6035.jpg'), ('6036.jpg'), ('6045.jpg'), ('6050.jpg'), ('6055.jpg'), ('6060.jpg'), ('7000.jpg'), ('7001.jpg'), ('7002.jpg'), ('7003.jpg'), ('7004.jpg'), ('default.png'), ('q1.jpg'), ('q10.jpg'), ('q2.jpg'), ('q3.jpg'), ('q4.jpg'), ('q5.jpg'), ('q6.jpg'), ('q7.jpg'), ('q8.jpg'), ('q9.jpg');
+update gym_Person set photoPath = (select filename from tmp_PhotoAlbum order by rand() limit 0,1);
+
+
 
 
 
