@@ -151,5 +151,10 @@ namespace GymSoft.DB.UsersTable
         {
             throw new NotImplementedException();
         }
+
+        public User FindById(int userId, int buId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

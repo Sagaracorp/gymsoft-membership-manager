@@ -10,5 +10,7 @@ namespace GymSoft.DB.RolesTable
         void FindAllTask(Action<Roles> resultCallback, Action<Exception> exceptionCallBack);
         void CreateNewRoleTask(Role newUser, Action<Int32> resultCallback, Action<Exception> exceptionCallBack);
         void UpdateRoleTask(Role user, Action<Int32> resultCallback, Action<Exception> exceptionCallBack);
+
+        Roles FindAllForUser(System.Data.DataTable userRolesTable, int userId);
     }
 }

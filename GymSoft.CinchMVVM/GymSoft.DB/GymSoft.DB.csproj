@@ -38,12 +38,12 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Cinch.WPF">
-      <HintPath>..\..\..\ProjectDLLs\Cinch.WPF.dll</HintPath>
+      <HintPath>..\..\..\..\CinchMVVMDLLs\Cinch.WPF.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="MEFedMVVM.WPF, Version=1.0.0.0, Culture=neutral, PublicKeyToken=b6db3dc4f5fba1e3, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\ProjectDLLs\MEFedMVVM.WPF.dll</HintPath>
+      <HintPath>..\..\..\..\CinchMVVMDLLs\MEFedMVVM.WPF.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Microsoft.Expression.Interactions, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -83,6 +83,7 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActionsTable\Action.cs" />

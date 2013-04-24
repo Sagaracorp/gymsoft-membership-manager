@@ -5,6 +5,7 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using System.Text;
 using Cinch;
+using GymSoft.AuthenticationModule.Services;
 using GymSoft.CinchMVVM.Common.Services;
 using GymSoft.DB.UsersTable;
 using GymSoft.UserModule.Views;
@@ -21,6 +22,7 @@ namespace GymSoft.UserModule.ViewModels
         private readonly IViewInjectionService viewInjectionService;
         private readonly IUserService userService;
         private readonly IOpenFileService openFileService;
+        private readonly IAuthenticateService authenticateService;
         private bool canUpdate = false;
         private Users users;
         private User currentlySelectedUser;
@@ -66,9 +68,9 @@ namespace GymSoft.UserModule.ViewModels
                 Mediator.Instance.NotifyColleagues<User>("CurrentlySelectedUser", currentlySelectedUser);
                 if (CurrentlySelectedUser.UserActions.DataValue != null && CurrentlySelectedUser.UserActions.DataValue.Count > 0)
                 {
-                    foreach (var action in CurrentlySelectedUser.UserActions.DataValue)
+                    foreach (var action in CurrentlySelectedUser.UserRoles.DataValue)
                     {
-                        messageBoxService.ShowInformation(action.AllowedActions.DataValue);
+                        messageBoxService.ShowInformation(action.RoleName.DataValue);
                     }
                     
                 }
@@ -140,13 +142,14 @@ namespace GymSoft.UserModule.ViewModels
 
         [ImportingConstructor]
         public ViewAllUsersViewViewModel(IMessageBoxService messageBoxService, IViewAwareStatus viewAwareStatus,
-            IViewInjectionService viewInjectionService, IUserService userService, IOpenFileService openFileService)
+            IViewInjectionService viewInjectionService, IUserService userService, IOpenFileService openFileService, IAuthenticateService authenticateService)
         {
             this.messageBoxService = messageBoxService;
             this.viewAwareStatus = viewAwareStatus;
             this.userService = userService;
             this.viewInjectionService = viewInjectionService;
             this.openFileService = openFileService;
+            this.authenticateService = authenticateService;
             Mediator.Instance.Register(this);
             //Initialise Commands
             UpdateUserCommand = new SimpleCommand<object, object>(CanExecuteUpdateUserCommand, ExecuteUpdateUserCommand);
@@ -175,7 +178,7 @@ namespace GymSoft.UserModule.ViewModels
         }
         private bool CanExecuteUploadUserImageCommand(Object args)
         {
-            return canUpdate;
+            return authenticateService.CurrentUser != null && (canUpdate && authenticateService.CurrentUser.CanExecuteAction("ExecuteUploadUserImageCommand"));
         }
 
         private void ExecuteUploadUserImageCommand(Object args)
@@ -203,7 +206,7 @@ namespace GymSoft.UserModule.ViewModels
         private bool CanExecuteUpdateUserCommand(Object args)
         {
             //return CurrentlySelectedUser.IsValid;
-            return canUpdate;
+            return authenticateService.CurrentUser != null && (canUpdate && authenticateService.CurrentUser.CanExecuteAction("ExecuteUpdateUserCommand"));
         }
 
         

@@ -11,5 +11,7 @@ namespace GymSoft.DB.ActionsTable
         void FindAllActionsForUserTask(int userId, Action<Actions> resultCallback, Action<Exception> exceptionCallBack);
         void FindAllActionsForRoleTask(int roleId, Action<Actions> resultCallback, Action<Exception> exceptionCallBack);
         Actions FindAllForUser(int personId, int userId=1, int buId=1);
+
+        Actions FindAllForUser(System.Data.DataTable userActionsTable, int userId);
     }
 }

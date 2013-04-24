@@ -4,6 +4,7 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using System.Text;
 using Cinch;
+using GymSoft.AuthenticationModule.Services;
 using GymSoft.CinchMVVM.Common.Services;
 using GymSoft.UserModule.Views;
 using MEFedMVVM.ViewModelLocator;
@@ -17,6 +18,7 @@ namespace GymSoft.UserModule.ViewModels
         private IMessageBoxService messageBoxService;
         private IViewAwareStatus viewAwareStatus;
         private IViewInjectionService viewInjectionService;
+        private readonly IAuthenticateService authenticateService;
        
         /// <summary>
         /// Commands
@@ -26,11 +28,12 @@ namespace GymSoft.UserModule.ViewModels
         public SimpleCommand<Object, Object> ViewAllRolesCommand { get; private set; }
 
         [ImportingConstructor]
-        public UserRibbonViewViewModel(IMessageBoxService messageBoxService, IViewAwareStatus viewAwareStatus, IViewInjectionService viewInjectionService)
+        public UserRibbonViewViewModel(IMessageBoxService messageBoxService, IViewAwareStatus viewAwareStatus, IViewInjectionService viewInjectionService, IAuthenticateService authenticateService)
         {
             this.messageBoxService = messageBoxService;
             this.viewAwareStatus = viewAwareStatus;
             this.viewInjectionService = viewInjectionService;
+            this.authenticateService = authenticateService;
 
             Mediator.Instance.Register(this);
             //Initialise Commands
@@ -49,15 +52,15 @@ namespace GymSoft.UserModule.ViewModels
 
         private bool CanExecuteAddNewUserCommand(Object args)
         {
-            return true;
+            return authenticateService.CurrentUser != null && authenticateService.CurrentUser.CanExecuteAction("ExecuteAddNewUserCommand");
         }
         private bool CanExecuteViewAllUsersCommand(Object args)
         {
-            return true;
+            return authenticateService.CurrentUser != null && authenticateService.CurrentUser.CanExecuteAction("ExecuteViewAllUsersCommand"); ;
         }
         private bool CanExecuteViewAllRolesCommand(Object args)
         {
-            return true;
+            return authenticateService.CurrentUser != null && authenticateService.CurrentUser.CanExecuteAction("ExecuteViewAllRolesCommand"); ;
         }
 
         private void ExecuteViewAllUsersCommand(Object args)

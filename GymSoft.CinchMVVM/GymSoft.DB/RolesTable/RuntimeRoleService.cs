@@ -142,5 +142,55 @@ namespace GymSoft.DB.RolesTable
         {
             throw new NotImplementedException();
         }
+
+
+        public Roles FindAllForUser(DataTable userRolesTable, int userId)
+        {
+            Roles userRoles = new Roles();
+
+            DataRow[] userRolesRows = userRolesTable.Select(String.Format("userid={0}", userId));
+
+            foreach (var userRolesRow in userRolesRows)
+            {
+                #region Add to UserRoles
+                userRoles.Add(new Role
+                {
+                    BuId =
+                    {
+                        DataValue = Int32.Parse(userRolesRow[1].ToString())
+                    },
+                    RoleId =
+                    {
+                        DataValue = Int32.Parse(userRolesRow[2].ToString())
+                    },
+                    RoleName =
+                    {
+                        DataValue = (userRolesRow[3].ToString())
+                    },
+                    Description =
+                    {
+                        DataValue = (userRolesRow[4].ToString())
+                    },
+                    CreatedAt =
+                    {
+                        DataValue = DateTime.Parse(userRolesRow[5].ToString())
+                    },
+                    CreatedBy =
+                    {
+                        DataValue = Int32.Parse(userRolesRow[6].ToString())
+                    },
+                    UpdatedAt =
+                    {
+                        DataValue = DateTime.Parse(userRolesRow[7].ToString())
+                    },
+                    UpdatedBy =
+                    {
+                        DataValue = Int32.Parse(userRolesRow[8].ToString())
+                    }
+                });
+                #endregion
+            }
+            return userRoles;
+        }
     }
 }

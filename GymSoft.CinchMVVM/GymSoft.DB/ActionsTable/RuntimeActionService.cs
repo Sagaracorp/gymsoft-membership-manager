@@ -343,6 +343,66 @@ namespace GymSoft.DB.ActionsTable
             }, CancellationToken.None, TaskContinuationOptions.None,
                 TaskScheduler.FromCurrentSynchronizationContext());
         }
-        
+
+
+
+        public Actions FindAllForUser(DataTable userActionsTable, int userId)
+        {
+            Actions userActions = new Actions();
+
+            DataRow[] userActionRows = userActionsTable.Select(String.Format("userid={0}", userId));
+            foreach (var userActionRow in userActionRows)
+            {
+                #region Add userActions
+
+                userActions.Add(new Action
+                    {
+                        BuId =
+                            {
+                                DataValue = Int32.Parse(userActionRow[1].ToString())
+                            },
+                        ActionId =
+                            {
+                                DataValue = Int32.Parse(userActionRow[2].ToString())
+                            },
+                        EntityName =
+                            {
+                                DataValue = (userActionRow[3].ToString())
+                            },
+                        AllowedActions =
+                            {
+                                DataValue = (userActionRow[4].ToString())
+                            },
+                        FriendlyName =
+                            {
+                                DataValue = (userActionRow[5].ToString())
+                            },
+                        Description =
+                            {
+                                DataValue = (userActionRow[6].ToString())
+                            },
+                        CreatedAt =
+                            {
+                                DataValue = DateTime.Parse(userActionRow[7].ToString())
+                            },
+                        CreatedBy =
+                            {
+                                DataValue = Int32.Parse(userActionRow[8].ToString())
+                            },
+                        UpdatedAt =
+                            {
+                                DataValue = DateTime.Parse(userActionRow[9].ToString())
+                            },
+                        UpdatedBy =
+                            {
+                                DataValue = Int32.Parse(userActionRow[10].ToString())
+                            }
+                    });
+
+                #endregion
+                
+            }
+            return userActions;
+        }
     }
 }

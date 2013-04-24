@@ -15,7 +15,7 @@ namespace GymSoft.DB.UsersTable
     public class User : ValidatingObject
     {
         #region Dependent Services
-        private IActionService actionService;
+        //private IActionService actionService;
         #endregion
         #region Data
         private DataWrapper<Int32> buId;
@@ -205,7 +205,6 @@ namespace GymSoft.DB.UsersTable
                        });
         }
         #endregion
-       
 
         #region Public Properties
         /// <summary>
@@ -484,6 +483,7 @@ namespace GymSoft.DB.UsersTable
         }
         
         #endregion
+
         #region Overrides
 
         /// <summary>
@@ -500,7 +500,17 @@ namespace GymSoft.DB.UsersTable
             }
         }
         #endregion
-        
+
+        #region Helper Methods
+        public bool CanExecuteAction(string action)
+        {
+            var queryRes = from act in this.UserActions.DataValue
+                           where act.AllowedActions.DataValue == action
+                           select act;
+            return queryRes.Any();
+        }
+        #endregion
+
     }
     public class Users : DispatcherNotifiedObservableCollection<User>
     {

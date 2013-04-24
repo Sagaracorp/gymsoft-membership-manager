@@ -35,7 +35,7 @@ namespace GymSoft.AuthenticationModule
                     messageBoxService.ShowError(viewInjectionService.Error);
                 }
                 //Enable Authentication
-               /* if (!viewInjectionService.AddViewToRegion("RootRegion", "LoginView", new LoginView()))
+              /*  if (!viewInjectionService.AddViewToRegion("RootRegion", "LoginView", new LoginView()))
                 {
                     messageBoxService.ShowError(viewInjectionService.Error);
                 }*/

@@ -13,6 +13,8 @@ namespace GymSoft.DB.UsersTable
         void CreateNewUserTask(User newUser, Action<Int32> resultCallback, Action<Exception> exceptionCallBack);
         void UpdateUserTask(User user, Action<Int32> resultCallback, Action<Exception> exceptionCallBack);
 
-      
+
+
+        User FindById(int userId, int buId);
     }
 }

@@ -13,6 +13,14 @@ namespace GymSoft.AuthenticationModule.Services
     {
         private const string AuthenticateUserStoredProcedure = "gym_sp_AuthenticateUser";
 
+        private readonly IUserService userService;
+
+        [ImportingConstructor]
+        public AuthenticationService(IUserService userService)
+        {
+            this.userService = userService;
+        }
+
         public bool Authenticate(string username, string password, int businessUnitId)
         {
             var connectionString = GymSoftConfigurationManger.GetDatabaseConnection();
@@ -37,6 +45,8 @@ namespace GymSoft.AuthenticationModule.Services
                 CurrentUser = new User();
                 CurrentUser.UserId.DataValue = (int) mySqlCommand.Parameters["@uid"].Value;
                 CurrentUser.UserName.DataValue = username.ToLower();
+
+                CurrentUser = userService.FindById((int)mySqlCommand.Parameters["@uid"].Value, businessUnitId);
                 //Load Roles
                 //Load Actions
                 return true;

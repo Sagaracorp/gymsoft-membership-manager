@@ -8,6 +8,7 @@ using Cinch;
 using GymSoft.CinchMVVM.Common;
 using GymSoft.CinchMVVM.Common.Utilities;
 using GymSoft.DB.ActionsTable;
+using GymSoft.DB.RolesTable;
 using MEFedMVVM.ViewModelLocator;
 using MySql.Data.MySqlClient;
 
@@ -20,6 +21,7 @@ namespace GymSoft.DB.UsersTable
         #region Dependent Services
 
         private readonly IActionService actionService;
+        private readonly IRoleService roleService;
         #endregion
         #region Properties
         public DataSet UserDataSet { get; set; }
@@ -36,6 +38,9 @@ namespace GymSoft.DB.UsersTable
         private const string FindAllStoredProcedure = "gym_sp_GetAllUsers";
         private const string AddNewUserStoredProcedure = "gym_sp_CreateNewUser";
         private const string UpdateUserStoredProcedure = "gym_sp_UpdateUser";
+        private const string FindAllUserActionsStoredProcedure = "gym_sp_GetAllUserActions";
+        private const string FindAllUserRolesStoredProcedure = "gym_sp_GetAllUserRoles";
+        private const string FindUserByIdStoredProcedure = "gym_sp_GetUserById";
         #endregion
 
         #region Backgroud Task Method: Easier but I dont like  it much
@@ -56,9 +61,10 @@ namespace GymSoft.DB.UsersTable
         #endregion
 
         [ImportingConstructor]
-        public RuntimeUserService(IActionService actionService)
+        public RuntimeUserService(IActionService actionService, IRoleService roleService)
         {
             this.actionService = actionService;
+            this.roleService = roleService;
             ConnectionString = GymSoftConfigurationManger.GetDatabaseConnection();
             MySqlConnection = new MySqlConnection(ConnectionString);
             MySqlCommand = MySqlConnection.CreateCommand();
@@ -77,125 +83,172 @@ namespace GymSoft.DB.UsersTable
             MySqlCommand.Parameters.Add(new MySqlParameter("@result", MySqlDbType.Int32));
             MySqlCommand.Parameters["@result"].Direction = ParameterDirection.Output;
             MySqlDataAdapter.SelectCommand = MySqlCommand;
-            MySqlDataAdapter.Fill(UserDataSet);
+            MySqlDataAdapter.Fill(UserDataSet, "Users");
 
+            MySqlCommand.CommandType = CommandType.StoredProcedure;
+            MySqlCommand.CommandText = FindAllUserActionsStoredProcedure;
+            MySqlCommand.Parameters.Clear();
+            MySqlCommand.Parameters.AddWithValue("buid", userId);
+            MySqlCommand.Parameters.AddWithValue("userid", userId);
+            MySqlCommand.Parameters.Add(new MySqlParameter("@result", MySqlDbType.Int32));
+            MySqlCommand.Parameters["@result"].Direction = ParameterDirection.Output;
+            MySqlDataAdapter.SelectCommand = MySqlCommand;
+            MySqlDataAdapter.Fill(UserDataSet, "UserActions");
+
+            MySqlCommand.CommandType = CommandType.StoredProcedure;
+            MySqlCommand.CommandText = FindAllUserRolesStoredProcedure;
+            MySqlCommand.Parameters.Clear();
+            MySqlCommand.Parameters.AddWithValue("buid", userId);
+            MySqlCommand.Parameters.AddWithValue("userid", userId);
+            MySqlCommand.Parameters.Add(new MySqlParameter("@result", MySqlDbType.Int32));
+            MySqlCommand.Parameters["@result"].Direction = ParameterDirection.Output;
+            MySqlDataAdapter.SelectCommand = MySqlCommand;
+            MySqlDataAdapter.Fill(UserDataSet, "UserRoles");
+
+            DataTable userTable = UserDataSet.Tables["Users"];
+            DataTable userActionsTable = UserDataSet.Tables["UserActions"];
+            DataTable userRolesTable = UserDataSet.Tables["UserRoles"];
+            var users = FindAll(userTable, userActionsTable,userRolesTable);
+            return users;
+        }
+
+        public Users FindAll(DataTable userTable, DataTable userActionsTable, DataTable userRolesTable)
+        {
             //Now lets return buis
             var users = new Users();
-            DataTable dataTable = UserDataSet.Tables[0]; // Only 1 table
+            //dataTable = UserDataSet.Tables[0];
 
-           
 
-            for (var i = 0; i < dataTable.Rows.Count; i++)
+            for (var i = 0; i < userTable.Rows.Count; i++)
             {
                 #region Add to list
-                users.Add(new User
-                {
-                    BuId =
-                    {
-                        DataValue = Int32.Parse(dataTable.Rows[i][(int)UserTableDefinition.BuId].ToString())
-                    },
-                    UserId = 
-                    {
-                        DataValue = Int32.Parse(dataTable.Rows[i][(int)UserTableDefinition.UserId].ToString())
-                    },
-                    UserName = 
-                    {
-                        DataValue = (dataTable.Rows[i][(int)UserTableDefinition.UserName].ToString())
-                    },
-                    Password = 
-                    {
-                        DataValue = (dataTable.Rows[i][(int)UserTableDefinition.Password].ToString())
-                    },
-                    Status = 
-                    {
-                        DataValue = GetStatus((dataTable.Rows[i][(int)UserTableDefinition.Status].ToString()))
-                    },
-                    JobTitle = 
-                    {
-                        DataValue = (dataTable.Rows[i][(int)UserTableDefinition.JobTitle].ToString())
-                    },
-                    FirstName = 
-                    {
-                        DataValue = (dataTable.Rows[i][(int)UserTableDefinition.FirstName].ToString())
-                    },
-                    MiddleName = 
-                    {
-                        DataValue = (dataTable.Rows[i][(int)UserTableDefinition.MiddleName].ToString())
-                    },
-                    LastName = 
-                    {
-                        DataValue = (dataTable.Rows[i][(int)UserTableDefinition.LastName].ToString())
-                    },
-                    DateOfBirth = 
-                    {
-                        DataValue = DateTime.Parse((dataTable.Rows[i][(int)UserTableDefinition.DateOfBirth].ToString()))
-                    },
-                    EmailAddress = 
-                    {
-                        DataValue = (dataTable.Rows[i][(int)UserTableDefinition.EmailAddress].ToString())
-                    },
-                    ContactNum1 =
-                    {
-                        DataValue = (dataTable.Rows[i][(int)UserTableDefinition.ContactNum1].ToString())
-                    },
-                    ContactNum2 =
-                    {
-                        DataValue = (dataTable.Rows[i][(int)UserTableDefinition.ContactNum2].ToString())
-                    },
-                    ContactNum3 =
-                    {
-                        DataValue = (dataTable.Rows[i][(int)UserTableDefinition.ContactNum3].ToString())
-                    },
-                    Address1 =
-                    {
-                        DataValue = (dataTable.Rows[i][(int)UserTableDefinition.Address1].ToString())
-                    },
-                    Address2 =
-                    {
-                        DataValue = (dataTable.Rows[i][(int)UserTableDefinition.Address2].ToString())
-                    },
-                    Address3 =
-                    {
-                        DataValue = (dataTable.Rows[i][(int)UserTableDefinition.Address3].ToString())
-                    },
-                    Parish =
-                    {
-                        DataValue = (dataTable.Rows[i][(int)UserTableDefinition.Parish].ToString())
-                    },
-                    Gender = 
-                    {
-                        DataValue = (dataTable.Rows[i][(int)UserTableDefinition.Gender].ToString()).ToUpper() == "MALE" ? 
-                                    Gender.Male : Gender.Female
-                    },
-                    PhotoPath = 
-                    {
-                        DataValue = GetAbsoluteFilePath(dataTable.Rows[i][(int)UserTableDefinition.PhotoPath].ToString())
-                    },
-                    UserActions =
-                        {
-                            DataValue = GetUserActions(Int32.Parse(dataTable.Rows[i][(int)UserTableDefinition.UserId].ToString()))
-                        },
-                    CreatedAt =
-                    {
-                        DataValue = DateTime.Parse(dataTable.Rows[i][(int)UserTableDefinition.CreatedAt].ToString())
-                    },
-                    CreatedBy =
-                    {
-                        DataValue = Int32.Parse(dataTable.Rows[i][(int)UserTableDefinition.CreatedBy].ToString())
-                    },
-                    UpdatedAt =
-                    {
-                        DataValue = DateTime.Parse(dataTable.Rows[i][(int)UserTableDefinition.UpdatedAt].ToString())
-                    },
-                    UpdatedBy =
-                    {
-                        DataValue = Int32.Parse(dataTable.Rows[i][(int)UserTableDefinition.UpdatedBy].ToString())
-                    }
-                });
-                #endregion
 
+                users.Add(new User
+                    {
+                        BuId =
+                            {
+                                DataValue = Int32.Parse(userTable.Rows[i][(int)UserTableDefinition.BuId].ToString())
+                            },
+                        UserId =
+                            {
+                                DataValue = Int32.Parse(userTable.Rows[i][(int)UserTableDefinition.UserId].ToString())
+                            },
+                        UserName =
+                            {
+                                DataValue = (userTable.Rows[i][(int)UserTableDefinition.UserName].ToString())
+                            },
+                        Password =
+                            {
+                                DataValue = (userTable.Rows[i][(int)UserTableDefinition.Password].ToString())
+                            },
+                        Status =
+                            {
+                                DataValue = GetStatus((userTable.Rows[i][(int)UserTableDefinition.Status].ToString()))
+                            },
+                        JobTitle =
+                            {
+                                DataValue = (userTable.Rows[i][(int)UserTableDefinition.JobTitle].ToString())
+                            },
+                        FirstName =
+                            {
+                                DataValue = (userTable.Rows[i][(int)UserTableDefinition.FirstName].ToString())
+                            },
+                        MiddleName =
+                            {
+                                DataValue = (userTable.Rows[i][(int)UserTableDefinition.MiddleName].ToString())
+                            },
+                        LastName =
+                            {
+                                DataValue = (userTable.Rows[i][(int)UserTableDefinition.LastName].ToString())
+                            },
+                        DateOfBirth =
+                            {
+                                DataValue =
+                                    DateTime.Parse((userTable.Rows[i][(int)UserTableDefinition.DateOfBirth].ToString()))
+                            },
+                        EmailAddress =
+                            {
+                                DataValue = (userTable.Rows[i][(int)UserTableDefinition.EmailAddress].ToString())
+                            },
+                        ContactNum1 =
+                            {
+                                DataValue = (userTable.Rows[i][(int)UserTableDefinition.ContactNum1].ToString())
+                            },
+                        ContactNum2 =
+                            {
+                                DataValue = (userTable.Rows[i][(int)UserTableDefinition.ContactNum2].ToString())
+                            },
+                        ContactNum3 =
+                            {
+                                DataValue = (userTable.Rows[i][(int)UserTableDefinition.ContactNum3].ToString())
+                            },
+                        Address1 =
+                            {
+                                DataValue = (userTable.Rows[i][(int)UserTableDefinition.Address1].ToString())
+                            },
+                        Address2 =
+                            {
+                                DataValue = (userTable.Rows[i][(int)UserTableDefinition.Address2].ToString())
+                            },
+                        Address3 =
+                            {
+                                DataValue = (userTable.Rows[i][(int)UserTableDefinition.Address3].ToString())
+                            },
+                        Parish =
+                            {
+                                DataValue = (userTable.Rows[i][(int)UserTableDefinition.Parish].ToString())
+                            },
+                        Gender =
+                            {
+                                DataValue =
+                                    (userTable.Rows[i][(int)UserTableDefinition.Gender].ToString()).ToUpper() == "MALE"
+                                        ? Gender.Male
+                                        : Gender.Female
+                            },
+                        PhotoPath =
+                            {
+                                DataValue =
+                                    GetAbsoluteFilePath(userTable.Rows[i][(int)UserTableDefinition.PhotoPath].ToString())
+                            },
+                        UserActions =
+                            {
+                                DataValue = GetUserActions(userActionsTable, Int32.Parse(userTable.Rows[i][(int)UserTableDefinition.UserId].ToString()))
+                            },
+                        UserRoles =
+                        {
+                            DataValue = GetUserRoles(userRolesTable, Int32.Parse(userTable.Rows[i][(int)UserTableDefinition.UserId].ToString()))
+                        },
+                        CreatedAt =
+                            {
+                                DataValue = DateTime.Parse(userTable.Rows[i][(int)UserTableDefinition.CreatedAt].ToString())
+                            },
+                        CreatedBy =
+                            {
+                                DataValue = Int32.Parse(userTable.Rows[i][(int)UserTableDefinition.CreatedBy].ToString())
+                            },
+                        UpdatedAt =
+                            {
+                                DataValue = DateTime.Parse(userTable.Rows[i][(int)UserTableDefinition.UpdatedAt].ToString())
+                            },
+                        UpdatedBy =
+                            {
+                                DataValue = Int32.Parse(userTable.Rows[i][(int)UserTableDefinition.UpdatedBy].ToString())
+                            }
+                    });
+
+                #endregion
             }
             return users;
+        }
+
+        private Roles GetUserRoles(DataTable userRolesTable, int userId)
+        {
+            return roleService.FindAllForUser(userRolesTable, userId);
+        }
+
+        private ActionsTable.Actions GetUserActions(DataTable userActionsTable, int userId)
+        {
+            return actionService.FindAllForUser(userActionsTable, userId);
         }
 
         private ActionsTable.Actions GetUserActions(int userId)
@@ -439,9 +492,9 @@ namespace GymSoft.DB.UsersTable
             MySqlCommand.Parameters.AddWithValue("add2", user.Address2.DataValue);
             MySqlCommand.Parameters.AddWithValue("add3", user.Address3.DataValue);
             MySqlCommand.Parameters.AddWithValue("par", user.Parish.DataValue);
-            MySqlCommand.Parameters.AddWithValue("sex", user.Gender.DataValue);
+            MySqlCommand.Parameters.AddWithValue("sex", user.Gender.DataValue.ToString().ToUpper());
             MySqlCommand.Parameters.AddWithValue("photo", currentPath);
-            MySqlCommand.Parameters.AddWithValue("stat", user.Status.DataValue);
+            MySqlCommand.Parameters.AddWithValue("stat", user.Status.DataValue.ToString().ToUpper()); 
             MySqlCommand.Parameters.AddWithValue("jt", user.JobTitle.DataValue);
 
 
@@ -452,6 +505,176 @@ namespace GymSoft.DB.UsersTable
             MySqlCommand.Connection.Close();
 
             return (int)MySqlCommand.Parameters["@result"].Value;
+        }
+
+
+        public User FindById(int userId, int buId)
+        {
+            MySqlCommand.CommandType = CommandType.StoredProcedure;
+            MySqlCommand.CommandText = FindUserByIdStoredProcedure;
+            MySqlCommand.Parameters.Clear();
+            MySqlCommand.Parameters.AddWithValue("buid", buId);
+            MySqlCommand.Parameters.AddWithValue("userid", userId);
+            MySqlCommand.Parameters.AddWithValue("personid", userId);
+            MySqlCommand.Parameters.Add(new MySqlParameter("@result", MySqlDbType.Int32));
+            MySqlCommand.Parameters["@result"].Direction = ParameterDirection.Output;
+            MySqlDataAdapter.SelectCommand = MySqlCommand;
+            MySqlDataAdapter.Fill(UserDataSet, "Users");
+
+            MySqlCommand.CommandType = CommandType.StoredProcedure;
+            MySqlCommand.CommandText = FindAllUserActionsStoredProcedure;
+            MySqlCommand.Parameters.Clear();
+            MySqlCommand.Parameters.AddWithValue("buid", buId);
+            MySqlCommand.Parameters.AddWithValue("userid", userId);
+            MySqlCommand.Parameters.Add(new MySqlParameter("@result", MySqlDbType.Int32));
+            MySqlCommand.Parameters["@result"].Direction = ParameterDirection.Output;
+            MySqlDataAdapter.SelectCommand = MySqlCommand;
+            MySqlDataAdapter.Fill(UserDataSet, "UserActions");
+
+            MySqlCommand.CommandType = CommandType.StoredProcedure;
+            MySqlCommand.CommandText = FindAllUserRolesStoredProcedure;
+            MySqlCommand.Parameters.Clear();
+            MySqlCommand.Parameters.AddWithValue("buid", buId);
+            MySqlCommand.Parameters.AddWithValue("userid", userId);
+            MySqlCommand.Parameters.Add(new MySqlParameter("@result", MySqlDbType.Int32));
+            MySqlCommand.Parameters["@result"].Direction = ParameterDirection.Output;
+            MySqlDataAdapter.SelectCommand = MySqlCommand;
+            MySqlDataAdapter.Fill(UserDataSet, "UserRoles");
+
+            DataTable userTable = UserDataSet.Tables["Users"];
+            DataTable userActionsTable = UserDataSet.Tables["UserActions"];
+            DataTable userRolesTable = UserDataSet.Tables["UserRoles"];
+            User user = FindUserById(userTable, userActionsTable, userRolesTable);
+            return user;
+        }
+
+        private User FindUserById(DataTable userTable, DataTable userActionsTable, DataTable userRolesTable)
+        {
+            //Now lets return buis
+            var user = new User();
+            //dataTable = UserDataSet.Tables[0];
+
+
+            for (var i = 0; i < userTable.Rows.Count; i++)
+            {
+                #region Get User
+
+                user = new User
+                {
+                    BuId =
+                    {
+                        DataValue = Int32.Parse(userTable.Rows[i][(int)UserTableDefinition.BuId].ToString())
+                    },
+                    UserId =
+                    {
+                        DataValue = Int32.Parse(userTable.Rows[i][(int)UserTableDefinition.UserId].ToString())
+                    },
+                    UserName =
+                    {
+                        DataValue = (userTable.Rows[i][(int)UserTableDefinition.UserName].ToString())
+                    },
+                    Password =
+                    {
+                        DataValue = (userTable.Rows[i][(int)UserTableDefinition.Password].ToString())
+                    },
+                    Status =
+                    {
+                        DataValue = GetStatus((userTable.Rows[i][(int)UserTableDefinition.Status].ToString()))
+                    },
+                    JobTitle =
+                    {
+                        DataValue = (userTable.Rows[i][(int)UserTableDefinition.JobTitle].ToString())
+                    },
+                    FirstName =
+                    {
+                        DataValue = (userTable.Rows[i][(int)UserTableDefinition.FirstName].ToString())
+                    },
+                    MiddleName =
+                    {
+                        DataValue = (userTable.Rows[i][(int)UserTableDefinition.MiddleName].ToString())
+                    },
+                    LastName =
+                    {
+                        DataValue = (userTable.Rows[i][(int)UserTableDefinition.LastName].ToString())
+                    },
+                    DateOfBirth =
+                    {
+                        DataValue =
+                            DateTime.Parse((userTable.Rows[i][(int)UserTableDefinition.DateOfBirth].ToString()))
+                    },
+                    EmailAddress =
+                    {
+                        DataValue = (userTable.Rows[i][(int)UserTableDefinition.EmailAddress].ToString())
+                    },
+                    ContactNum1 =
+                    {
+                        DataValue = (userTable.Rows[i][(int)UserTableDefinition.ContactNum1].ToString())
+                    },
+                    ContactNum2 =
+                    {
+                        DataValue = (userTable.Rows[i][(int)UserTableDefinition.ContactNum2].ToString())
+                    },
+                    ContactNum3 =
+                    {
+                        DataValue = (userTable.Rows[i][(int)UserTableDefinition.ContactNum3].ToString())
+                    },
+                    Address1 =
+                    {
+                        DataValue = (userTable.Rows[i][(int)UserTableDefinition.Address1].ToString())
+                    },
+                    Address2 =
+                    {
+                        DataValue = (userTable.Rows[i][(int)UserTableDefinition.Address2].ToString())
+                    },
+                    Address3 =
+                    {
+                        DataValue = (userTable.Rows[i][(int)UserTableDefinition.Address3].ToString())
+                    },
+                    Parish =
+                    {
+                        DataValue = (userTable.Rows[i][(int)UserTableDefinition.Parish].ToString())
+                    },
+                    Gender =
+                    {
+                        DataValue =
+                            (userTable.Rows[i][(int)UserTableDefinition.Gender].ToString()).ToUpper() == "MALE"
+                                ? Gender.Male
+                                : Gender.Female
+                    },
+                    PhotoPath =
+                    {
+                        DataValue =
+                            GetAbsoluteFilePath(userTable.Rows[i][(int)UserTableDefinition.PhotoPath].ToString())
+                    },
+                    UserActions =
+                    {
+                        DataValue = GetUserActions(userActionsTable, Int32.Parse(userTable.Rows[i][(int)UserTableDefinition.UserId].ToString()))
+                    },
+                    UserRoles =
+                    {
+                        DataValue = GetUserRoles(userRolesTable, Int32.Parse(userTable.Rows[i][(int)UserTableDefinition.UserId].ToString()))
+                    },
+                    CreatedAt =
+                    {
+                        DataValue = DateTime.Parse(userTable.Rows[i][(int)UserTableDefinition.CreatedAt].ToString())
+                    },
+                    CreatedBy =
+                    {
+                        DataValue = Int32.Parse(userTable.Rows[i][(int)UserTableDefinition.CreatedBy].ToString())
+                    },
+                    UpdatedAt =
+                    {
+                        DataValue = DateTime.Parse(userTable.Rows[i][(int)UserTableDefinition.UpdatedAt].ToString())
+                    },
+                    UpdatedBy =
+                    {
+                        DataValue = Int32.Parse(userTable.Rows[i][(int)UserTableDefinition.UpdatedBy].ToString())
+                    }
+                };
+
+                #endregion
+            }
+            return user;
         }
     }
 }

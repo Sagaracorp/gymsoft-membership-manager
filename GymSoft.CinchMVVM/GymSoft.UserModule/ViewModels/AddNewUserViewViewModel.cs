@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using Cinch;
+using GymSoft.AuthenticationModule.Services;
 using GymSoft.DB.UsersTable;
 using MEFedMVVM.Common;
 using MEFedMVVM.ViewModelLocator;
@@ -16,6 +17,7 @@ namespace GymSoft.UserModule.ViewModels
     [PartCreationPolicy(CreationPolicy.NonShared)]
     public class AddNewUserViewViewModel : ViewModelBase
     {
+        private readonly IAuthenticateService authenticateService;
         private readonly IViewAwareStatus viewAwareStatus;
         private readonly IMessageBoxService messageBoxService;
         private readonly IUserService userService;
@@ -115,12 +117,13 @@ namespace GymSoft.UserModule.ViewModels
         }
 
         [ImportingConstructor]
-        public AddNewUserViewViewModel(IViewAwareStatus viewAwareStatus, IMessageBoxService messageBoxService, IUserService userService, IOpenFileService openFileService)
+        public AddNewUserViewViewModel(IViewAwareStatus viewAwareStatus, IMessageBoxService messageBoxService, IUserService userService, IOpenFileService openFileService, IAuthenticateService authenticateService)
         {
             this.viewAwareStatus = viewAwareStatus;
             this.messageBoxService = messageBoxService;
             this.userService = userService;
             this.openFileService = openFileService;
+            this.authenticateService = authenticateService;
             NewUser = new User();
             
            // NewUser.PhotoPath.DataValue = GymSoft.CinchMVVM.Common.GymSoftConfigurationManger.GetDefaultUserPicture().ToString();
@@ -137,7 +140,7 @@ namespace GymSoft.UserModule.ViewModels
 
         private bool CanExecuteUploadUserImageCommand(Object args)
         {
-            return true;
+            return authenticateService.CurrentUser.CanExecuteAction("ExecuteUploadUserImageCommand"); ;
         }
 
         private void ExecuteUploadUserImageCommand(Object args)
@@ -164,7 +167,8 @@ namespace GymSoft.UserModule.ViewModels
 
         private bool CanAddNewUserCommand(Object args)
         {
-            return NewUser.IsValid;
+            return authenticateService.CurrentUser != null && 
+                (NewUser.IsValid && authenticateService.CurrentUser.CanExecuteAction("ExecuteAddNewUserCommand"));
         }
 
         private void ExecuteCancelAddNewUserCommand(Object args)
