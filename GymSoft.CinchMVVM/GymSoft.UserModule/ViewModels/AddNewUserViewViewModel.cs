@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using Cinch;
 using GymSoft.AuthenticationModule.Services;
+using GymSoft.DB.RolesTable;
 using GymSoft.DB.UsersTable;
 using MEFedMVVM.Common;
 using MEFedMVVM.ViewModelLocator;
@@ -21,6 +22,7 @@ namespace GymSoft.UserModule.ViewModels
         private readonly IViewAwareStatus viewAwareStatus;
         private readonly IMessageBoxService messageBoxService;
         private readonly IUserService userService;
+        private readonly IRoleService roleService;
         private readonly IOpenFileService openFileService;
 
         //private AsyncType asyncState = AsyncType.Content;
@@ -91,6 +93,38 @@ namespace GymSoft.UserModule.ViewModels
                 NotifyPropertyChanged(errorMessageArgs);
             }
         }
+        /// <summary>
+        /// Available Roles
+        /// </summary>
+        static PropertyChangedEventArgs availableRolesArgs =
+            ObservableHelper.CreateArgs<AddNewUserViewViewModel>(x => x.AvailableRoles);
+
+
+        public Roles AvailableRoles
+        {
+            get { return availableRoles; }
+            private set
+            {
+                availableRoles = value;
+                NotifyPropertyChanged(availableRolesArgs);
+            }
+        }
+        /// <summary>
+        /// Assigned Roles
+        /// </summary>
+        static PropertyChangedEventArgs assignedRolesArgs =
+            ObservableHelper.CreateArgs<AddNewUserViewViewModel>(x => x.AssignedRoles);
+
+
+        public Roles AssignedRoles
+        {
+            get { return assignedRoles; }
+            private set
+            {
+                assignedRoles = value;
+                NotifyPropertyChanged(assignedRolesArgs);
+            }
+        }
 
         #region Commands
         public SimpleCommand<Object, Object> AddNewUserCommand { get; private set; }
@@ -99,6 +133,8 @@ namespace GymSoft.UserModule.ViewModels
         #endregion
 
         private User _newUser;
+        private Roles availableRoles;
+        private Roles assignedRoles;
         
         /// <summary>
         /// New User
@@ -117,13 +153,16 @@ namespace GymSoft.UserModule.ViewModels
         }
 
         [ImportingConstructor]
-        public AddNewUserViewViewModel(IViewAwareStatus viewAwareStatus, IMessageBoxService messageBoxService, IUserService userService, IOpenFileService openFileService, IAuthenticateService authenticateService)
+        public AddNewUserViewViewModel(IViewAwareStatus viewAwareStatus, IMessageBoxService messageBoxService, IUserService userService, IOpenFileService openFileService, IAuthenticateService authenticateService, IRoleService roleService)
         {
             this.viewAwareStatus = viewAwareStatus;
             this.messageBoxService = messageBoxService;
             this.userService = userService;
+            this.roleService = roleService;
             this.openFileService = openFileService;
             this.authenticateService = authenticateService;
+            AvailableRoles = roleService.FindAll(1);
+            AssignedRoles = new Roles();
             NewUser = new User();
             
            // NewUser.PhotoPath.DataValue = GymSoft.CinchMVVM.Common.GymSoftConfigurationManger.GetDefaultUserPicture().ToString();

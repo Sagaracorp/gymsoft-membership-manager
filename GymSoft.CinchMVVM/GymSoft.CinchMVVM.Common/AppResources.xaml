@@ -1,6 +1,7 @@
 ﻿<ResourceDictionary
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
 	xmlns:utilities="clr-namespace:GymSoft.CinchMVVM.Common.Utilities">
 	<!-- Resource dictionary entries should be defined here. -->
 	<!-- TextBoxes-->
@@ -190,4 +191,8 @@
     <utilities:GenderValueConverter x:Key="GenderValueConverter"/>
     <utilities:StatusListProvider x:Key="StatusListProvider"/>
     <utilities:StatusValueConverter x:Key="StatusValueConverter"/>
+    
+    <DataTemplate x:Key="ListBoxItemTemplate">
+        <TextBlock Text="{Binding RoleName.DataValue}" FontSize="12" FontFamily="Segoe UI" HorizontalAlignment="Left" />
+    </DataTemplate>
 </ResourceDictionary>
